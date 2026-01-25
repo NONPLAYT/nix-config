@@ -1,0 +1,16 @@
+{ pkgs, ... }:
+{
+  services.greetd = {
+    enable = true;
+    settings = {
+      initial_session = {
+        command = "${pkgs.uwsm}/bin/uwsm start hyprland-uwsm.desktop";
+        user = "nonplay";
+      };
+      default_session = {
+        command = "${pkgs.tuigreet}/bin/tuigreet --cmd ${pkgs.uwsm}/bin/uwsm start hyprland-uwsm.desktop";
+        user = "greeter";
+      };
+    };
+  };
+}
