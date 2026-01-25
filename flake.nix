@@ -26,14 +26,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixos-hardware.url = "github:NixOS/nixos-hardware";
+    hardware.url = "github:NixOS/nixos-hardware";
   };
 
   outputs =
     { nixpkgs, ... } @ inputs:
     let
-      overlays = [ inputs.nur.overlays.default ];
-
       mkSystem =
         { host, system, base }:
         nixpkgs.lib.nixosSystem {
@@ -44,7 +42,6 @@
             inputs.home-manager.nixosModules.home-manager
             inputs.nix-index-database.nixosModules.nix-index
             { nix.registry.nixpkgs.flake = nixpkgs; }
-            { nixpkgs.overlays = overlays; }
           ];
           specialArgs = { inherit inputs host; };
         };

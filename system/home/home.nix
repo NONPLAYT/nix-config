@@ -31,49 +31,34 @@ let
     [
       equibop
       dig
+      jq
       btop
       duf
       eza
       fd
       killall
-      xsel
-      loupe
       age
       unzip
-      cava
       zip
-      grim
-      slurp
-      wl-clipboard
       brightnessctl
       pavucontrol
       playerctl
       dex
       easyeffects
-      mpc
-      rmpc
       telegram-desktop
-      socat
-      statix
-      ruff
-      filezilla
-      vscode
-      nil
       direnv
+      wl-clipboard
       ntfs3g
       prismlauncher
       packwiz
       mtr
       nodejs
       bun
-      supersonic-wayland
-      file
       openssl
-      vlc
-      libreoffice
-      chromium
       gh
       nautilus
+      github-copilot-cli
+      javaPackages.compiler.temurin-bin-21
     ]
     ++ fontPkgs;
 in
@@ -119,20 +104,8 @@ in
         name = "Bluetooth Adapters";
         noDisplay = true;
       };
-      "gvim" = {
-        name = "GVim";
-        noDisplay = true;
-      };
       "micro" = {
         name = "Micro";
-        noDisplay = true;
-      };
-      "nvim" = {
-        name = "Neovim wrapper";
-        noDisplay = true;
-      };
-      "vim" = {
-        name = "Vim";
         noDisplay = true;
       };
       "btop" = {
@@ -218,27 +191,22 @@ in
     };
 
     configFile = {
-      "rmpc" = {
-        source = ./dotfiles/config/rmpc;
-        recursive = true;
-      };
       "JetBrains/idea.vmoptions".text = ''
         -Xms512m
         -Xmx8192m
-        -javaagent:${homeDirectory}/.local/share/ja-netfilter/ja-netfilter.jar=jetbrains
       '';
     };
   };
 
   home = {
     inherit username homeDirectory packages;
-    stateVersion = "24.11";
+    stateVersion = "26.05";
     sessionVariables = {
       DISPLAY = ":0";
       BROWSER = "${lib.getExe pkgs.firefox-beta}";
       SHELL = "${lib.getExe pkgs.zsh}";
-      EDITOR = "nvim";
-      VISUAL = "nvim";
+      EDITOR = "nano";
+      VISUAL = "nano";
       GIT_ASKPASS = "";
       NIXOS_OZONE_WL = "1";
       MOZ_ENABLE_WAYLAND = "1";

@@ -62,7 +62,6 @@
     zsh.enable = true;
     dconf.enable = true;
     uwsm.enable = true;
-    steam.enable = true;
     nix-ld.enable = true;
     nix-index-database.comma.enable = true;
     hyprland = {
@@ -93,8 +92,6 @@
 
   environment = {
     systemPackages = with pkgs; [
-      neovim
-      vim
       micro
       curl
       git
@@ -111,8 +108,6 @@
   };
 
   console = {
-    # packages = [ pkgs.terminus_font ];
-    # font = "${pkgs.terminus_font}/share/consolefonts/ter-v28n.psf.gz";
     keyMap = "us";
   };
 

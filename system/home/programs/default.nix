@@ -16,15 +16,13 @@ let
     };
 in
 [
+  ./albert
   ./dconf
   ./fastfetch
   ./firefox
-  ./fuzzel
   ./git
   ./kitty
-  ./neovim
   ./noctalia
-  ./vscode
   ./zsh
 ]
 ++ [ more ]
