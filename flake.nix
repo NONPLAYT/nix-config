@@ -30,7 +30,7 @@
   };
 
   outputs =
-    { nixpkgs, ... } @ inputs:
+    { nixpkgs, catppuccin, ... } @ inputs:
     let
       mkSystem =
         { host, system, base }:
@@ -41,6 +41,16 @@
             "${base}/machines/${host}"
             inputs.home-manager.nixosModules.home-manager
             inputs.nix-index-database.nixosModules.nix-index
+            catppuccin.nixosModules.catppuccin
+            {
+              home-manager.users = {
+                nonplay = {
+                  imports = [
+                    catppuccin.homeManagerModules.catppuccin
+                  ];
+                };
+              };
+            }
             { nix.registry.nixpkgs.flake = nixpkgs; }
           ];
           specialArgs = { inherit inputs host; };

@@ -15,7 +15,7 @@
     "usbhid"
     "sd_mod"
   ];
-  boot.initrd.kernelModules = [ ];
+  boot.initrd.kernelModules = [ "8821cu" ];
 
   fileSystems."/" = {
     device = "/dev/disk/by-label/NIXROOT";

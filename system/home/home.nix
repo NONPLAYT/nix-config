@@ -58,7 +58,7 @@ let
       gh
       nautilus
       github-copilot-cli
-      javaPackages.compiler.temurin-bin-21
+      javaPackages.compiler.temurin-bin.jdk-21
     ]
     ++ fontPkgs;
 in
@@ -127,24 +127,6 @@ in
       "org.pulseaudio.pavucontrol" = {
         name = "Volume Control";
         noDisplay = true;
-      };
-
-      code = {
-        name = "Visual Studio Code";
-        genericName = "Text Editor";
-        exec = "code %F";
-        icon = "${pkgs.vscode}/share/pixmaps/vscode.png";
-        categories = [
-          "Utility"
-          "TextEditor"
-          "Development"
-          "IDE"
-        ];
-        mimeType = [ "text/plain" ];
-        startupNotify = true;
-        settings = {
-          StartupWMClass = "Code";
-        };
       };
     };
 
@@ -220,6 +202,13 @@ in
     options = "--delete-older-than 7d";
   };
 
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   systemd.user.startServices = "sd-switch";
   news.display = "silent";
+
+  catppuccin = {
+    flavor = "macchiato";
+    accent = "lavender";
+  };
 }

@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 {
   imports = [ 
@@ -9,6 +9,7 @@
 
   boot = {
     kernelPackages = pkgs.linuxKernel.packages.linux_6_18;
+    extraModulePackages = pkgs.linuxKernel.packages.linux_6_18.rtl8821cu;
 
     kernelParams = [ "nvidia-drm.modeset=1" ];
 
@@ -44,6 +45,9 @@
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
+
+  services.xserver.enable = true;
+  services.xserver.videoDriver = "modesetting";
 
   networking.hostName = "ms-7c56";
   system.stateVersion = "26.05";

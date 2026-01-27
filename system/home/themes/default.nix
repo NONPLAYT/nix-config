@@ -1,6 +1,6 @@
 [
   (
-    { pkgs, lib, ... }:
+    { pkgs, lib, config, ... }:
     {
       dconf.settings = {
         "org/gnome/desktop/interface" = {
@@ -9,9 +9,28 @@
       };
       gtk = {
         enable = true;
+        colorScheme = "dark";
+        gtk4.theme = config.gtk.theme;
+        theme = {
+          name = "catppuccin-macchiato-lavender-compact";
+          package = pkgs.catppuccin-gtk.override {
+            accents = [ "lavender" ];
+            variant = "macchiato";
+            size = "compact";
+          };
+        };
         iconTheme = {
-          name = "Papirus-Dark";
-          package = pkgs.papirus-icon-theme;
+          name = "Tela-circle-dark";
+          package = pkgs.tela-circle-icon-theme;
+        };
+        cursorTheme = {
+          name = "Bibata-Modern-Classic";
+          package = pkgs.bibata-cursors;
+          size = 16;
+        };
+        font = {
+          name = "Roboto";
+          size = 11;
         };
         gtk2.extraConfig = ''
           gtk-application-prefer-dark-theme=1
@@ -21,11 +40,23 @@
       };
       qt = {
         enable = true;
-        style.name = "fusion";
+        platformTheme = {
+          name = "qtct";
+          package = pkgs.kdePackages.qt6ct;
+        };
+        style.name = "kvantum";
+
+        qt6ctSettings = {
+          Appearance = {
+            icon_theme = config.gtk.iconTheme.name;
+          };
+        };
       };
+
       home.pointerCursor = {
-        name = "breeze_cursors";
-        package = pkgs.kdePackages.breeze;
+        name = "Bibata-Modern-Classic";
+        package = pkgs.bibata-cursors;
+        size = 16;
         gtk.enable = true;
         x11.enable = true;
       };
