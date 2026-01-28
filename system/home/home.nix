@@ -48,6 +48,7 @@ let
       telegram-desktop
       direnv
       wl-clipboard
+      gpu-screen-recorder
       ntfs3g
       prismlauncher
       packwiz
@@ -57,6 +58,7 @@ let
       openssl
       gh
       nautilus
+      loupe
       github-copilot-cli
       javaPackages.compiler.temurin-bin.jdk-21
     ]

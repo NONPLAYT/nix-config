@@ -6,7 +6,6 @@
 }:
 let
   hyprlandPackages = with pkgs; [
-    wlogout
     hypridle
     polkit_gnome
     grimblast

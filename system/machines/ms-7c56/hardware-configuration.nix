@@ -16,6 +16,9 @@
     "sd_mod"
   ];
   boot.initrd.kernelModules = [ "nvidia" "i915" "nvidia_modeset" "nvidia_uvm" "nvidia_drm" "8821cu" ];
+  boot.extraModprobeConfig = ''
+      options nvidia_modeset vblank_sem_control=0 nvidia NVreg_PreserveVideoMemoryAllocations=1 NVreg_TemporaryFilePath=/var/tmp
+      '';
 
   fileSystems."/" = {
     device = "/dev/disk/by-label/NIXROOT";
