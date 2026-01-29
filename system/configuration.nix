@@ -9,18 +9,16 @@
   networking = {
     networkmanager = {
       enable = true;
-    };
-    modemmanager = {
-      enable = true;
+      insertNameservers = [
+        "1.1.1.1"
+        "8.8.8.8"
+      ];
+      connectionConfig."ipv4.ignore-auto-dns" = true;
     };
     firewall = {
       enable = true;
       allowedTCPPorts = [ ];
       allowedUDPPorts = [ ];
-    };
-    proxy = {
-      allProxy = "http://127.0.0.1:7890/";
-      noProxy = "localhost,127.0.0.1";
     };
     extraHosts = ''
       142.54.189.109 gew1-spclient.spotify.com
@@ -161,5 +159,9 @@
       warn-dirty = false;
     };
   };
+
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "jetbrains.idea"
+  ];
 }

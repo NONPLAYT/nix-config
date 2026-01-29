@@ -60,6 +60,7 @@ let
       nautilus
       loupe
       github-copilot-cli
+      spotify
       javaPackages.compiler.temurin-bin.jdk-21
     ]
     ++ fontPkgs;
@@ -173,13 +174,6 @@ in
           pkgs.xdg-desktop-portal-termfilechooser
         ];
     };
-
-    configFile = {
-      "JetBrains/idea.vmoptions".text = ''
-        -Xms512m
-        -Xmx8192m
-      '';
-    };
   };
 
   home = {
@@ -194,7 +188,6 @@ in
       GIT_ASKPASS = "";
       NIXOS_OZONE_WL = "1";
       MOZ_ENABLE_WAYLAND = "1";
-      IDEA_VM_OPTIONS = "${homeDirectory}/.config/JetBrains/idea.vmoptions";
     };
   };
 
