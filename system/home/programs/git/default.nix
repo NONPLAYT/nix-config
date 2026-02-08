@@ -1,10 +1,7 @@
 { lib, pkgs, ... }:
 {
   home.packages = with pkgs; [
-    lazygit
-    diff-so-fancy
     git-crypt
-    hub
     tig
   ];
 

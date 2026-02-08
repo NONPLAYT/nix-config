@@ -61,7 +61,6 @@ let
       loupe
       github-copilot-cli
       spotify
-      javaPackages.compiler.temurin-bin.jdk-21
     ]
     ++ fontPkgs;
 in
@@ -71,7 +70,6 @@ in
     ./hyprland.nix
   ]
   ++ lib.concatMap import [
-    ./scripts
     ./programs
     ./services
     ./themes
@@ -188,6 +186,8 @@ in
       GIT_ASKPASS = "";
       NIXOS_OZONE_WL = "1";
       MOZ_ENABLE_WAYLAND = "1";
+      JAVA_21_HOME = "${pkgs.javaPackages.compiler.temurin-bin.jdk-21}";
+      JAVA_25_HOME = "${pkgs.javaPackages.compiler.temurin-bin.jdk-25}";
     };
   };
 
