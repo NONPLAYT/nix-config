@@ -347,7 +347,7 @@
         firstDayOfWeek = -1;
         hideWeatherCityName = false;
         hideWeatherTimezone = false;
-        name = "Warsaw";
+        name = "Moscow";
         showCalendarEvents = false;
         showCalendarWeather = false;
         showWeekNumberInCalendar = true;
@@ -365,9 +365,9 @@
         wifiEnabled = true;
       };
       nightLight = {
-        autoSchedule = true;
+        autoSchedule = false;
         dayTemp = "6500";
-        enabled = true;
+        enabled = false;
         forced = false;
         manualSunrise = "06:30";
         manualSunset = "18:30";
