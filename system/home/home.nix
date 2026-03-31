@@ -29,7 +29,7 @@ let
   packages =
     with pkgs;
     [
-      equibop
+      discord-canary
       dig
       jq
       btop
@@ -59,7 +59,7 @@ let
       gh
       nautilus
       loupe
-      github-copilot-cli
+      claude-code
       spotify
     ]
     ++ fontPkgs;

@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, config, inputs, ... }:
 
 let
   # disable the annoying floating icon with camera and mic when on a call
@@ -63,7 +63,7 @@ in
   programs.firefox = {
     enable = true;
 
-    package = pkgs.firefox-beta;
+    package = inputs.nixpkgs-firefox.legacyPackages.${pkgs.system}.firefox-beta;
 
     profiles = {
       default = {

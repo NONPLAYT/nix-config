@@ -4,6 +4,9 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
 
+    # firefox-beta 148.0b3 — pinned to avoid building from source
+    nixpkgs-firefox.url = "github:NixOS/nixpkgs/dd7da344f8e927e961b6772b7562d1aefc086505";
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
