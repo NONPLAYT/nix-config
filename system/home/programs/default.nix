@@ -42,6 +42,7 @@ in
   ./git
   ./kitty
   ./noctalia
+  ./zed
   ./zsh
 ]
 ++ [ more ]
