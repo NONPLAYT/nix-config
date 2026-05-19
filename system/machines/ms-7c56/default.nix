@@ -24,7 +24,6 @@
 
     loader.limine = {
       enable = true;
-      enableEditor = true;
       maxGenerations = 3;
       secureBoot.enable = true;
       extraEntries = ''
