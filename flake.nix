@@ -17,6 +17,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     catppuccin.url = "github:catppuccin/nix";
 
     noctalia = {
@@ -31,7 +36,12 @@
     { nixpkgs, catppuccin, ... } @ inputs:
     let
       mkSystem =
-        { host, system, base }:
+        {
+          host,
+          system,
+          base,
+          isServer ? false,
+        }:
         nixpkgs.lib.nixosSystem {
           inherit system;
           modules = [
@@ -40,18 +50,19 @@
             inputs.home-manager.nixosModules.home-manager
             inputs.nix-index-database.nixosModules.nix-index
             catppuccin.nixosModules.catppuccin
+            { nix.registry.nixpkgs.flake = nixpkgs; }
+          ] ++ nixpkgs.lib.optionals (!isServer) [
             {
-              home-manager.users = {
-                nonplay = {
-                  imports = [
-                    catppuccin.homeModules.catppuccin
-                  ];
-                };
+              home-manager.users.nonplay = {
+                imports = [
+                  catppuccin.homeModules.catppuccin
+                ];
               };
             }
-            { nix.registry.nixpkgs.flake = nixpkgs; }
           ];
-          specialArgs = { inherit inputs host; };
+          specialArgs = {
+            inherit inputs host isServer;
+          };
         };
     in
     {
@@ -60,6 +71,12 @@
           host = "ms-7c56";
           system = "x86_64-linux";
           base = ./system;
+        };
+        stockholm = mkSystem {
+          host = "stockholm";
+          system = "x86_64-linux";
+          base = ./server;
+          isServer = true;
         };
       };
     };
