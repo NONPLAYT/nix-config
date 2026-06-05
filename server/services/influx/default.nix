@@ -25,9 +25,11 @@ in
         set -e
         if [ ! -d "${repoDir}/.git" ]; then
           ${pkgs.git}/bin/git clone https://github.com/BX-Team/code.git ${repoDir}
-        else
-          ${pkgs.git}/bin/git -C ${repoDir} pull --ff-only
         fi
+        ${pkgs.git}/bin/git -C ${repoDir} fetch origin --prune
+        ${pkgs.git}/bin/git -C ${repoDir} remote set-head origin --auto
+        branch=$(${pkgs.git}/bin/git -C ${repoDir} symbolic-ref --short refs/remotes/origin/HEAD)
+        ${pkgs.git}/bin/git -C ${repoDir} reset --hard "$branch"
         cd ${repoDir}
         ${bunPkg}/bin/bun install --frozen-lockfile --production --ignore-scripts
       '';
@@ -42,7 +44,10 @@ in
       set -e
       cd ${repoDir}
       BEFORE=$(${pkgs.git}/bin/git rev-parse HEAD)
-      ${pkgs.git}/bin/git pull --ff-only
+      ${pkgs.git}/bin/git fetch origin --prune
+      ${pkgs.git}/bin/git remote set-head origin --auto
+      branch=$(${pkgs.git}/bin/git symbolic-ref --short refs/remotes/origin/HEAD)
+      ${pkgs.git}/bin/git reset --hard "$branch"
       AFTER=$(${pkgs.git}/bin/git rev-parse HEAD)
       if [ "$BEFORE" != "$AFTER" ]; then
         ${bunPkg}/bin/bun install --frozen-lockfile --production --ignore-scripts
