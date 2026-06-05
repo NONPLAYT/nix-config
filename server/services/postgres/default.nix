@@ -5,12 +5,13 @@
     enable = true;
     package = pkgs.postgresql_18;
     settings = {
-      listen_addresses = "localhost";
+      listen_addresses = lib.mkForce "*";
     };
     ensureDatabases = [ "bx-team" ];
     # Allow password auth over TCP from localhost
     authentication = lib.mkAfter ''
       host all all 127.0.0.1/32 scram-sha-256
+      host all all 0.0.0.0/0 scram-sha-256
     '';
   };
 
