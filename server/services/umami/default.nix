@@ -7,7 +7,7 @@ in
   services.umami = {
     enable = true;
     settings = {
-      APP_SECRET_FILE = config.sops.secrets."umami/secret-key".path;
+      APP_SECRET_FILE = config.sops.secrets."stockholm/umami/secret-key".path;
       PORT = umamiPort;
     };
     createPostgresqlDatabase = true;

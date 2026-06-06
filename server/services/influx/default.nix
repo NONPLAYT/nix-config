@@ -26,7 +26,7 @@ in
         if [ ! -d "${repoDir}/.git" ]; then
           ${pkgs.git}/bin/git clone https://github.com/BX-Team/code.git ${repoDir}
         fi
-        ${pkgs.git}/bin/git -C ${repoDir} fetch origin --prune
+        ${pkgs.git}/bin/git -C ${repoDir} fetch --prune origin "+refs/heads/*:refs/remotes/origin/*"
         ${pkgs.git}/bin/git -C ${repoDir} remote set-head origin --auto
         branch=$(${pkgs.git}/bin/git -C ${repoDir} symbolic-ref --short refs/remotes/origin/HEAD)
         ${pkgs.git}/bin/git -C ${repoDir} reset --hard "$branch"
@@ -44,7 +44,7 @@ in
       set -e
       cd ${repoDir}
       BEFORE=$(${pkgs.git}/bin/git rev-parse HEAD)
-      ${pkgs.git}/bin/git fetch origin --prune
+      ${pkgs.git}/bin/git fetch --prune origin "+refs/heads/*:refs/remotes/origin/*"
       ${pkgs.git}/bin/git remote set-head origin --auto
       branch=$(${pkgs.git}/bin/git symbolic-ref --short refs/remotes/origin/HEAD)
       ${pkgs.git}/bin/git reset --hard "$branch"

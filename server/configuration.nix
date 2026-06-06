@@ -3,7 +3,7 @@
 {
   imports = [
     inputs.sops-nix.nixosModules.sops
-    ./secrets
+    ../secrets
     ./programs/git
     ./programs/ssh
     ./programs/zsh

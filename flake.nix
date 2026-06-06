@@ -3,9 +3,7 @@
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
-
-    # firefox-beta 148.0b3 — pinned to avoid building from source
-    nixpkgs-firefox.url = "github:NixOS/nixpkgs/dd7da344f8e927e961b6772b7562d1aefc086505";
+    nur.url = "github:nix-community/NUR";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -22,53 +20,60 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    catppuccin.url = "github:catppuccin/nix";
+    hardware.url = "github:NixOS/nixos-hardware";
+
+    claude-code-nix = {
+      url = "github:sadjow/claude-code-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    hardware.url = "github:NixOS/nixos-hardware";
+    nsticky = {
+      url = "github:lonerOrz/nsticky";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
-    { nixpkgs, catppuccin, ... } @ inputs:
+    { nixpkgs, ... }@inputs:
     let
+      overlays = [
+        inputs.nur.overlays.default
+        inputs.claude-code-nix.overlays.default
+      ];
+
       mkSystem =
-        {
-          host,
-          system,
-          base,
-          isServer ? false,
+        { host
+        , system
+        , base
+        ,
         }:
         nixpkgs.lib.nixosSystem {
           inherit system;
           modules = [
-            "${base}/configuration.nix"
-            "${base}/machines/${host}"
+            (base + "/configuration.nix")
+            (base + "/machines/${host}")
+            ./secrets
             inputs.home-manager.nixosModules.home-manager
             inputs.nix-index-database.nixosModules.nix-index
-            catppuccin.nixosModules.catppuccin
+            inputs.sops-nix.nixosModules.sops
             { nix.registry.nixpkgs.flake = nixpkgs; }
-          ] ++ nixpkgs.lib.optionals (!isServer) [
-            {
-              home-manager.users.nonplay = {
-                imports = [
-                  catppuccin.homeModules.catppuccin
-                ];
-              };
-            }
+            { nixpkgs.overlays = overlays; }
           ];
           specialArgs = {
-            inherit inputs host isServer;
+            inherit inputs host;
+            isServer = base == ./server;
           };
         };
     in
     {
       nixosConfigurations = {
-        ms-7c56 = mkSystem {
-          host = "ms-7c56";
+        home = mkSystem {
+          host = "home";
           system = "x86_64-linux";
           base = ./system;
         };
@@ -76,7 +81,6 @@
           host = "stockholm";
           system = "x86_64-linux";
           base = ./server;
-          isServer = true;
         };
       };
     };

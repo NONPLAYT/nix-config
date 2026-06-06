@@ -2,41 +2,18 @@
   pkgs,
   lib,
   inputs,
+  host,
   ...
 }:
 
 {
   networking = {
-    networkmanager = {
-      enable = true;
-      insertNameservers = [
-        "1.1.1.1"
-        "8.8.8.8"
-      ];
-      connectionConfig."ipv4.ignore-auto-dns" = true;
-    };
-    firewall = {
-      enable = true;
-      allowedTCPPorts = [ ];
-      allowedUDPPorts = [ ];
-    };
-    extraHosts = ''
-      142.54.189.109 gew1-spclient.spotify.com
-      142.54.189.109 login5.spotify.com
-      142.54.189.109 spotify.com
-      142.54.189.109 api.spotify.com
-      142.54.189.109 appresolve.spotify.com
-      142.54.189.109 accounts.spotify.com
-      142.54.189.109 aet.spotify.com
-      142.54.189.109 open.spotify.com
-      142.54.189.109 spotifycdn.com
-      142.54.189.109 www.spotify.com
-    '';
-  };
-
-  hardware.bluetooth = {
-    enable = true;
-    settings.General.Enable = "Source,Sink,Media,Socket";
+    nameservers = [
+      "1.1.1.1"
+      "8.8.8.8"
+    ];
+    enableIPv6 = lib.mkDefault false;
+    networkmanager.dns = "none";
   };
 
   i18n = {
@@ -52,40 +29,28 @@
 
   time.timeZone = "Europe/Moscow";
 
-  imports = lib.concatMap import [
-    ./services
+  imports = [
+    ./services/greetd
+    ./services/pipewire
+    ./services/ssh
   ];
 
   programs = {
     zsh.enable = true;
     dconf.enable = true;
-    uwsm.enable = true;
+    gamemode.enable = true;
     nix-ld.enable = true;
     nix-index-database.comma.enable = true;
-    hyprland = {
-      enable = true;
-      withUWSM = true;
-    };
+    niri.enable = true;
   };
 
   services = {
-    openssh = {
-      enable = true;
-      allowSFTP = true;
-    };
     libinput.enable = true;
     seatd.enable = true;
     blueman.enable = true;
     flatpak.enable = true;
+    udisks2.enable = true;
     gnome.gnome-keyring.enable = true;
-    avahi = {
-      enable = true;
-      nssmdns4 = true;
-      publish = {
-        enable = true;
-        userServices = true;
-      };
-    };
   };
 
   environment = {
@@ -96,6 +61,7 @@
       git
       wget
       lm_sensors
+      nettools
       kitty
       wl-clipboard
       usb-modeswitch
@@ -112,6 +78,8 @@
 
   users.users.nonplay = {
     isNormalUser = true;
+    shell = pkgs.zsh;
+    hashedPassword = "$y$j9T$SuNlLbWK7o/PibPPzl83M/$o3QpZXjLJGtd2N2JoFdCvWJ8agow8eGxOznzHJjq0K5";
     extraGroups = [
       "wheel"
       "networkmanager"
@@ -120,14 +88,14 @@
       "input"
       "dialout"
     ];
-    shell = pkgs.zsh;
   };
 
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = { inherit inputs; };
-    users.nonplay = import ./home/home.nix;
+    backupFileExtension = "hm-backup";
+    extraSpecialArgs = { inherit inputs host; };
+    users.nonplay = import (../home/wm/niri);
   };
 
   security.pam.services = {
@@ -157,6 +125,16 @@
         "flakes"
       ];
       warn-dirty = false;
+      substituters = [
+        "https://cache.nixos.org"
+        "https://nix-community.cachix.org"
+        "https://noctalia.cachix.org"
+      ];
+      trusted-public-keys = [
+        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+      ];
     };
   };
 

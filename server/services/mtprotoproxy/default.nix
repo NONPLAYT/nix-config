@@ -7,7 +7,7 @@
     port = 8443;
 
     users = {
-      tg = config.sops.placeholder."mtproto/secret";
+      tg = config.sops.placeholder."stockholm/mtproto/secret";
     };
 
     secureOnly = true;

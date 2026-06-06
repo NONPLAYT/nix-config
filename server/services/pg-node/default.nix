@@ -24,8 +24,8 @@
     ];
     volumes = [
       "/var/lib/pg-node:/var/lib/pg-node"
-      "${config.sops.secrets."pg-node/ssl_cert".path}:${config.sops.secrets."pg-node/ssl_cert".path}:ro"
-      "${config.sops.secrets."pg-node/ssl_key".path}:${config.sops.secrets."pg-node/ssl_key".path}:ro"
+      "${config.sops.secrets."stockholm/pg-node/ssl_cert".path}:${config.sops.secrets."stockholm/pg-node/ssl_cert".path}:ro"
+      "${config.sops.secrets."stockholm/pg-node/ssl_key".path}:${config.sops.secrets."stockholm/pg-node/ssl_key".path}:ro"
     ];
   };
 }
