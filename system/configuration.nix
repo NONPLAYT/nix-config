@@ -116,6 +116,7 @@
 
     settings = {
       auto-optimise-store = true;
+      accept-flake-config = true;
       trusted-users = [
         "root"
         "nonplay"
@@ -125,15 +126,20 @@
         "flakes"
       ];
       warn-dirty = false;
+      fallback = true;
+      connect-timeout = 5;
+      stalled-download-timeout = 30;
       substituters = [
         "https://cache.nixos.org"
         "https://nix-community.cachix.org"
         "https://noctalia.cachix.org"
+        "https://zed.cachix.org"
       ];
       trusted-public-keys = [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+        "zed.cachix.org-1:/pHQ6dpMsAZk2DiP4WCL0p9YDNKWj2Q5FL20bNmw1cU="
       ];
     };
   };

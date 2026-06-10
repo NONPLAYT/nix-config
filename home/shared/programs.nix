@@ -36,25 +36,24 @@ let
         ssh = {
           enable = true;
           enableDefaultConfig = false;
-          matchBlocks = {
+          settings = {
             "*" = {
-              forwardAgent = false;
-              addKeysToAgent = "240m";
-              compression = false;
-              serverAliveInterval = 0;
-              serverAliveCountMax = 3;
-              hashKnownHosts = false;
-              userKnownHostsFile = "~/.ssh/known_hosts";
-              controlMaster = "no";
-              controlPath = "~/.ssh/master-%r@%n:%p";
-              controlPersist = "no";
-              identityFile = [ "~/.ssh/ssh.key" ];
+              ForwardAgent = false;
+              AddKeysToAgent = "240m";
+              Compression = false;
+              ServerAliveInterval = 0;
+              ServerAliveCountMax = 3;
+              HashKnownHosts = false;
+              UserKnownHostsFile = "~/.ssh/known_hosts";
+              ControlMaster = "no";
+              ControlPath = "~/.ssh/master-%r@%n:%p";
+              ControlPersist = "no";
+              IdentityFile = "~/.ssh/ssh.key";
             };
             "stockholm" = {
-              hostname = "stockholm.bxteam.org";
-              user = "root";
-              port = 2022;
-              identityFile = [ "~/.ssh/ssh.key" ];
+              HostName = "stockholm.bxteam.org";
+              User = "root";
+              Port = 2022;
             };
           };
         };

@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  image = "nonplay/meridian:latest";
+  image = "ghcr.io/bx-team/meridian:latest";
   docker = "${config.virtualisation.docker.package}/bin/docker";
 in
 {

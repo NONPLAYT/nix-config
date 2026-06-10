@@ -36,6 +36,8 @@
       url = "github:lonerOrz/nsticky";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    zed-editor.url = "github:zed-industries/zed";
   };
 
   outputs =

@@ -1,53 +1,33 @@
 { config, pkgs, ... }:
 
 let
-  repoDir = "/var/lib/bx-code";
-  bunPkg = pkgs.bun;
+  image = "ghcr.io/bx-team/cinder:latest";
+  docker = "${config.virtualisation.docker.package}/bin/docker";
 in
 {
-  systemd.services.cinder = {
-    description = "BX cinder worker";
+  systemd.services."docker-cinder" = {
     after = [ "network.target" "sops-install-secrets.service" "postgresql.service" "redis-default.service" "clickhouse.service" ];
     requires = [ "sops-install-secrets.service" "postgresql.service" "redis-default.service" "clickhouse.service" ];
-    wantedBy = [ "multi-user.target" ];
+  };
 
-    serviceConfig = {
-      Type = "simple";
-      WorkingDirectory = repoDir;
-      EnvironmentFile = config.sops.templates."cinder.env".path;
-      Restart = "on-failure";
-      RestartSec = "5s";
-      ExecStartPre = pkgs.writeShellScript "cinder-pull" ''
-        set -e
-        if [ ! -d "${repoDir}/.git" ]; then
-          ${pkgs.git}/bin/git clone https://github.com/BX-Team/code.git ${repoDir}
-        fi
-        ${pkgs.git}/bin/git -C ${repoDir} fetch --prune origin "+refs/heads/*:refs/remotes/origin/*"
-        ${pkgs.git}/bin/git -C ${repoDir} remote set-head origin --auto
-        branch=$(${pkgs.git}/bin/git -C ${repoDir} symbolic-ref --short refs/remotes/origin/HEAD)
-        ${pkgs.git}/bin/git -C ${repoDir} reset --hard "$branch"
-        cd ${repoDir}
-        ${bunPkg}/bin/bun install --frozen-lockfile --production --ignore-scripts
-      '';
-      ExecStart = "${bunPkg}/bin/bun run apps/cinder/index.ts";
-    };
+  virtualisation.oci-containers.containers.cinder = {
+    image = image;
+    extraOptions = [ "--network=host" ];
+    environmentFiles = [ config.sops.templates."cinder.env".path ];
   };
 
   systemd.services.cinder-update = {
     description = "Pull updates for cinder and restart if changed";
+    after = [ "docker.service" ];
+    requires = [ "docker.service" ];
     serviceConfig.Type = "oneshot";
     script = ''
       set -e
-      cd ${repoDir}
-      BEFORE=$(${pkgs.git}/bin/git rev-parse HEAD)
-      ${pkgs.git}/bin/git fetch --prune origin "+refs/heads/*:refs/remotes/origin/*"
-      ${pkgs.git}/bin/git remote set-head origin --auto
-      branch=$(${pkgs.git}/bin/git symbolic-ref --short refs/remotes/origin/HEAD)
-      ${pkgs.git}/bin/git reset --hard "$branch"
-      AFTER=$(${pkgs.git}/bin/git rev-parse HEAD)
+      BEFORE=$(${docker} image inspect --format '{{.Id}}' ${image} 2>/dev/null || echo none)
+      ${docker} pull ${image}
+      AFTER=$(${docker} image inspect --format '{{.Id}}' ${image})
       if [ "$BEFORE" != "$AFTER" ]; then
-        ${bunPkg}/bin/bun install --frozen-lockfile --production --ignore-scripts
-        systemctl restart cinder.service
+        systemctl restart docker-cinder.service
       fi
     '';
   };

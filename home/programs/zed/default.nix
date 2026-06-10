@@ -1,7 +1,9 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
+
 {
   programs.zed-editor = {
     enable = true;
+    package = inputs.zed-editor.packages.${pkgs.stdenv.hostPlatform.system}.default;
     userSettings = {
       theme = "macOS Classic Dark";
       languages.Nix = {
