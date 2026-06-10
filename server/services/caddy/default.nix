@@ -21,7 +21,7 @@
         reverse_proxy localhost:3000
       '';
 
-      "influx.bxteam.org".extraConfig = ''
+      "ingest.bxteam.org".extraConfig = ''
         tls { dns cloudflare {env.CF_API_TOKEN} }
         reverse_proxy localhost:3001
       '';
