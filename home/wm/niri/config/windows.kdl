@@ -5,6 +5,19 @@ window-rule {
 }
 
 window-rule {
+    match app-id="^firefox"
+    match app-id=r#"^dev\.zed\.Zed$"#
+    match app-id="^jetbrains-idea$"
+    match app-id=r#"^com\.ayugram\.desktop$"#
+    match app-id="^kitty$"
+    match app-id=r#"^com\.discordapp\.Discord$"#
+    match app-id=r#"^com\.modrinth\.ModrinthApp$"#
+    match app-id="^steam$"
+    match app-id="^spotify$"
+    open-maximized true
+}
+
+window-rule {
     geometry-corner-radius 12
     clip-to-geometry true
 }

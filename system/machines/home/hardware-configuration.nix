@@ -1,9 +1,6 @@
-{
-  config,
-  lib,
-  pkgs,
-  modulesPath,
-  ...
+{ config
+, lib
+, ...
 }:
 
 {
@@ -34,6 +31,21 @@
   fileSystems."/boot" = {
     device = "/dev/disk/by-label/NIXBOOT";
     fsType = "vfat";
+  };
+
+  fileSystems."/ext" = {
+    device = "/dev/disk/by-uuid/D2C0847BC0846795";
+    fsType = "ntfs-3g";
+    options = [
+      "uid=1000"
+      "gid=100"
+      "umask=022"
+      "windows_names"
+      "nofail"
+      "x-systemd.automount"
+      "x-systemd.device-timeout=5s"
+      "x-systemd.idle-timeout=600"
+    ];
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

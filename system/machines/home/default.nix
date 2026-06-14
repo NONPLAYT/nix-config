@@ -1,24 +1,32 @@
-{
-  config,
-  pkgs,
-  inputs,
-  ...
+{ config
+, pkgs
+, inputs
+, ...
 }:
 
 {
   imports = [
     ./hardware-configuration.nix
     inputs.hardware.nixosModules.common-cpu-amd
+    ../../services/flatpak
     ../../services/mihomo
     ../../services/printing
   ];
 
   boot = {
-    kernelPackages = pkgs.linuxKernel.packages.linux_6_18;
-    extraModulePackages = [ pkgs.linuxPackages_latest.rtl8821cu ];
+    kernelPackages = pkgs.linuxKernel.packages.linux_7_0;
+    supportedFilesystems = [ "ntfs" ];
+    extraModulePackages = [
+      pkgs.linuxKernel.packages.linux_7_0.rtl8821cu
+      pkgs.linuxKernel.packages.linux_7_0.v4l2loopback
+    ];
 
     kernelParams = [ "nvidia-drm.fbdev=1" ];
-    kernelModules = [ "tun" ];
+    kernelModules = [ "tun" "v4l2loopback" ];
+
+    extraModprobeConfig = ''
+      options v4l2loopback devices=1 video_nr=0 card_label="OBS Virtual Camera" exclusive_caps=1
+    '';
 
     initrd = {
       systemd.enable = true;
@@ -37,7 +45,7 @@
       extraEntries = ''
         /Windows 11
           protocol: efi
-          path: guid(ad996641-37bb-4eb2-b3a6-f16d565e20cb):/EFI/Microsoft/Boot/bootmgfw.efi
+          path: guid(ee7a92b1-a072-461a-ac7d-7816643be29f):/EFI/Microsoft/Boot/bootmgfw.efi
       '';
 
       # Catppucin mocha style
@@ -99,6 +107,15 @@
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.production;
   };
+
+  programs.steam.gamescopeSession.args = [
+    "-W"
+    "1920"
+    "-H"
+    "1080"
+    "-r"
+    "60"
+  ];
 
   system.stateVersion = "26.05";
 }

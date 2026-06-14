@@ -1,9 +1,8 @@
-{
-  pkgs,
-  lib,
-  inputs,
-  host,
-  ...
+{ pkgs
+, lib
+, inputs
+, host
+, ...
 }:
 
 {
@@ -42,13 +41,23 @@
     nix-ld.enable = true;
     nix-index-database.comma.enable = true;
     niri.enable = true;
+    steam = {
+      enable = true;
+      package = pkgs.steam.override {
+        extraArgs = "-cef-disable-gpu";
+      };
+      gamescopeSession.enable = true;
+    };
+    gamescope = {
+      enable = true;
+      capSysNice = true;
+    };
   };
 
   services = {
     libinput.enable = true;
     seatd.enable = true;
     blueman.enable = true;
-    flatpak.enable = true;
     udisks2.enable = true;
     gnome.gnome-keyring.enable = true;
   };
@@ -56,7 +65,6 @@
   environment = {
     systemPackages = with pkgs; [
       sbctl
-      micro
       curl
       git
       wget
@@ -65,6 +73,8 @@
       kitty
       wl-clipboard
       usb-modeswitch
+      xwayland-satellite
+      libinput
       uxplay
     ];
     sessionVariables = {
@@ -134,12 +144,18 @@
         "https://nix-community.cachix.org"
         "https://noctalia.cachix.org"
         "https://zed.cachix.org"
+        "https://bx-team.cachix.org"
+        "https://cache.garnix.io"
+        "https://ayugram-desktop.cachix.org"
       ];
       trusted-public-keys = [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
         "zed.cachix.org-1:/pHQ6dpMsAZk2DiP4WCL0p9YDNKWj2Q5FL20bNmw1cU="
+        "bx-team.cachix.org-1:tnGNc1rsS8QOav+VGxXCZzf/Y0/SGchOwVCCBA/eG6E="
+        "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+        "ayugram-desktop.cachix.org:AZ5EqHrJsAKL5YkZYLPEsb1FdD9QlypUwQ0REcJftgA="
       ];
     };
   };
@@ -147,5 +163,6 @@
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "jetbrains.idea"
+    "steam"
   ];
 }

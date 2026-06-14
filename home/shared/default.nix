@@ -1,4 +1,5 @@
-{ pkgs, lib, ... }:
+{ pkgs, inputs, lib, ... }:
+
 let
   username = "nonplay";
   homeDirectory = "/home/${username}";
@@ -25,28 +26,23 @@ let
     with pkgs;
     [
       age # age
+      filezilla # ftp and sftp client
       any-nix-shell # zsh support for nix shell
       appimage-run # tool to run appimage in nixos
       bun # bun
-      claude-code # cli llm
       eza # ls but better
       file # file
       jq # json parser
       nemo # file manager
       file-roller # archive manager
+      qbittorrent # torrent client
       hyprpolkitagent # polkit auth agent
       mtr # better traceroute
       nil # lsp for nix
       nitch # preconfigured fastfetch
       ntfs3g # ntfs driver
       packwiz # minecraft modpacks manager
-      (prismlauncher.override {
-        # minecraft launcher
-        jdks = [
-          pkgs.javaPackages.compiler.temurin-bin.jdk-25
-          pkgs.javaPackages.compiler.temurin-bin.jdk-21
-        ];
-      })
+      modrinth-app # minecraft
       jetbrains.idea # intellij idea
       sops # sops
       loupe # image viewer
@@ -54,18 +50,24 @@ let
       volatility3 # mem dump viewer
       flac # tagging support
       sqlite # cli sqlite db viewer
+      dbgate # db viewer for sqlite, postgres, etc.
       scanmem # memory scanner
       xrdb # xrdb for setting Xft.dpi
       dnsutils # dnsutils
       tcpdump # tcp dump
       python3 # python3
-      telegram-desktop # messanger
+      (lib.setPrio 10 javaPackages.compiler.temurin-bin.jdk-21) # extra jdk 21 (lower prio so java stays 25)
+      (lib.setPrio 15 javaPackages.compiler.temurin-bin.jdk-17) # extra jdk 17 (distinct prio so 21/17 don't collide)
+      inputs.ayugram-desktop.packages.${pkgs.system}.ayugram-desktop # fork of telegram-desktop
       unar # decompress files
       zip # compress files
       dex # .config/autostart helper for WMs
-      scrcpy
-      localsend
-      gnirehtet
+      gh # github cli
+      ngrok # ngrok cli for tunneling
+      r2modman # modding tool
+      obs-cmd
+      libreoffice-fresh
+      spotify
     ]
     ++ fontPkgs;
 
@@ -245,15 +247,15 @@ in
 
           "x-scheme-handler/steam" = "steam.desktop";
           "x-scheme-handler/steamlink" = "steam.desktop";
-          "x-scheme-handler/tg" = "org.telegram.desktop.desktop";
-          "x-scheme-handler/tonsite" = "org.telegram.desktop.desktop";
-          "x-scheme-handler/discord" = "discord-canary.desktop";
-          "x-scheme-handler/prismlauncher" = "org.prismlauncher.PrismLauncher.desktop";
-          "x-scheme-handler/curseforge" = "org.prismlauncher.PrismLauncher.desktop";
-          "x-scheme-handler/vscode" = "code-url-handler.desktop";
+          "x-scheme-handler/tg" = "com.ayugram.desktop.desktop";
+          "x-scheme-handler/tonsite" = "com.ayugram.desktop.desktop";
+          "x-scheme-handler/discord" = "com.discordapp.Discord.desktop";
+          "x-scheme-handler/modrinth" = "com.modrinth.ModrinthApp.desktop";
+          "x-scheme-handler/prismlauncher" = "com.modrinth.ModrinthApp.desktop";
+          "x-scheme-handler/curseforge" = "com.modrinth.ModrinthApp.desktop";
           "x-scheme-handler/zed" = "dev.zed.Zed.desktop";
 
-          "application/x-modrinth-modpack+zip" = "org.prismlauncher.PrismLauncher.desktop";
+          "application/x-modrinth-modpack+zip" = "com.modrinth.ModrinthApp.desktop";
 
           "application/vnd.appimage" = "appimage-run.desktop";
           "application/x-iso9660-appimage" = "appimage-run.desktop";

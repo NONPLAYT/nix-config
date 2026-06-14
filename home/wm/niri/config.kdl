@@ -13,6 +13,7 @@ include "config/misc.kdl"
 include "config/layers.kdl"
 
 spawn-sh-at-startup "noctalia-shell"
+spawn-sh-at-startup "until noctalia-shell ipc call lockScreen lock; do sleep 0.3; done"
 spawn-sh-at-startup "sway-audio-idle-inhibit"
 spawn-sh-at-startup "nsticky"
 spawn-at-startup "dex" "--autostart"

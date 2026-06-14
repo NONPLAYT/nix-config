@@ -1,6 +1,6 @@
 let
   more =
-    { pkgs, lib, ... }:
+    { pkgs, ... }:
     {
       programs = {
         bat.enable = true;
@@ -16,7 +16,7 @@ let
             rocmSupport = true;
           };
           settings = {
-            color_theme = "gruvbox_material_dark";
+            color_theme = "tokyo_storm";
             theme_background = false;
             rounded_corners = true;
             proc_sorting = "cpu direct";
@@ -30,6 +30,13 @@ let
         };
 
         command-not-found.enable = false;
+
+        obs-studio = {
+          enable = true;
+          plugins = with pkgs.obs-studio-plugins; [
+            obs-pipewire-audio-capture
+          ];
+        };
 
         mangohud.enable = true;
 
@@ -48,7 +55,8 @@ let
               ControlMaster = "no";
               ControlPath = "~/.ssh/master-%r@%n:%p";
               ControlPersist = "no";
-              IdentityFile = "~/.ssh/ssh.key";
+              IdentityFile = "/run/secrets/home/ssh/key";
+              IdentitiesOnly = true;
             };
             "stockholm" = {
               HostName = "stockholm.bxteam.org";
@@ -61,11 +69,13 @@ let
     };
 in
 [
+  ../programs/claude
   ../programs/dconf
-  ../programs/git
+  ../programs/easyeffects
+  ../programs/fastfetch
   ../programs/firefox
-  ../programs/zsh
+  ../programs/git
   ../programs/zed
-  ../programs/discord-canary
+  ../programs/zsh
   more
 ]

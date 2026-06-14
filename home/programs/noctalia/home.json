@@ -17,7 +17,16 @@
     "iconMode": "tabler",
     "ignoreMouseInput": false,
     "overviewLayer": false,
-    "pinnedApps": [],
+    "pinnedApps": [
+      "dev.zed.Zed",
+      "idea",
+      "com.discordapp.Discord",
+      "spotify",
+      "com.ayugram.desktop",
+      "Modrinth App",
+      "org.vinegarhq.Sober",
+      "steam"
+    ],
     "position": "follow_bar",
     "screenshotAnnotationTool": "",
     "showCategories": true,
@@ -27,7 +36,7 @@
     "viewMode": "list"
   },
   "audio": {
-    "mprisBlacklist": ["firefox-beta", "Telegram"],
+    "mprisBlacklist": ["firefox-beta", "AyuGram"],
     "preferredPlayer": "supersonic-wayland",
     "spectrumFrameRate": 144,
     "spectrumMirrored": false,
@@ -164,8 +173,8 @@
           "hidePassive": false,
           "id": "Tray",
           "pinned": [
-            "DiscordCanary",
-            "Telegram Desktop",
+            "Discord",
+            "AyuGram Desktop",
             "OBS Studio",
             "WebCord - 1 mention",
             "steam"
@@ -239,14 +248,14 @@
   },
   "colorSchemes": {
     "darkMode": true,
-    "generationMethod": "tonal-spot",
+    "generationMethod": "monochrome",
     "manualSunrise": "06:30",
     "manualSunset": "18:30",
     "monitorForColors": "",
-    "predefinedScheme": "Tokyo Night",
+    "predefinedScheme": "Kanagawa",
     "schedulingMode": "off",
     "syncGsettings": true,
-    "useWallpaperColors": false
+    "useWallpaperColors": true
   },
   "controlCenter": {
     "cards": [
@@ -357,7 +366,7 @@
     "animationDisabled": false,
     "animationSpeed": 1,
     "autoStartAuth": false,
-    "avatarImage": "/etc/nixos/imgs/face.png",
+    "avatarImage": "/etc/nixos/files/face.png",
     "boxRadiusRatio": 1,
     "clockFormat": "hh\\nmm",
     "clockStyle": "custom",
@@ -417,14 +426,14 @@
     "enabled": true,
     "fadeDuration": 30,
     "lockCommand": "",
-    "lockTimeout": 300,
+    "lockTimeout": 600,
     "resumeLockCommand": "",
     "resumeScreenOffCommand": "",
     "resumeSuspendCommand": "",
     "screenOffCommand": "",
     "screenOffTimeout": 300,
     "suspendCommand": "",
-    "suspendTimeout": 0
+    "suspendTimeout": 1200
   },
   "location": {
     "analogClockInCalendar": false,
@@ -453,9 +462,9 @@
     "wifiDetailsViewMode": "grid"
   },
   "nightLight": {
-    "autoSchedule": true,
+    "autoSchedule": false,
     "dayTemp": "6500",
-    "enabled": true,
+    "enabled": false,
     "forced": false,
     "manualSunrise": "06:30",
     "manualSunset": "18:30",
@@ -616,7 +625,7 @@
       },
       {
         "enabled": true,
-        "id": "telegram"
+        "id": "ayugram"
       },
       {
         "enabled": true,

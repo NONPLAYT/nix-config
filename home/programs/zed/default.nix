@@ -1,11 +1,39 @@
-{ pkgs, inputs, ... }:
+{ pkgs, ... }:
 
 {
   programs.zed-editor = {
     enable = true;
-    package = inputs.zed-editor.packages.${pkgs.stdenv.hostPlatform.system}.default;
+    mutableUserSettings = false;
+    mutableUserKeymaps = false;
+
+    extensions = [
+      "html"
+      "toml"
+      "java"
+      "dockerfile"
+      "vue"
+      "macos-classic"
+      "kotlin"
+      "nix"
+      "vscode-icons"
+      "biome"
+      "mcp-server-github"
+      "discord-presence"
+    ];
+
     userSettings = {
+      base_keymap = "JetBrains";
       theme = "macOS Classic Dark";
+      icon_theme = "VSCode Icons for Zed (Dark)";
+      project_panel = {
+        dock = "left";
+      };
+      git_panel = {
+        dock = "left";
+      };
+      agent = {
+        dock = "right";
+      };
       languages.Nix = {
         formatter.external = {
           command = "nixpkgs-fmt";
@@ -13,7 +41,35 @@
         };
       };
     };
+
+    userKeymaps = [
+      {
+        context = "Pane";
+        bindings = {
+          "alt-2" = "git_panel::ToggleFocus";
+        };
+      }
+      {
+        context = "Workspace";
+        bindings = {
+          "alt-2" = "git_panel::ToggleFocus";
+        };
+      }
+      {
+        context = "Pane";
+        bindings = {
+          "alt-1" = "project_panel::ToggleFocus";
+        };
+      }
+      {
+        context = "Workspace";
+        bindings = {
+          "alt-1" = "project_panel::ToggleFocus";
+        };
+      }
+    ];
   };
+
   home.packages = with pkgs; [
     # lsp servers
     lua-language-server # lua
@@ -40,6 +96,9 @@
     gcc
     gnumake
     cmake
+    rustc
+    cargo
+    go
     nodejs
     ripgrep
     fd

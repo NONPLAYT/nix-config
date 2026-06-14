@@ -7,7 +7,6 @@ let
     "layers.acceleration.force-enabled" = true;
     "media.ffmpeg.vaapi.enabled" = true;
     "media.hardware-video-decoding.force-enabled" = true;
-    "browser.cache.disk.enable" = false;
     "browser.cache.memory.enable" = true;
     "browser.cache.memory.capacity" = 524288; # 512MB
     "browser.sessionstore.interval" = 30000;
@@ -40,8 +39,6 @@ let
     # --- ui ---
     "browser.aboutwelcome.enabled" = false;
     "browser.startup.homepage_override.mstone" = "ignore";
-    "startup.homepage_welcome_url" = "";
-    "startup.homepage_welcome_url.additional" = "";
     "browser.aboutConfig.showWarning" = false;
     "browser.shell.checkDefaultBrowser" = false;
     "browser.ctrlTab.recentlyUsedOrder" = false;
@@ -60,13 +57,7 @@ let
     "browser.contentblocking.category" = "standard";
     "extensions.update.enabled" = false;
 
-    # --- urlbar: only search suggestions ---
-    "browser.urlbar.suggest.searches" = true;
-    "browser.urlbar.suggest.bookmark" = false;
-    "browser.urlbar.suggest.history" = false;
-    "browser.urlbar.suggest.openpage" = false;
-    "browser.urlbar.suggest.topsites" = false;
-    "browser.urlbar.suggest.engines" = false;
+    # --- urlbar ---
     "browser.urlbar.suggest.quicksuggest.nonsponsored" = false;
     "browser.urlbar.suggest.quicksuggest.sponsored" = false;
     "browser.urlbar.quicksuggest.enabled" = false;

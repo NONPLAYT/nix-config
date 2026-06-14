@@ -1,6 +1,27 @@
 {
   description = "nixos & home-manager configs by nonplay";
 
+  nixConfig = {
+    substituters = [
+      "https://cache.nixos.org"
+      "https://nix-community.cachix.org"
+      "https://noctalia.cachix.org"
+      "https://zed.cachix.org"
+      "https://bx-team.cachix.org"
+      "https://cache.garnix.io"
+      "https://ayugram-desktop.cachix.org"
+    ];
+    trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+      "zed.cachix.org-1:/pHQ6dpMsAZk2DiP4WCL0p9YDNKWj2Q5FL20bNmw1cU="
+      "bx-team.cachix.org-1:tnGNc1rsS8QOav+VGxXCZzf/Y0/SGchOwVCCBA/eG6E="
+      "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+      "ayugram-desktop.cachix.org:AZ5EqHrJsAKL5YkZYLPEsb1FdD9QlypUwQ0REcJftgA="
+    ];
+  };
+
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
     nur.url = "github:nix-community/NUR";
@@ -28,7 +49,7 @@
     };
 
     noctalia = {
-      url = "github:noctalia-dev/noctalia-shell";
+      url = "github:noctalia-dev/noctalia-shell/?ref=v4.7.7";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -37,7 +58,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    zed-editor.url = "github:zed-industries/zed";
+    nix-flatpak.url = "github:gmodena/nix-flatpak";
+
+    ayugram-desktop = {
+      type = "git";
+      submodules = true;
+      url = "https://github.com/ndfined-crp/ayugram-desktop";
+    };
   };
 
   outputs =
@@ -45,7 +72,6 @@
     let
       overlays = [
         inputs.nur.overlays.default
-        inputs.claude-code-nix.overlays.default
       ];
 
       mkSystem =
@@ -63,6 +89,7 @@
             inputs.home-manager.nixosModules.home-manager
             inputs.nix-index-database.nixosModules.nix-index
             inputs.sops-nix.nixosModules.sops
+            inputs.nix-flatpak.nixosModules.nix-flatpak
             { nix.registry.nixpkgs.flake = nixpkgs; }
             { nixpkgs.overlays = overlays; }
           ];
