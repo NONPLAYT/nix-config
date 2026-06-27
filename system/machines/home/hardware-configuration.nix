@@ -17,7 +17,6 @@
     "nvidia_modeset"
     "nvidia_uvm"
     "nvidia_drm"
-    "8821cu"
   ];
   boot.extraModprobeConfig = ''
     options nvidia_modeset vblank_sem_control=0 nvidia NVreg_PreserveVideoMemoryAllocations=1 NVreg_TemporaryFilePath=/var/tmp
@@ -35,7 +34,7 @@
 
   fileSystems."/ext" = {
     device = "/dev/disk/by-uuid/D2C0847BC0846795";
-    fsType = "ntfs-3g";
+    fsType = "ntfs3";
     options = [
       "uid=1000"
       "gid=100"
@@ -49,5 +48,6 @@
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  hardware.enableRedistributableFirmware = true;
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

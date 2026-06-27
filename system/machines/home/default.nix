@@ -14,11 +14,9 @@
   ];
 
   boot = {
-    kernelPackages = pkgs.linuxKernel.packages.linux_7_0;
-    supportedFilesystems = [ "ntfs" ];
+    kernelPackages = pkgs.linuxPackages_latest;
     extraModulePackages = [
-      pkgs.linuxKernel.packages.linux_7_0.rtl8821cu
-      pkgs.linuxKernel.packages.linux_7_0.v4l2loopback
+      pkgs.linuxPackages_latest.v4l2loopback
     ];
 
     kernelParams = [ "nvidia-drm.fbdev=1" ];
@@ -104,7 +102,7 @@
     powerManagement.enable = true;
     powerManagement.finegrained = false;
     open = true;
-    nvidiaSettings = true;
+    nvidiaSettings = false;
     package = config.boot.kernelPackages.nvidiaPackages.production;
   };
 
