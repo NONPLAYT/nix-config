@@ -22,6 +22,10 @@
         type = "http";
         url = "https://nuxt.com/mcp";
       };
+      cloudflare = {
+        type = "http";
+        url = "https://mcp.cloudflare.com/mcp";
+      };
     };
   };
 }

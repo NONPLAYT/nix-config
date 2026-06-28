@@ -8,6 +8,7 @@
     packages = [
       "com.discordapp.Discord"
       "org.vinegarhq.Sober"
+      "org.vinegarhq.Vinegar"
       "ch.tlaun.TL"
       "com.soulfiremc.soulfire"
     ];

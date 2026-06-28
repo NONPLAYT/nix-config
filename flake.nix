@@ -10,6 +10,7 @@
       "https://bx-team.cachix.org"
       "https://cache.garnix.io"
       "https://ayugram-desktop.cachix.org"
+      "https://wrangler.cachix.org"
     ];
     trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
@@ -19,6 +20,7 @@
       "bx-team.cachix.org-1:tnGNc1rsS8QOav+VGxXCZzf/Y0/SGchOwVCCBA/eG6E="
       "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
       "ayugram-desktop.cachix.org:AZ5EqHrJsAKL5YkZYLPEsb1FdD9QlypUwQ0REcJftgA="
+      "wrangler.cachix.org-1:N/FIcG2qBQcolSpklb2IMDbsfjZKWg+ctxx0mSMXdSs="
     ];
   };
 
@@ -42,9 +44,15 @@
     };
 
     hardware.url = "github:NixOS/nixos-hardware";
+    nix-flatpak.url = "github:gmodena/nix-flatpak";
 
     claude-code-nix = {
       url = "github:sadjow/claude-code-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    wrangler = {
+      url = "github:emrldnix/wrangler";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -58,7 +66,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-flatpak.url = "github:gmodena/nix-flatpak";
+    nexon.url = "github:BX-Team/Nexon";
 
     ayugram-desktop = {
       type = "git";
@@ -106,8 +114,8 @@
           system = "x86_64-linux";
           base = ./system;
         };
-        stockholm = mkSystem {
-          host = "stockholm";
+        finland = mkSystem {
+          host = "finland";
           system = "x86_64-linux";
           base = ./server;
         };

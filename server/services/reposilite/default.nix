@@ -4,7 +4,7 @@
   services.reposilite = {
     enable = true;
     settings = {
-      port = 3002;
+      port = 3000;
       hostname = "127.0.0.1";
     };
   };

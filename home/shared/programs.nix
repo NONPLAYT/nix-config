@@ -58,8 +58,8 @@ let
               IdentityFile = "/run/secrets/home/ssh/key";
               IdentitiesOnly = true;
             };
-            "stockholm" = {
-              HostName = "stockholm.bxteam.org";
+            "finland" = {
+              HostName = "finland.bxteam.org";
               User = "root";
               Port = 2022;
             };

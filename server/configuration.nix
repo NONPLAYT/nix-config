@@ -9,20 +9,6 @@
     ./programs/zsh
     ./programs/btop
     ./services/sshd
-    ./services/docker
-    ./services/frp
-    ./services/mtprotoproxy
-    ./services/pg-node
-    ./services/caddy
-    ./services/postgres
-    ./services/redis
-    ./services/clickhouse
-    ./services/meridian
-    ./services/influx
-    ./services/cinder
-    ./services/geoipupdate
-    ./services/reposilite
-    ./services/umami
   ];
 
   services.qemuGuest.enable = true;
@@ -123,10 +109,12 @@
       substituters = [
         "https://cache.nixos.org"
         "https://nix-community.cachix.org"
+        "https://bx-team.cachix.org"
       ];
       trusted-public-keys = [
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "bx-team.cachix.org-1:tnGNc1rsS8QOav+VGxXCZzf/Y0/SGchOwVCCBA/eG6E="
       ];
     };
   };

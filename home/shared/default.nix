@@ -64,6 +64,7 @@ let
       dex # .config/autostart helper for WMs
       gh # github cli
       ngrok # ngrok cli for tunneling
+      inputs.wrangler.packages.${pkgs.system}.wrangler # cloudflare wrangler cli
       r2modman # modding tool
       obs-cmd
       libreoffice-fresh

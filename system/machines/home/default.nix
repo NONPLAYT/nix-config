@@ -8,6 +8,7 @@
   imports = [
     ./hardware-configuration.nix
     inputs.hardware.nixosModules.common-cpu-amd
+
     ../../services/flatpak
     ../../services/mihomo
     ../../services/printing

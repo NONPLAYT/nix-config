@@ -272,6 +272,9 @@
           interval: 86400
 
       rules:
+        # SSH Servers
+        - DOMAIN,finland.bxteam.org,DIRECT
+
         # --- Блокировки (высший приоритет) ---
         - RULE-SET,private-ips,DIRECT,no-resolve
         - RULE-SET,private-domains,DIRECT
@@ -318,7 +321,6 @@
         - RULE-SET,whitelist,DIRECT
         - RULE-SET,ru-apps,DIRECT
         - RULE-SET,direct-ips,DIRECT
-        - DOMAIN,stockholm.bxteam.org,DIRECT
 
         # Fallback
         - MATCH,PROXY
