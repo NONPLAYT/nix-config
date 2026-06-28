@@ -59,11 +59,21 @@
             - 'dns.google'
 
       proxy-providers:
-        main:
+        nexon:
           type: http
-          url: "${config.sops.placeholder."home/mihomo/subscription"}"
+          url: "${config.sops.placeholder."home/mihomo/nexon"}"
           interval: 86400
-          path: ./providers/main.yaml
+          path: ./providers/nexon.yaml
+          health-check:
+            enable: true
+            url: https://www.gstatic.com/generate_204
+            interval: 300
+
+        wiyba:
+          type: http
+          url: "${config.sops.placeholder."home/mihomo/wiyba"}"
+          interval: 86400
+          path: ./providers/wiyba.yaml
           health-check:
             enable: true
             url: https://www.gstatic.com/generate_204
@@ -73,11 +83,13 @@
         - name: PROXY
           type: select
           use:
-            - main
+            - nexon
+            - wiyba
         - name: AUTO
           type: url-test
           use:
-            - main
+            - nexon
+            - wiyba
           url: https://www.gstatic.com/generate_204
           interval: 300
 
