@@ -1,4 +1,4 @@
-{ config, lib, pkgs, modulesPath, ... }:
+{ lib, modulesPath, ... }:
 
 {
   imports = [ (modulesPath + "/profiles/qemu-guest.nix") ];
@@ -7,12 +7,12 @@
   boot.initrd.kernelModules = [ "nvme" ];
   boot.kernelModules = [ "kvm-intel" ];
 
-  fileSystems."/" ={
+  fileSystems."/" = {
     device = "/dev/disk/by-uuid/d77f6a25-e90f-4292-a85d-9bcc1cecf9e2";
     fsType = "ext4";
   };
 
-  fileSystems."/boot" ={
+  fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/419169ed-e354-47f5-9c4a-a6a4f1a382fa";
     fsType = "ext4";
   };
