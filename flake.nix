@@ -8,7 +8,6 @@
       "https://noctalia.cachix.org"
       "https://zed.cachix.org"
       "https://bx-team.cachix.org"
-      "https://cache.garnix.io"
       "https://ayugram-desktop.cachix.org"
       "https://wrangler.cachix.org"
     ];
@@ -18,7 +17,6 @@
       "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
       "zed.cachix.org-1:/pHQ6dpMsAZk2DiP4WCL0p9YDNKWj2Q5FL20bNmw1cU="
       "bx-team.cachix.org-1:tnGNc1rsS8QOav+VGxXCZzf/Y0/SGchOwVCCBA/eG6E="
-      "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
       "ayugram-desktop.cachix.org:AZ5EqHrJsAKL5YkZYLPEsb1FdD9QlypUwQ0REcJftgA="
       "wrangler.cachix.org-1:N/FIcG2qBQcolSpklb2IMDbsfjZKWg+ctxx0mSMXdSs="
     ];
@@ -57,7 +55,7 @@
     };
 
     noctalia = {
-      url = "github:noctalia-dev/noctalia-shell/?ref=v4.7.7";
+      url = "github:noctalia-dev/noctalia/legacy-v4";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

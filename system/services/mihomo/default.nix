@@ -321,6 +321,7 @@
         - RULE-SET,whitelist,DIRECT
         - RULE-SET,ru-apps,DIRECT
         - RULE-SET,direct-ips,DIRECT
+        - DOMAIN-SUFFIX,azureedge.net,DIRECT
 
         # Fallback
         - MATCH,PROXY

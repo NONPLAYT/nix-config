@@ -27,6 +27,7 @@ let
     [
       age # age
       filezilla # ftp and sftp client
+      anydesk # remote desktop
       any-nix-shell # zsh support for nix shell
       appimage-run # tool to run appimage in nixos
       bun # bun
@@ -42,7 +43,7 @@ let
       nitch # preconfigured fastfetch
       ntfs3g # ntfs driver
       packwiz # minecraft modpacks manager
-      modrinth-app # minecraft
+      prismlauncher # minecraft launcher
       jetbrains.idea # intellij idea
       sops # sops
       loupe # image viewer
@@ -251,12 +252,11 @@ in
           "x-scheme-handler/tg" = "com.ayugram.desktop.desktop";
           "x-scheme-handler/tonsite" = "com.ayugram.desktop.desktop";
           "x-scheme-handler/discord" = "com.discordapp.Discord.desktop";
-          "x-scheme-handler/modrinth" = "com.modrinth.ModrinthApp.desktop";
-          "x-scheme-handler/prismlauncher" = "com.modrinth.ModrinthApp.desktop";
-          "x-scheme-handler/curseforge" = "com.modrinth.ModrinthApp.desktop";
+          "x-scheme-handler/prismlauncher" = "org.prismlauncher.PrismLauncher.desktop";
+          "x-scheme-handler/curseforge" = "org.prismlauncher.PrismLauncher.desktop";
           "x-scheme-handler/zed" = "dev.zed.Zed.desktop";
 
-          "application/x-modrinth-modpack+zip" = "com.modrinth.ModrinthApp.desktop";
+          "application/x-modrinth-modpack+zip" = "org.prismlauncher.PrismLauncher.desktop";
 
           "application/vnd.appimage" = "appimage-run.desktop";
           "application/x-iso9660-appimage" = "appimage-run.desktop";
@@ -287,8 +287,9 @@ in
     };
 
     pointerCursor = {
-      name = "breeze_cursors";
+      enable = true;
       package = pkgs.kdePackages.breeze;
+      name = "breeze_cursors";
       size = 24;
       gtk.enable = true;
       x11.enable = true;

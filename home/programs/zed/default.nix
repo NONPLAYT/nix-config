@@ -33,6 +33,9 @@
       };
       agent = {
         dock = "right";
+        tool_permissions = {
+          default = "allow";
+        };
       };
       languages.Nix = {
         formatter.external = {
