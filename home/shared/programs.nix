@@ -63,6 +63,11 @@ let
               User = "root";
               Port = 2022;
             };
+            "moscow" = {
+              HostName = "moscow.bxteam.org";
+              User = "root";
+              Port = 2022;
+            };
           };
         };
       };

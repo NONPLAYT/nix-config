@@ -5,27 +5,68 @@
 , pkgs
 , ...
 }:
+
 let
   apiPort = 10085;
   vlessPort = 8443;
 
-  nexonHost = "finland";
+  nexonHost = "moscow";
 
-  geoAssets = pkgs.linkFarm "xray-geoassets" {
-    "geoip.dat" = pkgs.fetchurl {
-      url = "https://cdn.jsdelivr.net/gh/hydraponique/roscomvpn-geoip/release/geoip.dat";
-      hash = "sha256-IHsSvquq7WOac/D6VoLPVYNuVgtExLzH2A9C19DGKlI=";
-    };
-    "geosite.dat" = pkgs.fetchurl {
-      url = "https://cdn.jsdelivr.net/gh/hydraponique/roscomvpn-geosite/release/geosite.dat";
-      hash = "sha256-dluG5Lau1doaIGMEtVAMdmhof6HfjoMiyKSWHhtnIZA=";
-    };
-  };
-
-  sni =
+  role =
     {
-      finland = "www.google.com";
+      moscow = "master";
+      finland = "exit";
     }.${host};
+
+  apiListen = if role == "master" then "127.0.0.1" else "0.0.0.0";
+
+  reality =
+    {
+      finland = { sni = "www.google.com"; dest = "www.google.com:443"; };
+      moscow = { sni = "moscow.bxteam.org"; dest = "127.0.0.1:443"; };
+    }.${host};
+
+  chainClients = lib.optionals (role == "exit") [
+    {
+      email = "chain-master";
+      id = config.sops.placeholder."chain/${host}/uuid";
+      flow = "xtls-rprx-vision";
+    }
+  ];
+
+  outbounds =
+    if role == "master" then
+      [
+        {
+          protocol = "socks";
+          tag = "proxy";
+          settings.servers = [
+            {
+              address = "127.0.0.1";
+              port = 7891;
+            }
+          ];
+        }
+        {
+          protocol = "freedom";
+          tag = "direct";
+        }
+        {
+          protocol = "blackhole";
+          tag = "blocked";
+        }
+      ]
+    else
+      [
+        {
+          protocol = "freedom";
+          tag = "direct";
+        }
+        {
+          protocol = "blackhole";
+          tag = "blocked";
+        }
+      ];
 
   xrayConfig = {
     log = {
@@ -52,7 +93,7 @@ let
       };
     };
     routing = {
-      domainStrategy = "IPIfNonMatch";
+      domainStrategy = "AsIs";
       rules = [
         {
           inboundTag = [ "api" ];
@@ -62,23 +103,15 @@ let
           protocol = [ "bittorrent" ];
           outboundTag = "blocked";
         }
-        {
-          domain = [ "geosite:category-ru" ];
-          outboundTag = "blocked";
-        }
-        {
-          ip = [ "geoip:direct" ];
-          outboundTag = "blocked";
-        }
       ];
     };
     inbounds = [
       {
         tag = "api";
-        listen = "127.0.0.1";
+        listen = apiListen;
         port = apiPort;
         protocol = "dokodemo-door";
-        settings.address = "127.0.0.1";
+        settings.address = apiListen;
       }
       {
         tag = "vless-reality";
@@ -86,7 +119,7 @@ let
         port = vlessPort;
         protocol = "vless";
         settings = {
-          clients = [ ];
+          clients = chainClients;
           decryption = "none";
         };
         sniffing.enabled = false;
@@ -94,24 +127,15 @@ let
           network = "tcp";
           security = "reality";
           realitySettings = {
-            target = "${sni}:443";
-            serverNames = [ sni ];
+            target = reality.dest;
+            serverNames = [ reality.sni ];
             privateKey = config.sops.placeholder."${host}/xray/private-key";
             shortIds = [ config.sops.placeholder."${host}/xray/sid" ];
           };
         };
       }
     ];
-    outbounds = [
-      {
-        protocol = "freedom";
-        tag = "direct";
-      }
-      {
-        protocol = "blackhole";
-        tag = "blocked";
-      }
-    ];
+    outbounds = outbounds;
   };
 in
 {
@@ -128,7 +152,6 @@ in
   };
 
   systemd.services.xray.serviceConfig.LogsDirectory = "xray";
-  systemd.services.xray.environment.XRAY_LOCATION_ASSET = "${geoAssets}";
 
   services.logrotate.settings.xray = {
     files = [
@@ -151,6 +174,6 @@ in
   };
 
   networking.hosts = lib.mkIf (host == nexonHost) {
-    "127.0.0.1" = [ "finland.bxteam.org" ];
+    "127.0.0.1" = [ "${host}.bxteam.org" ];
   };
 }
