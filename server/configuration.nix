@@ -16,7 +16,7 @@
   networking = {
     domain = "bxteam.org";
     enableIPv6 = lib.mkDefault false;
-    firewall.enable = lib.mkDefault false;
+    firewall.enable = lib.mkDefault true;
     dhcpcd.enable = lib.mkDefault false;
   };
 

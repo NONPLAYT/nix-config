@@ -34,6 +34,7 @@
   };
 
   networking.nftables.enable = true;
+  networking.firewall.allowedTCPPorts = [ 2022 ];
 
   services.fail2ban = {
     enable = true;

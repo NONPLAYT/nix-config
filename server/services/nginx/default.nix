@@ -25,6 +25,8 @@ in
     defaults.email = "admin@bxteam.org";
   };
 
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
+
   services.nginx = {
     enable = true;
     recommendedProxySettings = true;

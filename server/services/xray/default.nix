@@ -176,4 +176,11 @@ in
   networking.hosts = lib.mkIf (host == nexonHost) {
     "127.0.0.1" = [ "${host}.bxteam.org" ];
   };
+
+  networking.firewall = {
+    allowedTCPPorts = [ vlessPort ];
+    extraInputRules = lib.mkIf (role == "exit") ''
+      ip saddr 46.8.21.129 tcp dport ${toString apiPort} accept
+    '';
+  };
 }

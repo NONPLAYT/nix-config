@@ -6,6 +6,7 @@
     ../../services/nginx
     ../../services/xray
     ../../services/mihomo
+    ../../services/mtg
   ];
 
   boot = {
