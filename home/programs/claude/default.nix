@@ -26,6 +26,13 @@
         type = "http";
         url = "https://mcp.cloudflare.com/mcp";
       };
+      rbxstudio = {
+        command = "/home/nonplay/.var/app/org.vinegarhq.Vinegar/data/vinegar/kombucha-stable+20260614215204/bin/wine";
+        args = ["/home/nonplay/.var/app/org.vinegarhq.Vinegar/data/vinegar/versions/version-ed7d8193e8564b1f/StudioMCP.exe"];
+        env = {
+          WINEPREFIX = "/home/nonplay/.var/app/org.vinegarhq.Vinegar/data/vinegar/prefixes/studio";
+        };
+      };
     };
   };
 }

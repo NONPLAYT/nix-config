@@ -30,17 +30,19 @@ let
       anydesk # remote desktop
       any-nix-shell # zsh support for nix shell
       appimage-run # tool to run appimage in nixos
+      fetch # 3d fastfetch
+      musicpresence # music status for discord
       bun # bun
       eza # ls but better
       file # file
       jq # json parser
       nemo # file manager
+      yazi # file manager
       file-roller # archive manager
       qbittorrent # torrent client
       hyprpolkitagent # polkit auth agent
       mtr # better traceroute
       nil # lsp for nix
-      nitch # preconfigured fastfetch
       ntfs3g # ntfs driver
       packwiz # minecraft modpacks manager
       prismlauncher # minecraft launcher
@@ -59,7 +61,7 @@ let
       python3 # python3
       (lib.setPrio 10 javaPackages.compiler.temurin-bin.jdk-21) # extra jdk 21 (lower prio so java stays 25)
       (lib.setPrio 15 javaPackages.compiler.temurin-bin.jdk-17) # extra jdk 17 (distinct prio so 21/17 don't collide)
-      inputs.ayugram-desktop.packages.${pkgs.system}.ayugram-desktop # fork of telegram-desktop
+      ayugram-desktop # fork of telegram-desktop
       unar # decompress files
       zip # compress files
       dex # .config/autostart helper for WMs
@@ -95,10 +97,10 @@ in
       createDirectories = true;
       download = "${homeDirectory}/Downloads";
       videos = "${homeDirectory}/Videos";
-      music = homeDirectory;
+      music = "${homeDirectory}/Music";
       pictures = "${homeDirectory}/Pictures";
       desktop = homeDirectory;
-      documents = homeDirectory;
+      documents = "${homeDirectory}/Documents";
       publicShare = homeDirectory;
       templates = homeDirectory;
     };
