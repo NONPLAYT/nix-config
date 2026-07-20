@@ -77,7 +77,6 @@ in
   ../programs/claude
   ../programs/dconf
   ../programs/easyeffects
-  ../programs/fastfetch
   ../programs/firefox
   ../programs/git
   ../programs/zed

@@ -22,7 +22,7 @@
       cursor_shape beam
       cursor_trail 1
 
-      map ctrl+c copy_or_interrupt
+      map ctrl+c copy_and_clear_or_interrupt
 
       map ctrl+f launch --location=hsplit --allow-remote-control kitty +kitten search.py @active-kitty-window-id
       map kitty_mod+f launch --location=hsplit --allow-remote-control kitty +kitten search.py @active-kitty-window-id
