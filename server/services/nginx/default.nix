@@ -29,6 +29,7 @@ in
 
   services.nginx = {
     enable = true;
+    clientMaxBodySize = "150m";
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
     recommendedOptimisation = true;
