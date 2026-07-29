@@ -160,6 +160,21 @@
     };
   };
 
+  nixpkgs.overlays = [
+    (self: super: {
+      libdisplay-info = super.libdisplay-info.overrideAttrs {
+        version = "0.3.0";
+        src = super.fetchFromGitLab {
+          domain = "gitlab.freedesktop.org";
+          owner = "emersion";
+          repo = "libdisplay-info";
+          rev = "0.3.0";
+          sha256 = "sha256-nXf2KGovNKvcchlHlzKBkAOeySMJXgxMpbi5z9gLrdc=";
+        };
+      };
+    })
+  ];
+
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "jetbrains.idea"

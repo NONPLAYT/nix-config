@@ -64,6 +64,8 @@
           url: "${config.sops.placeholder."home/mihomo/nexon"}"
           interval: 86400
           path: ./providers/nexon.yaml
+          override:
+            additional-prefix: "[Nexon] "
           health-check:
             enable: true
             url: https://www.gstatic.com/generate_204
@@ -74,6 +76,8 @@
           url: "${config.sops.placeholder."home/mihomo/wiyba"}"
           interval: 86400
           path: ./providers/wiyba.yaml
+          override:
+            additional-prefix: "[wiyba] "
           health-check:
             enable: true
             url: https://www.gstatic.com/generate_204
