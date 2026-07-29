@@ -10,63 +10,29 @@ let
   apiPort = 10085;
   vlessPort = 8443;
 
-  nexonHost = "moscow";
+  nexonHost = "stockholm";
 
-  role =
-    {
-      moscow = "master";
-      finland = "exit";
-    }.${host};
+  geoAssets = pkgs.linkFarm "xray-geoassets" {
+    "geoip.dat" = pkgs.fetchurl {
+      url = "https://cdn.jsdelivr.net/gh/hydraponique/roscomvpn-geoip/release/geoip.dat";
+      hash = "sha256-bNRcTTpsTSetcDkNORA9bjSjDRF9ui1WTlBMXkP52N0=";
+    };
+    "geosite.dat" = pkgs.fetchurl {
+      url = "https://cdn.jsdelivr.net/gh/hydraponique/roscomvpn-geosite/release/geosite.dat";
+      hash = "sha256-dluG5Lau1doaIGMEtVAMdmhof6HfjoMiyKSWHhtnIZA=";
+    };
+  };
 
-  apiListen = if role == "master" then "127.0.0.1" else "0.0.0.0";
+  realityByHost = {
+    stockholm = {
+      sni = "repo.bxteam.org";
+      dest = "127.0.0.1:443";
+    };
+  };
 
-  reality =
-    {
-      finland = { sni = "www.google.com"; dest = "www.google.com:443"; };
-      moscow = { sni = "moscow.bxteam.org"; dest = "127.0.0.1:443"; };
-    }.${host};
+  reality = realityByHost.${host};
 
-  chainClients = lib.optionals (role == "exit") [
-    {
-      email = "chain-master";
-      id = config.sops.placeholder."chain/${host}/uuid";
-      flow = "xtls-rprx-vision";
-    }
-  ];
-
-  outbounds =
-    if role == "master" then
-      [
-        {
-          protocol = "socks";
-          tag = "proxy";
-          settings.servers = [
-            {
-              address = "127.0.0.1";
-              port = 7891;
-            }
-          ];
-        }
-        {
-          protocol = "freedom";
-          tag = "direct";
-        }
-        {
-          protocol = "blackhole";
-          tag = "blocked";
-        }
-      ]
-    else
-      [
-        {
-          protocol = "freedom";
-          tag = "direct";
-        }
-        {
-          protocol = "blackhole";
-          tag = "blocked";
-        }
-      ];
+  realityIsLocal = lib.hasPrefix "127.0.0.1" reality.dest;
 
   xrayConfig = {
     log = {
@@ -93,7 +59,7 @@ let
       };
     };
     routing = {
-      domainStrategy = "AsIs";
+      domainStrategy = "IPIfNonMatch";
       rules = [
         {
           inboundTag = [ "api" ];
@@ -103,15 +69,23 @@ let
           protocol = [ "bittorrent" ];
           outboundTag = "blocked";
         }
+        {
+          domain = [ "geosite:category-ru" ];
+          outboundTag = "blocked";
+        }
+        {
+          ip = [ "geoip:direct" ];
+          outboundTag = "blocked";
+        }
       ];
     };
     inbounds = [
       {
         tag = "api";
-        listen = apiListen;
+        listen = "127.0.0.1";
         port = apiPort;
         protocol = "dokodemo-door";
-        settings.address = apiListen;
+        settings.address = "127.0.0.1";
       }
       {
         tag = "vless-reality";
@@ -119,7 +93,7 @@ let
         port = vlessPort;
         protocol = "vless";
         settings = {
-          clients = chainClients;
+          clients = [ ];
           decryption = "none";
         };
         sniffing.enabled = false;
@@ -135,7 +109,16 @@ let
         };
       }
     ];
-    outbounds = outbounds;
+    outbounds = [
+      {
+        protocol = "freedom";
+        tag = "direct";
+      }
+      {
+        protocol = "blackhole";
+        tag = "blocked";
+      }
+    ];
   };
 in
 {
@@ -152,6 +135,7 @@ in
   };
 
   systemd.services.xray.serviceConfig.LogsDirectory = "xray";
+  systemd.services.xray.environment.XRAY_LOCATION_ASSET = "${geoAssets}";
 
   services.logrotate.settings.xray = {
     files = [
@@ -173,14 +157,9 @@ in
     subBaseURL = "https://nexon.bxteam.org";
   };
 
-  networking.hosts = lib.mkIf (host == nexonHost) {
-    "127.0.0.1" = [ "${host}.bxteam.org" ];
-  };
+  networking.hosts."127.0.0.1" =
+    lib.optional realityIsLocal reality.sni
+    ++ lib.optional (host == nexonHost) "${host}.bxteam.org";
 
-  networking.firewall = {
-    allowedTCPPorts = [ vlessPort ];
-    extraInputRules = lib.mkIf (role == "exit") ''
-      ip saddr 46.8.21.129 tcp dport ${toString apiPort} accept
-    '';
-  };
+  networking.firewall.allowedTCPPorts = [ vlessPort ];
 }

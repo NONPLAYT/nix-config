@@ -104,13 +104,8 @@
           system = "x86_64-linux";
           base = ./system;
         };
-        finland = mkSystem {
-          host = "finland";
-          system = "x86_64-linux";
-          base = ./server;
-        };
-        moscow = mkSystem {
-          host = "moscow";
+        stockholm = mkSystem {
+          host = "stockholm";
           system = "x86_64-linux";
           base = ./server;
         };

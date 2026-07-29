@@ -273,7 +273,7 @@
 
       rules:
         # SSH Servers
-        - DOMAIN,finland.bxteam.org,DIRECT
+        - DOMAIN,stockholm.bxteam.org,DIRECT
 
         # --- Блокировки (высший приоритет) ---
         - RULE-SET,private-ips,DIRECT,no-resolve

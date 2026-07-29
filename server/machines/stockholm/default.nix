@@ -4,34 +4,30 @@
     ./hardware-configuration.nix
 
     ../../services/nginx
+    ../../services/reposilite
     ../../services/xray
-    ../../services/mihomo
-    ../../services/mtg
   ];
 
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
     loader.grub = {
       enable = true;
-      device = "/dev/vda";
+      device = "/dev/sda";
     };
   };
 
   networking = {
-    hostName = "moscow";
+    hostName = "stockholm";
     enableIPv6 = false;
-    defaultGateway = "46.8.21.1";
-    interfaces.ens3 = {
-      ipv4.addresses = [
-        { address = "46.8.21.129"; prefixLength = 24; }
-      ];
+    dhcpcd = {
+      enable = true;
+      extraConfig = "nooption domain_name_servers";
     };
     nameservers = [
       "1.1.1.1"
       "8.8.8.8"
-      "77.88.8.8"
     ];
   };
 
-  time.timeZone = "Europe/Moscow";
+  time.timeZone = "Europe/Stockholm";
 }
