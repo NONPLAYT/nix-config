@@ -101,6 +101,8 @@
     cmake
     rustc
     cargo
+    rustfmt
+    clippy
     go
     nodejs
     ripgrep
