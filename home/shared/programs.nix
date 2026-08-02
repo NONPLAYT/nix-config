@@ -46,7 +46,7 @@ let
           settings = {
             "*" = {
               ForwardAgent = false;
-              AddKeysToAgent = "240m";
+              AddKeysToAgent = "yes";
               Compression = false;
               ServerAliveInterval = 0;
               ServerAliveCountMax = 3;

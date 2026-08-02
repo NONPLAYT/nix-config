@@ -53,7 +53,7 @@ let
       volatility3 # mem dump viewer
       flac # tagging support
       sqlite # cli sqlite db viewer
-      dbgate # db viewer for sqlite, postgres, etc.
+      pgtui # tui postgres client
       scanmem # memory scanner
       xrdb # xrdb for setting Xft.dpi
       dnsutils # dnsutils

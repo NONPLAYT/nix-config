@@ -70,6 +70,7 @@
     let
       overlays = [
         inputs.nur.overlays.default
+        (import ./overlays)
       ];
 
       mkSystem =
