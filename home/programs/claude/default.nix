@@ -28,7 +28,7 @@
       };
       rbxstudio = {
         command = "/home/nonplay/.var/app/org.vinegarhq.Vinegar/data/vinegar/kombucha-stable+20260614215204/bin/wine";
-        args = ["/home/nonplay/.var/app/org.vinegarhq.Vinegar/data/vinegar/versions/version-ed7d8193e8564b1f/StudioMCP.exe"];
+        args = ["/home/nonplay/.var/app/org.vinegarhq.Vinegar/data/vinegar/versions/version-b2d03e4efaa04174/StudioMCP.exe"];
         env = {
           WINEPREFIX = "/home/nonplay/.var/app/org.vinegarhq.Vinegar/data/vinegar/prefixes/studio";
         };
