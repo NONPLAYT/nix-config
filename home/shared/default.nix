@@ -40,6 +40,7 @@ let
       yazi # file manager
       file-roller # archive manager
       qbittorrent # torrent client
+      hydralauncher # game launcher with torrent client
       hyprpolkitagent # polkit auth agent
       mtr # better traceroute
       nil # lsp for nix
