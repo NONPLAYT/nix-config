@@ -1,5 +1,5 @@
 layout {
-    gaps 12
+    gaps 10
     center-focused-column "never"
     background-color "#000000"
     always-center-single-column
@@ -10,23 +10,36 @@ layout {
         proportion 0.66667
     }
 
+    preset-window-heights {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+    }
+
     default-column-width { proportion 0.5; }
 
     focus-ring {
-        width 2
+        off
     }
 
     border {
-        off
-        width 4
+        on
+        width 2
     }
 
     shadow {
+        on
         softness 30
         spread 5
         offset x=0 y=5
-        color "#0007"
     }
 
     struts {}
+}
+
+blur {
+    passes 1
+    offset 5
+    noise 0
+    saturation 1
 }

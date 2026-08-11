@@ -59,7 +59,10 @@
     seatd.enable = true;
     blueman.enable = true;
     udisks2.enable = true;
+    gvfs.enable = true;
     gnome.gnome-keyring.enable = true;
+    upower.enable = true;
+    power-profiles-daemon.enable = true;
   };
 
   environment = {

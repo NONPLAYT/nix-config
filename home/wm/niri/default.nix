@@ -33,8 +33,6 @@ in
 
   fonts.fontconfig.enable = true;
 
-  programs.noctalia-shell.enable = true;
-
   xdg = {
     configFile = {
       "electron-flags.conf".text = ''

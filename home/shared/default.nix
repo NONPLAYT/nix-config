@@ -15,6 +15,7 @@ let
     with pkgs;
     [
       font-awesome
+      inter
       material-design-icons
       noto-fonts
       noto-fonts-cjk-sans
@@ -36,12 +37,12 @@ let
       eza # ls but better
       file # file
       jq # json parser
-      nemo # file manager
-      yazi # file manager
+      nautilus # file manager
       file-roller # archive manager
+      adw-gtk3 # gtk3 theme
+      vlc # video player
       qbittorrent # torrent client
       hydralauncher # game launcher with torrent client
-      hyprpolkitagent # polkit auth agent
       mtr # better traceroute
       nil # lsp for nix
       ntfs3g # ntfs driver
@@ -71,9 +72,8 @@ let
       inputs.wrangler.packages.${pkgs.system}.wrangler # cloudflare wrangler cli
       r2modman # modding tool
       naps2 # scanner for printers
-      obs-cmd
-      libreoffice-fresh
-      spotify
+      libreoffice-fresh # document, spreadsheet, presentation editor
+      spotify # music player
     ]
     ++ fontPkgs;
 
@@ -82,7 +82,6 @@ in
   programs.home-manager.enable = true;
 
   imports = lib.concatMap import [
-    ../scripts/shared
     ./programs.nix
     ./services.nix
   ];
@@ -92,6 +91,25 @@ in
     enable = true;
 
     configFile."nixpkgs/config.nix".text = "{ allowUnfree = true; }";
+
+    configFile."fontconfig/conf.d/99-ui-font-aliases.conf".text = ''
+      <?xml version="1.0"?>
+      <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
+      <fontconfig>
+        <alias binding="strong">
+          <family>Adwaita Sans</family>
+          <prefer><family>JetBrainsMono Nerd Font Propo</family></prefer>
+        </alias>
+        <alias binding="strong">
+          <family>Cantarell</family>
+          <prefer><family>JetBrainsMono Nerd Font Propo</family></prefer>
+        </alias>
+        <alias binding="strong">
+          <family>Adwaita Mono</family>
+          <prefer><family>JetBrainsMono Nerd Font Mono</family></prefer>
+        </alias>
+      </fontconfig>
+    '';
 
     userDirs = {
       enable = true;
@@ -116,7 +134,7 @@ in
           viewer = "org.gnome.Loupe.desktop";
           player = "vlc.desktop";
           archive = "org.gnome.FileRoller.desktop";
-          files = "nemo.desktop";
+          files = "org.gnome.Nautilus.desktop";
           terminal = "kitty.desktop";
         in
         {
@@ -305,6 +323,16 @@ in
   gtk = {
     enable = true;
     gtk4.theme = null;
+
+    theme = {
+      name = "adw-gtk3-dark";
+      package = pkgs.adw-gtk3;
+    };
+
+    font = {
+      name = "JetBrainsMono Nerd Font Propo";
+      size = 10;
+    };
 
     iconTheme = {
       name = "Papirus-Dark";

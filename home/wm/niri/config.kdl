@@ -3,7 +3,6 @@
 // Check the wiki for a full description of the configuration:
 // https://yalter.github.io/niri/Configuration:-Introduction
 
-include "noctalia.kdl"
 include "outputs.kdl"
 include "config/windows.kdl"
 include "config/input.kdl"
@@ -12,8 +11,11 @@ include "config/binds.kdl"
 include "config/misc.kdl"
 include "config/layers.kdl"
 
-spawn-sh-at-startup "noctalia-shell"
-spawn-sh-at-startup "until noctalia-shell ipc call lockScreen lock; do sleep 0.3; done"
+// Last, so the theme colors it generates override the ones set above.
+include "noctalia.kdl"
+
+// noctalia itself is started by its systemd user service (programs.noctalia.systemd.enable)
+spawn-sh-at-startup "until noctalia msg session lock; do sleep 0.3; done"
 spawn-sh-at-startup "sway-audio-idle-inhibit"
 spawn-sh-at-startup "nsticky"
 spawn-at-startup "dex" "--autostart"

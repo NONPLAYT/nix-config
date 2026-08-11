@@ -1,0 +1,429 @@
+[accessibility]
+ui_scale = 0.9
+
+[shell]
+font_family = "JetBrainsMono Nerd Font Propo"
+time_format = "{:%H:%M %p}"
+date_format = "%A, %d %b %Y"
+avatar_path = "/etc/nixos/files/face.png"
+telemetry_enabled = false
+clipboard_enabled = true
+clipboard_history_max_entries = 100
+polkit_agent = true
+password_style = "random"
+settings_show_advanced = true
+
+[shell.animation]
+enabled = true
+speed = 1.0
+
+[shell.shadow]
+direction = "down"
+alpha = 0.55
+
+[shell.panel]
+transparency_mode = "solid"
+borders = false
+shadow = true
+launcher_placement = "attached"
+clipboard_placement = "attached"
+control_center_placement = "attached"
+wallpaper_placement = "attached"
+session_placement = "attached"
+polkit_placement = "attached"
+launcher_position = "auto"
+clipboard_position = "auto"
+polkit_position = "auto"
+
+[shell.launcher]
+categories = true
+show_icons = true
+sort_by_usage = true
+pinned = [
+  "dev.zed.Zed",
+  "idea",
+  "com.discordapp.Discord",
+  "spotify",
+  "com.ayugram.desktop",
+  "org.vinegarhq.Sober",
+  "steam",
+  "org.prismlauncher.PrismLauncher",
+]
+
+[shell.mpris]
+blacklist = ["firefox-beta", "AyuGram"]
+
+# ── Wallpaper ─────────────────────────────────────────────────────────────────
+
+[wallpaper]
+enabled = true
+directory = "/etc/nixos/files/wallpapers"
+fill_mode = "crop"
+transition = ["disc"]
+transition_duration = 1500
+edge_smoothness = 0.05
+transition_on_startup = false
+
+[wallpaper.default]
+path = "/etc/nixos/files/wallpapers/wallpaper1.png"
+
+[wallpaper.monitors.HDMI-A-1]
+path = "/etc/nixos/files/wallpapers/wallpaper1.png"
+
+[wallpaper.automation]
+enabled = false
+
+# ── Theme ─────────────────────────────────────────────────────────────────────
+
+[theme]
+mode = "dark"
+source = "community"
+community_palette = "Catppuccin Mocha Blue"
+pure_black_dark = false
+
+[theme.templates]
+enable_builtin_templates = true
+builtin_ids = ["btop", "gtk3", "gtk4", "kitty", "niri"]
+enable_community_templates = true
+community_ids = ["prismlauncher", "zed"]
+
+# ── Notifications ─────────────────────────────────────────────────────────────
+
+[notification]
+enable_daemon = true
+position = "top_right"
+layer = "overlay"
+background_opacity = 0.95
+
+# ── OSD ───────────────────────────────────────────────────────────────────────
+
+[osd]
+position = "bottom_left"
+background_opacity = 0.95
+
+[osd.kinds]
+lock_keys = false
+keyboard_layout = false
+
+# ── Lock screen ───────────────────────────────────────────────────────────────
+
+[lockscreen]
+enabled = true
+blurred_desktop = false
+blur_intensity = 0.0
+tint_intensity = 0.0
+
+# ── System monitor ────────────────────────────────────────────────────────────
+
+[system.monitor]
+enabled = true
+
+# ── Weather / location ────────────────────────────────────────────────────────
+
+[weather]
+enabled = true
+unit = "celsius"
+
+[location]
+auto_locate = false
+address = "Moscow"
+
+# ── Audio / brightness / night light ──────────────────────────────────────────
+
+[audio]
+enable_overdrive = true
+enable_sounds = false
+
+[brightness]
+enable_ddcutil = false
+
+[nightlight]
+enabled = false
+temperature_day = 6500
+temperature_night = 4500
+
+# ── Idle ──────────────────────────────────────────────────────────────────────
+
+[idle.behavior.screen-off]
+timeout = 300
+action = "screen_off"
+enabled = true
+
+[idle.behavior.lock]
+timeout = 600
+action = "lock"
+enabled = true
+
+[idle.behavior.suspend]
+timeout = 1200
+action = "suspend"
+enabled = true
+
+# ── Bars ──────────────────────────────────────────────────────────────────────
+
+[bar]
+order = ["main", "tools"]
+
+[bar.main]
+enabled = true
+position = "top"
+layer = "top"
+thickness = 34
+background_opacity = 0.85
+radius = 0
+radius_bottom_left = 20
+radius_bottom_right = 20
+margin_ends = 0
+margin_edge = 0
+padding = 10
+widget_spacing = 6
+scale = 1.0
+font_weight = 500
+shadow = false
+auto_hide = false
+reserve_space = true
+hover_highlight = false
+capsule = true
+capsule_fill = "surface_variant"
+capsule_opacity = 0.65
+capsule_padding = 8.0
+concave_edge_corners = true
+
+start = ["launcher", "nix-monitor", "mihomo", "workspaces"]
+center = ["clock"]
+end = ["tray", "notifications", "volume"]
+
+[bar.tools]
+enabled = true
+position = "left"
+layer = "top"
+thickness = 46
+background_opacity = 0.9
+margin_edge = 0
+radius = 20
+concave_edge_corners = true
+margin_ends = 330
+padding = 8
+widget_spacing = 10
+scale = 1.0
+shadow = true
+auto_hide = false
+smart_auto_hide = true
+reserve_space = false
+capsule = false
+hover_highlight = false
+panel_overlap = 1
+
+start = []
+center = ["group:system", "group:utils", "group:monitor"]
+end = []
+
+[[bar.tools.capsule_group]]
+id = "system"
+enabled = true
+fill = "primary"
+opacity = 0.12
+padding = 10.0
+members = ["launcher", "settings", "session", "power_profile"]
+
+[[bar.tools.capsule_group]]
+id = "utils"
+enabled = true
+fill = "primary"
+opacity = 0.12
+padding = 10.0
+members = ["clipboard", "screenshot", "caffeine", "wallpaper"]
+
+[[bar.tools.capsule_group]]
+id = "monitor"
+enabled = true
+fill = "secondary"
+opacity = 0.12
+padding = 10.0
+members = ["cpu", "ram", "net_rx"]
+
+# ── Bar widgets ───────────────────────────────────────────────────────────────
+
+[widget.launcher]
+type = "launcher"
+custom_image = "/etc/nixos/files/nix-snowflake-white.svg"
+custom_image_colorize = true
+scale = 1.2
+
+[widget.workspaces]
+type = "workspaces"
+style = "regular"
+label_source = "id"
+show_labels = true
+labels_only_when_occupied = true
+hide_when_empty = false
+focused_output_only = false
+
+[widget.clock]
+type = "clock"
+format = " {:%H:%M} · 󰃮 {:%a, %d.%m.%y}"
+tooltip_format = "{:%A, %B %d, %Y}"
+font_weight = 500
+
+[widget.volume]
+type = "volume"
+show_label = false
+
+[widget.notifications]
+type = "notifications"
+hide_when_no_unread = false
+
+[widget.tray]
+type = "tray"
+drawer = true
+pinned = [
+  "AyuGramDesktop",
+  "AyuGram",
+  "discord",
+  "Discord",
+  "vesktop",
+]
+
+[plugin_settings."avivbintangaringga/nix-monitor"]
+panel_placement = "attached"
+panel_position = "auto"
+
+[widget.nix-monitor]
+type = "avivbintangaringga/nix-monitor:nix-monitor"
+show_text = false
+up_to_date_color = "primary"
+update_available_color = "tertiary"
+checking_color = "secondary"
+
+[widget.mihomo]
+type = "mdj2812/mihomo-control:widget"
+
+[widget.cpu]
+type = "sysmon"
+stat = "cpu_usage"
+show_value = false
+
+[widget.ram]
+type = "sysmon"
+stat = "ram_used"
+show_value = false
+
+[widget.net_rx]
+type = "sysmon"
+stat = "net_rx"
+show_value = false
+
+# ── Dock ──────────────────────────────────────────────────────────────────────
+
+[dock]
+enabled = true
+position = "bottom"
+auto_hide = false
+smart_auto_hide = true
+reserve_space = false
+background_opacity = 0.9
+margin_edge = 0
+radius = 20
+concave_edge_corners = true
+icon_size = 40
+magnification = true
+magnification_scale = 1.4
+show_dots = true
+show_instance_count = false
+launcher_position = "none"
+pinned = [
+  "firefox-beta",
+  "org.gnome.Nautilus",
+  "kitty",
+  "dev.zed.Zed",
+  "com.ayugram.desktop",
+  "com.discordapp.Discord",
+  "spotify",
+]
+
+# ── Control center ────────────────────────────────────────────────────────────
+
+[control_center]
+width = 700
+sidebar = "compact"
+
+# ── Plugins ───────────────────────────────────────────────────────────────────
+
+[plugins]
+auto_update = true
+enabled = [
+  "cleboost/zed-provider",             # /zed  — recent Zed projects
+  "cleboost/ssh-launcher",             # /ssh  — hosts from ~/.ssh/config
+  "radimous/prismlauncher-instances",  # /pl   — PrismLauncher instances
+  "avivbintangaringga/nix-monitor",    # nixpkgs update monitor
+  "mdj2812/mihomo-control",            # mihomo proxy control
+]
+
+[plugin_settings."mdj2812/mihomo-control"]
+host = "127.0.0.1"
+port = "9090"
+refresh_interval = 2
+panel_placement = "attached"
+panel_position = "auto"
+
+# ── Lock screen widgets ───────────────────────────────────────────────────────
+
+[lockscreen_widgets]
+enabled = true
+widget_order = ["lock_clock", "lock_date", "lock_login"]
+
+[lockscreen_widgets.widget.lock_login]
+type = "login_box"
+output = "HDMI-A-1"
+cx = 960.0
+cy = 898.0
+box_width = 810.0
+box_height = 196.0
+
+[lockscreen_widgets.widget.lock_login.settings]
+layout = "regular"
+background_color = "surface_variant"
+background_opacity = 0.88
+background_radius = 12.0
+input_radius = 6.0
+input_opacity = 1.0
+center_password_text = false
+show_caps_lock = true
+show_keyboard_layout = true
+show_login_button = true
+show_media = true
+show_session_buttons = true
+show_unlock_hint = true
+show_weather = true
+
+[lockscreen_widgets.widget.lock_clock]
+type = "clock"
+output = "HDMI-A-1"
+cx = 960.0
+cy = 150.0
+box_width = 520.0
+box_height = 140.0
+
+[lockscreen_widgets.widget.lock_clock.settings]
+clock_style = "digital"
+format = " {:%H:%M %p}"
+center_text = true
+color = "on_surface"
+font_family = "JetBrainsMono Nerd Font Propo"
+shadow = true
+
+[lockscreen_widgets.widget.lock_date]
+type = "clock"
+output = "HDMI-A-1"
+cx = 960.0
+cy = 245.0
+box_width = 380.0
+box_height = 46.0
+
+[lockscreen_widgets.widget.lock_date.settings]
+clock_style = "digital"
+format = "{:%A, %d %b %Y}"
+center_text = true
+color = "on_surface"
+font_family = "JetBrainsMono Nerd Font Propo"
+shadow = true

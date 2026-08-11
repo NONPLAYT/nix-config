@@ -24,9 +24,6 @@
 
       map ctrl+c copy_and_clear_or_interrupt
 
-      map ctrl+f launch --location=hsplit --allow-remote-control kitty +kitten search.py @active-kitty-window-id
-      map kitty_mod+f launch --location=hsplit --allow-remote-control kitty +kitten search.py @active-kitty-window-id
-
       map page_up scroll_page_up
       map page_down scroll_page_down
 

@@ -1,25 +1,19 @@
 window-rule {
-    match app-id="steam" title="^notificationtoasts"
-    open-focused false
-    default-floating-position x=8 y=8 relative-to="bottom-right"
-}
-
-window-rule {
-    match app-id="^firefox"
-    match app-id=r#"^dev\.zed\.Zed$"#
-    match app-id="^jetbrains-idea$"
-    match app-id=r#"^com\.ayugram\.desktop$"#
-    match app-id="^kitty$"
-    match app-id=r#"^com\.discordapp\.Discord$"#
-    match app-id=r#"^com\.modrinth\.ModrinthApp$"#
-    match app-id="^steam$"
-    match app-id="^spotify$"
-    open-maximized true
-}
-
-window-rule {
     geometry-corner-radius 12
     clip-to-geometry true
+    draw-border-with-background false
+
+    background-effect {
+        blur true
+        xray true
+    }
+
+    popups {
+        background-effect {
+            blur true
+            xray false
+        }
+    }
 }
 
 window-rule {
@@ -30,8 +24,31 @@ window-rule {
 }
 
 window-rule {
+    match app-id="^jetbrains-idea$"
+    match app-id="^kitty$"
+    open-maximized true
+}
+
+window-rule {
+    match app-id="steam" title="^notificationtoasts"
+    open-focused false
+    open-floating true
+    default-floating-position x=8 y=8 relative-to="bottom-right"
+    geometry-corner-radius 0
+
+    border {
+        off
+    }
+
+    focus-ring {
+        off
+    }
+}
+
+window-rule {
     match title="(?i)picture.in.picture"
     match title="(?i)картинка в картинке"
+    open-maximized false
     open-floating true
     default-column-width { fixed 480; }
     default-window-height { fixed 270; }

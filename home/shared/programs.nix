@@ -16,7 +16,7 @@ let
             rocmSupport = true;
           };
           settings = {
-            color_theme = "tokyo_storm";
+            color_theme = "noctalia";
             theme_background = false;
             rounded_corners = true;
             proc_sorting = "cpu direct";
