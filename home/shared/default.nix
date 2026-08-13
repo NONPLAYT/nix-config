@@ -47,6 +47,7 @@ let
       nil # lsp for nix
       ntfs3g # ntfs driver
       packwiz # minecraft modpacks manager
+      packweave # gui minecraft modpacks manager
       prismlauncher # minecraft launcher
       jetbrains.idea # intellij idea
       sops # sops
