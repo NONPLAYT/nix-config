@@ -10,8 +10,7 @@ window-rule {
 
     popups {
         background-effect {
-            blur true
-            xray false
+            blur false
         }
     }
 }
