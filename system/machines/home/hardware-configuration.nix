@@ -43,7 +43,10 @@
       "nofail"
       "x-systemd.automount"
       "x-systemd.device-timeout=5s"
-      "x-systemd.idle-timeout=600"
+      "x-gvfs-show"
+      "x-gvfs-name=Seagate%20Basic"
+      "x-gvfs-icon=drive-harddisk-usb"
+      "x-gvfs-symbolic-icon=drive-harddisk-usb-symbolic"
     ];
   };
 
