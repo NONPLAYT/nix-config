@@ -4,7 +4,6 @@
   nixConfig = {
     substituters = [
       "https://cache.nixos.org"
-      "https://nix-community.cachix.org"
       "https://noctalia.cachix.org"
       "https://zed.cachix.org"
       "https://bx-team.cachix.org"
@@ -12,7 +11,6 @@
     ];
     trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
       "zed.cachix.org-1:/pHQ6dpMsAZk2DiP4WCL0p9YDNKWj2Q5FL20bNmw1cU="
       "bx-team.cachix.org-1:tnGNc1rsS8QOav+VGxXCZzf/Y0/SGchOwVCCBA/eG6E="
@@ -22,7 +20,6 @@
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
-    nur.url = "github:nix-community/NUR";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -36,6 +33,11 @@
 
     sops-nix = {
       url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    simple-nixos-mailserver = {
+      url = "git+https://gitlab.com/simple-nixos-mailserver/nixos-mailserver.git";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -66,7 +68,6 @@
     { nixpkgs, ... }@inputs:
     let
       overlays = [
-        inputs.nur.overlays.default
         (import ./overlays)
       ];
 
