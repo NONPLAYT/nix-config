@@ -192,7 +192,7 @@ capsule_opacity = 0.65
 capsule_padding = 8.0
 concave_edge_corners = true
 
-start = ["nix-monitor", "mihomo", "workspaces"]
+start = ["nix-monitor", "workspaces"]
 center = ["clock"]
 end = ["tray", "notifications", "volume"]
 
@@ -205,7 +205,7 @@ background_opacity = 0.9
 margin_edge = 0
 radius = 20
 concave_edge_corners = true
-margin_ends = 315
+margin_ends = 300
 padding = 8
 widget_spacing = 10
 scale = 1.0
@@ -243,7 +243,7 @@ enabled = true
 fill = "secondary"
 opacity = 0.12
 padding = 10.0
-members = ["cpu", "ram", "net_rx"]
+members = ["mihomo", "cpu", "ram", "net_rx"]
 
 # ── Bar widgets ───────────────────────────────────────────────────────────────
 
@@ -300,6 +300,9 @@ checking_color = "secondary"
 
 [widget.mihomo]
 type = "mdj2812/mihomo-control:widget"
+label_content = "none"
+icon_color_mode = "custom"
+icon_color = "on_surface_variant"
 
 [widget.color_picker]
 type = "oldirtty/color_picker:widget"
