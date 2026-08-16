@@ -9,6 +9,7 @@ let
     playerctl # player controller
     sway-audio-idle-inhibit # idle inhibitor
     wl-clipboard # clipboard support
+    hyprpicker # screen color picker
     inputs.nsticky.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 in

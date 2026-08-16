@@ -189,7 +189,7 @@ capsule_opacity = 0.65
 capsule_padding = 8.0
 concave_edge_corners = true
 
-start = ["launcher", "nix-monitor", "mihomo", "workspaces"]
+start = ["nix-monitor", "mihomo", "workspaces"]
 center = ["clock"]
 end = ["tray", "notifications", "volume"]
 
@@ -202,7 +202,7 @@ background_opacity = 0.9
 margin_edge = 0
 radius = 20
 concave_edge_corners = true
-margin_ends = 330
+margin_ends = 315
 padding = 8
 widget_spacing = 10
 scale = 1.0
@@ -232,7 +232,7 @@ enabled = true
 fill = "primary"
 opacity = 0.12
 padding = 10.0
-members = ["clipboard", "screenshot", "caffeine", "wallpaper"]
+members = ["clipboard", "screenshot", "color_picker", "caffeine", "wallpaper"]
 
 [[bar.tools.capsule_group]]
 id = "monitor"
@@ -298,6 +298,9 @@ checking_color = "secondary"
 [widget.mihomo]
 type = "mdj2812/mihomo-control:widget"
 
+[widget.color_picker]
+type = "oldirtty/color_picker:widget"
+
 [widget.cpu]
 type = "sysmon"
 stat = "cpu_usage"
@@ -353,16 +356,20 @@ sidebar = "compact"
 auto_update = true
 enabled = [
   "cleboost/zed-provider",             # /zed  — recent Zed projects
-  "cleboost/ssh-launcher",             # /ssh  — hosts from ~/.ssh/config
   "radimous/prismlauncher-instances",  # /pl   — PrismLauncher instances
   "avivbintangaringga/nix-monitor",    # nixpkgs update monitor
   "mdj2812/mihomo-control",            # mihomo proxy control
+  "oldirtty/color_picker",             # screen color picker
 ]
 
 [plugin_settings."mdj2812/mihomo-control"]
 host = "127.0.0.1"
 port = "9090"
 refresh_interval = 2
+panel_placement = "attached"
+panel_position = "auto"
+
+[plugin_settings."oldirtty/color_picker"]
 panel_placement = "attached"
 panel_position = "auto"
 

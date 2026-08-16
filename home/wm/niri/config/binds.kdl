@@ -28,10 +28,10 @@ binds {
     Mod+V            { spawn "noctalia" "msg" "panel-toggle" "clipboard"; }
     Mod+Semicolon    { spawn "noctalia" "msg" "panel-toggle" "launcher" "/emo"; }
 
-    // plugin launcher providers
-    Mod+Shift+S      { spawn "noctalia" "msg" "panel-toggle" "launcher" "/ssh"; }
+    // plugins bindings
     Mod+Shift+Z      { spawn "noctalia" "msg" "panel-toggle" "launcher" "/zed"; }
     Mod+Shift+G      { spawn "noctalia" "msg" "panel-toggle" "launcher" "/pl"; }
+    Mod+Shift+C      { spawn "noctalia" "msg" "panel-toggle" "oldirtty/color_picker:panel"; }
 
     XF86AudioRaiseVolume  allow-when-locked=true { spawn "noctalia" "msg" "volume-up"; }
     XF86AudioLowerVolume  allow-when-locked=true { spawn "noctalia" "msg" "volume-down"; }
