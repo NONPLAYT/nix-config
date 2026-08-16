@@ -65,10 +65,12 @@ edge_smoothness = 0.05
 transition_on_startup = false
 
 [wallpaper.default]
-path = "/etc/nixos/files/wallpapers/wallpaper1.png"
+path = "/etc/nixos/files/wallpapers/mizuki/wallpaper1.png"
+# path = "/etc/nixos/files/wallpapers/mocha-blue/wallpaper1.png"
 
 [wallpaper.monitors.HDMI-A-1]
-path = "/etc/nixos/files/wallpapers/wallpaper1.png"
+path = "/etc/nixos/files/wallpapers/mizuki/wallpaper1.png"
+# path = "/etc/nixos/files/wallpapers/mocha-blue/wallpaper1.png"
 
 [wallpaper.automation]
 enabled = false
@@ -78,7 +80,8 @@ enabled = false
 [theme]
 mode = "dark"
 source = "community"
-community_palette = "Catppuccin Mocha Blue"
+community_palette = "Mizuki-Akiyama"
+# community_palette = "Catppuccin Mocha Blue"
 pure_black_dark = false
 
 [theme.templates]
