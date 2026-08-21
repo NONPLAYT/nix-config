@@ -47,14 +47,32 @@
           path: guid(ee7a92b1-a072-461a-ac7d-7816643be29f):/EFI/Microsoft/Boot/bootmgfw.efi
       '';
 
-      # Catppucin mocha style
-      style.wallpapers = [ ];
-      style.graphicalTerminal.palette = "1e1e2e;f38ba8;a6e3a1;f9e2af;89b4fa;f5c2e7;94e2d5;cdd6f4";
-      style.graphicalTerminal.brightPalette = "585b70;f38ba8;a6e3a1;f9e2af;89b4fa;f5c2e7;94e2d5;cdd6f4";
-      style.graphicalTerminal.background = "1e1e2e";
-      style.graphicalTerminal.foreground = "cdd6f4";
-      style.graphicalTerminal.brightBackground = "585b70";
-      style.graphicalTerminal.brightForeground = "cdd6f4";
+      # https://github.com/noctalia-dev/community-palettes/tree/main/Mizuki-Akiyama
+      style = {
+        wallpapers = [ ];
+
+        interface = {
+          resolution = "1920x1080";
+          branding = "NixOS";
+          brandingColor = "e6a6c8"; # mPrimary
+          helpColor = "c8b9ca"; # mOnSurfaceVariant
+          helpColorBright = "afa2d8"; # mSecondary, used for the countdown digit
+        };
+
+        graphicalTerminal = {
+          #          black ;  red  ; green ;yellow;  blue ;magenta; cyan ; white
+          palette = "1d1a2a;f08a9b;8fd0b8;d9b874;7fb6d6;d8a2cb;7cced9;eee7f0";
+          brightPalette = "4d465c;ff9caf;a7dec9;efd08d;9dcee7;e6b6d5;9adde4;ffffff";
+
+          foreground = "eee7f0"; # mOnSurface
+          brightForeground = "ffffff";
+          background = "4010111b"; # mSurface
+          brightBackground = "1d1a2a"; # mSurfaceVariant
+
+          margin = 64;
+          marginGradient = 24;
+        };
+      };
     };
   };
 
@@ -90,6 +108,17 @@
       "${pkgs.networkmanager}/bin/nm-online -q --timeout=2"
     ];
   };
+
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    settings.General = {
+      Experimental = true;
+      FastConnectable = true;
+    };
+  };
+
+  services.blueman.enable = true;
 
   services.xserver.videoDrivers = [ "nvidia" ];
 

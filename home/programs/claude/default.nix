@@ -13,6 +13,7 @@
       spinnerTipsEnabled = false;
       promptSuggestionEnabled = false;
       awaySummaryEnabled = false;
+      remoteControlAtStartup = false;
       tui = "fullscreen";
       skipDangerousModePermissionPrompt = true;
       theme = "dark";
@@ -28,7 +29,7 @@
       };
       rbxstudio = {
         command = "/home/nonplay/.var/app/org.vinegarhq.Vinegar/data/vinegar/kombucha-stable+20260614215204/bin/wine";
-        args = ["/home/nonplay/.var/app/org.vinegarhq.Vinegar/data/vinegar/versions/version-b2d03e4efaa04174/StudioMCP.exe"];
+        args = ["/home/nonplay/.var/app/org.vinegarhq.Vinegar/data/vinegar/versions/version-dcbeee682ce74ee0/StudioMCP.exe"];
         env = {
           WINEPREFIX = "/home/nonplay/.var/app/org.vinegarhq.Vinegar/data/vinegar/prefixes/studio";
         };
