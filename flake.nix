@@ -101,7 +101,7 @@
         home = mkSystem {
           host = "home";
           system = "x86_64-linux";
-          base = ./system;
+          base = ./desktop;
         };
         stockholm = mkSystem {
           host = "stockholm";

@@ -3,12 +3,8 @@
 {
   imports = [
     inputs.sops-nix.nixosModules.sops
+    ../common
     ../secrets
-    ./programs/git
-    ./programs/ssh
-    ./programs/zsh
-    ./programs/btop
-    ./services/sshd
   ];
 
   services.qemuGuest.enable = true;
@@ -17,36 +13,27 @@
     domain = "bxteam.org";
     enableIPv6 = lib.mkDefault false;
     firewall.enable = lib.mkDefault true;
+    firewall.allowedTCPPorts = [ 2022 ];
     dhcpcd.enable = lib.mkDefault false;
   };
 
   zramSwap.enable = true;
-  boot.kernel.sysctl = {
-    "net.ipv4.conf.all.accept_redirects" = 0;
-    "net.ipv4.conf.default.accept_redirects" = 0;
-    "net.ipv6.conf.all.accept_redirects" = 0;
-    "net.ipv6.conf.default.accept_redirects" = 0;
-    "net.ipv4.conf.all.send_redirects" = 0;
-    "net.ipv4.conf.default.send_redirects" = 0;
-    "net.ipv4.conf.all.rp_filter" = 2;
-    "net.ipv4.conf.default.rp_filter" = 2;
-    "net.ipv4.conf.all.log_martians" = 1;
-    "net.ipv4.conf.default.log_martians" = 1;
-    "net.ipv4.tcp_max_syn_backlog" = 4096;
-    "net.core.somaxconn" = 4096;
-    "net.core.netdev_max_backlog" = 5000;
-  };
+  boot.kernel.sysctl."net.core.netdev_max_backlog" = 5000;
 
-  i18n = {
-    defaultLocale = "en_US.UTF-8";
-    extraLocaleSettings = {
-      LC_TIME = "ru_RU.UTF-8";
-      LC_NUMERIC = "ru_RU.UTF-8";
-      LC_MONETARY = "ru_RU.UTF-8";
-      LC_MEASUREMENT = "ru_RU.UTF-8";
-      LC_PAPER = "ru_RU.UTF-8";
-    };
-  };
+  programs.ssh.extraConfig = ''
+    Host *
+      ForwardAgent no
+      AddKeysToAgent 30m
+      Compression no
+      ServerAliveInterval 0
+      ServerAliveCountMax 3
+      HashKnownHosts no
+      UserKnownHostsFile ~/.ssh/known_hosts
+      ControlMaster no
+      ControlPath ~/.ssh/master-%r@%n:%p
+      ControlPersist no
+      IdentityFile ~/.ssh/multi.key
+  '';
 
   environment = {
     systemPackages = with pkgs; [
@@ -70,13 +57,6 @@
     };
   };
 
-  programs.nh = {
-    enable = true;
-    flake = "/etc/nixos";
-  };
-
-  console.keyMap = "us";
-
   users.users.root = {
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [
@@ -89,34 +69,5 @@
   nix = {
     channel.enable = false;
     nixPath = [ "nixpkgs=flake:nixpkgs" ];
-
-    gc = {
-      automatic = true;
-      dates = "daily";
-      options = "--delete-older-than 7d";
-    };
-
-    settings = {
-      auto-optimise-store = true;
-      trusted-users = [
-        "root"
-      ];
-      experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
-      warn-dirty = false;
-      substituters = [
-        "https://cache.nixos.org"
-        "https://bx-team.cachix.org"
-      ];
-      trusted-public-keys = [
-        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-        "bx-team.cachix.org-1:tnGNc1rsS8QOav+VGxXCZzf/Y0/SGchOwVCCBA/eG6E="
-      ];
-    };
   };
-  nixpkgs.config.allowUnfree = true;
-
-  system.stateVersion = "24.11";
 }
