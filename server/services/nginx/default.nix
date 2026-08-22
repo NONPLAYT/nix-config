@@ -1,12 +1,5 @@
 { ... }:
 
-let
-  vhost = port: {
-    enableACME = true;
-    forceSSL = true;
-    locations."/".proxyPass = "http://127.0.0.1:${toString port}";
-  };
-in
 {
   security.acme = {
     acceptTerms = true;
@@ -22,10 +15,5 @@ in
     recommendedTlsSettings = true;
     recommendedOptimisation = true;
     recommendedGzipSettings = true;
-
-    virtualHosts = {
-      "repo.bxteam.org" = vhost 3000;
-      "nexon.bxteam.org" = vhost 3001;
-    };
   };
 }

@@ -6,7 +6,6 @@
     ../../services/mailserver
     ../../services/nginx
     ../../services/reposilite
-    ../../services/xray
   ];
 
   boot = {

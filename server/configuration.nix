@@ -5,6 +5,7 @@
     inputs.sops-nix.nixosModules.sops
     ../common
     ../secrets
+    ../proxy
   ];
 
   services.qemuGuest.enable = true;

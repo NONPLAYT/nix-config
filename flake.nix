@@ -61,7 +61,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nexon.url = "github:BX-Team/Nexon";
+    xctrl.url = "github:NONPLAYT/xctrl";
   };
 
   outputs =
@@ -102,6 +102,11 @@
           host = "home";
           system = "x86_64-linux";
           base = ./desktop;
+        };
+        asgard = mkSystem {
+          host = "asgard";
+          system = "x86_64-linux";
+          base = ./server;
         };
         stockholm = mkSystem {
           host = "stockholm";

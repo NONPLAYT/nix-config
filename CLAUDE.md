@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-NixOS flake driving my machines. Baseline shared by every host lives in `common/` (locale/timezone, nix settings, sshd + fail2ban, sysctl hardening, root-facing zsh/git/btop); the desktop is `desktop/` (user `nonplay`, home-manager, Niri), servers are `server/` (user `root`), home-manager lives in `home/`, package overlays in `overlays/`, sops store in `secrets/`. The authoritative host list is `nixosConfigurations` in `flake.nix` — read it there, never trust docs or memory for it.
+NixOS flake driving my machines. Baseline shared by every host lives in `common/` (locale/timezone, nix settings, sshd + fail2ban, sysctl hardening, root-facing zsh/git/btop); the desktop is `desktop/` (user `nonplay`, home-manager, Niri), servers are `server/` (user `root`), the VPN stack is `proxy/`, home-manager lives in `home/`, package overlays in `overlays/`, sops store in `secrets/`. The authoritative host list is `nixosConfigurations` in `flake.nix` — read it there, never trust docs or memory for it.
 
 ## Hard rules
 
@@ -14,6 +14,7 @@ NixOS flake driving my machines. Baseline shared by every host lives in `common/
 - `host`, `isServer`, `inputs` come via specialArgs; per-host gating via `lib.mkIf (host == "…")` or `isServer`.
 - Flake module paths: `(base + "/path")`, never `"${base}/path"` — interpolation breaks relative imports inside modules.
 - Anything in `common/` is evaluated by *both* the desktop and the servers. Options a machine overrides (`system.stateVersion`, `time.timeZone`) must be `lib.mkDefault` there; per-host additions to list options use `lib.mkAfter`.
+- Yaml keys that would read as numbers (a user named `000`) must be quoted in the yaml; the parser in `secrets/default.nix` strips the quotes back off.
 - `secrets/default.nix` derives `sops.secrets` by *parsing the yaml itself* — every `ENC[...]` leaf becomes a secret named by its `path/to/key`. Adding a secret means editing the yaml only; touch `secretOverrides` there just for a non-default owner/mode. Scope: `secrets.yaml` for all hosts, `home.yaml` desktop-only, `<host>.yaml` per server.
 - New sops host: `ssh-to-age < /etc/ssh/ssh_host_ed25519_key.pub` → add to `secrets/.sops.yaml` → `cd secrets && sops updatekeys <file>.yaml` for every file that host must decrypt.
 - `overlays/default.nix` is a single `final: prev:` attrset; each package gets its own file next to it and is wired in with `prev.callPackage ./<name>.nix { }`.
@@ -21,3 +22,11 @@ NixOS flake driving my machines. Baseline shared by every host lives in `common/
 - sshd listens on **2022** everywhere (`common/sshd.nix`); fail2ban jails that port. Servers must also open it in `networking.firewall.allowedTCPPorts`.
 - `home/shared/programs.nix` returns a *list* of module paths plus one inline module — add new home-manager programs to that list.
 - mihomo (`desktop/services/mihomo`) is rendered from a sops template — tell me to restart it manually when its config changed.
+- `proxy/` runs the VPN control plane ([xctrl](https://github.com/NONPLAYT/xctrl), a separate repo in `~/Projects/xctrl`). Day to day you only edit the three data files — `users.nix`, `groups.nix`, `nodes.nix`; `config.nix` renders them into the single JSON xctrl reads and everything else derives from there. `proxy/default.nix` decides per host which role it takes.
+- nginx vhosts belong to the module that declares the service behind them; `server/services/nginx` is the baseline only, because both servers import it.
+- A node's `fqdn` in `nodes.nix` is how the controller reaches it, so it must resolve *and* be a vhost that node already serves — nodes have no name of their own, they hide behind a cover site (stockholm behind `repo.bxteam.org`, asgard behind a blank page). The agent API hangs off that vhost under `apiPath` from `proxy/default.nix`, never at the root; the same value is rendered as `api_path` for xctrl.
+- A group is a tenant with its own xray inbound and reality keys; group to node is currently one to one (`personal`→stockholm, `asgard`→asgard); the subscription domain is `sub.bxteam.org`. Adding a user is a line in `users.nix`, its `proxy/users/<name>/{uuid,sub_token}` in sops, and a rebuild of the nodes serving that group — there is no runtime roster push by design.
+- A user's `limit` overrides the group default, and `"unlimited"` opts out of it; `expires` is the last day the account works. Both are plain nix, only uuids/tokens/keys are sops.
+- Client-side routing lives in `proxy/profiles/`: `clash.yaml` is the half of a mihomo profile that is not per-subscriber (xctrl prepends `proxies:`/`proxy-groups:`, so that file must declare neither, and its rules point at the `clash.selector` set in `config.nix`); `happ-routing.json` is served to Happ as a `happ://routing/onadd/…` line. Both are shared by every group.
+- Quotas are enforced only by the controller (stockholm), because a limit belongs to a user, not a node. Admins are exempt from both blocking and auto-limiting.
+- Changing `config.rs` in the xctrl repo is a breaking change for `proxy/config.nix`; the two are kept in sync by a contract test there.

@@ -5,7 +5,7 @@ let
     file:
     let
       lines = lib.splitString "\n" (builtins.readFile file);
-      keyOf = line: let m = builtins.match " *([^:]+):.*" line; in if m == null then null else builtins.head m;
+      keyOf = line: let m = builtins.match " *\"?([^\":]+)\"?:.*" line; in if m == null then null else builtins.head m;
       indentOf = line: builtins.stringLength (builtins.head (builtins.match "( *).*" line));
       hasEnc = line: builtins.match ".*ENC\\[.*" line != null;
       res = builtins.foldl'

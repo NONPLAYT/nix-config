@@ -59,13 +59,13 @@
             - 'dns.google'
 
       proxy-providers:
-        nexon:
+        xctrl:
           type: http
-          url: "${config.sops.placeholder."home/mihomo/nexon"}"
+          url: "${config.sops.placeholder."home/mihomo/xctrl"}"
           interval: 86400
-          path: ./providers/nexon.yaml
+          path: ./providers/xctrl.yaml
           override:
-            additional-prefix: "[Nexon] "
+            additional-prefix: "[xctrl] "
           health-check:
             enable: true
             url: https://www.gstatic.com/generate_204
@@ -87,12 +87,12 @@
         - name: PROXY
           type: select
           use:
-            - nexon
+            - xctrl
             - wiyba
         - name: AUTO
           type: url-test
           use:
-            - nexon
+            - xctrl
             - wiyba
           url: https://www.gstatic.com/generate_204
           interval: 300
