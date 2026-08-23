@@ -6,6 +6,7 @@
     ../../services/mailserver
     ../../services/nginx
     ../../services/reposilite
+    ../../services/rfc-bot
   ];
 
   boot = {

@@ -297,6 +297,26 @@
         "type": "github"
       }
     },
+    "rfc": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1787513041,
+        "narHash": "sha256-tJ6TI6P0t2kfQv2oyE7cWRjG/lOwTfij42QVGkO2VSc=",
+        "ref": "refs/heads/main",
+        "rev": "a70aba9e60a05d77379cefe3f770017d60a1da84",
+        "revCount": 1,
+        "type": "git",
+        "url": "https://github.com/NONPLAYT/rfc"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://github.com/NONPLAYT/rfc"
+      }
+    },
     "root": {
       "inputs": {
         "claude-code-nix": "claude-code-nix",
@@ -307,6 +327,7 @@
         "nixpkgs": "nixpkgs_2",
         "noctalia": "noctalia",
         "nsticky": "nsticky",
+        "rfc": "rfc",
         "simple-nixos-mailserver": "simple-nixos-mailserver",
         "sops-nix": "sops-nix",
         "wrangler": "wrangler",

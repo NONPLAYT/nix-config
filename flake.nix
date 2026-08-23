@@ -62,6 +62,11 @@
     };
 
     xctrl.url = "github:NONPLAYT/xctrl";
+
+    rfc = {
+      url = "git+https://github.com/NONPLAYT/rfc";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
