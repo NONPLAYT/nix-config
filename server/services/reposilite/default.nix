@@ -1,4 +1,4 @@
-{ ... }:
+{ tunnel, ... }:
 
 {
   services.reposilite = {
@@ -9,9 +9,8 @@
     };
   };
 
-  services.nginx.virtualHosts."repo.bxteam.org" = {
-    enableACME = true;
-    forceSSL = true;
-    locations."/".proxyPass = "http://127.0.0.1:3000";
-  };
+  services.cloudflared.tunnels.${tunnel}.ingress."repo.bxteam.org" = "http://127.0.0.1:3000";
+
+  services.nginx.virtualHosts."stockholm.bxteam.org".locations."/".proxyPass =
+    "http://127.0.0.1:3000";
 }

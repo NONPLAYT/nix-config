@@ -63,6 +63,11 @@
 
     xctrl.url = "github:NONPLAYT/xctrl";
 
+    kura = {
+      url = "github:NONPLAYT/kura";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     rfc = {
       url = "git+https://github.com/NONPLAYT/rfc";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -92,6 +97,7 @@
             inputs.nix-index-database.nixosModules.nix-index
             inputs.sops-nix.nixosModules.sops
             inputs.nix-flatpak.nixosModules.nix-flatpak
+            inputs.kura.nixosModules.default
             { nix.registry.nixpkgs.flake = nixpkgs; }
             { nixpkgs.overlays = overlays; }
           ];

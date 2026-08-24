@@ -24,6 +24,32 @@ NixOS flake driving my machines. Baseline shared by every host lives in `common/
 - mihomo (`desktop/services/mihomo`) is rendered from a sops template — tell me to restart it manually when its config changed.
 - `proxy/` runs the VPN control plane ([xctrl](https://github.com/NONPLAYT/xctrl), a separate repo in `~/Projects/xctrl`). Day to day you only edit the three data files — `users.nix`, `groups.nix`, `nodes.nix`; `config.nix` renders them into the single JSON xctrl reads and everything else derives from there. `proxy/default.nix` decides per host which role it takes.
 - nginx vhosts belong to the module that declares the service behind them; `server/services/nginx` is the baseline only, because both servers import it.
+- stockholm's HTTP names are published through one cloudflared tunnel
+  (`server/services/cloudflared`): `git`, `repo` and `mail` are CNAMEs to it and
+  answer on loopback only. A service declares its own `ingress` line the way it
+  declares its own vhost, off the `tunnel` module arg; `tunneled` is the vhost
+  half of that and is taken only by a service that still needs nginx for
+  something. nginx cannot be dropped: reality's cover needs a real certificate on
+  `127.0.0.1:443`, `sub.bxteam.org` is deliberately not behind Cloudflare, and
+  roundcube is php-fpm. kura and reposilite are plain HTTP upstreams, so for them
+  the tunnel *is* the reverse proxy.
+- A tunnelled name loses HTTP-01 with its A record, so it loses its certificate
+  too and TLS ends at the edge. Anything that must keep one keeps a direct
+  record: `stockholm.bxteam.org` and `sub.bxteam.org`.
+- `stockholm.bxteam.org` is the only name still pointing at the box, so
+  everything the tunnel cannot carry hangs off it: ssh pushes
+  (`kura.settings.ssh.host`), the MX with imap and submission
+  (`mailserver.fqdn`, which is also the HELO name -- the provider's PTR has to
+  match it), reality's cover site and the xctrl agent API. Its ACME certificate
+  is the one postfix and dovecot serve.
+- The runner writes to `https://stockholm.bxteam.org/api/`, not through the
+  tunnel: Cloudflare's free plan refuses a request body over 100 MB and a
+  published release is bigger than that. Reads still come through the tunnel, and
+  a download touches neither -- it points straight at the R2 bucket.
+- Cloudflare's Redirect Rules -- the old Atlas paths on `api.bxteam.org` and
+  `bxteam.org` -- run at the edge before any origin, and cloudflared's ingress
+  cannot express a redirect. They stay in the dashboard, out of this repo, and
+  the tunnel does not touch them.
 - A node's `fqdn` in `nodes.nix` is how the controller reaches it, so it must resolve *and* be a vhost that node already serves — nodes have no name of their own, they hide behind a cover site (stockholm behind `repo.bxteam.org`, asgard behind a blank page). The agent API hangs off that vhost under `apiPath` from `proxy/default.nix`, never at the root; the same value is rendered as `api_path` for xctrl.
 - A group is a tenant with its own xray inbound and reality keys; group to node is currently one to one (`personal`→stockholm, `asgard`→asgard); the subscription domain is `sub.bxteam.org`. Adding a user is a line in `users.nix`, its `proxy/users/<name>/{uuid,sub_token}` in sops, and a rebuild of the nodes serving that group — there is no runtime roster push by design.
 - A user's `limit` overrides the group default, and `"unlimited"` opts out of it; `expires` is the last day the account works. Both are plain nix, only uuids/tokens/keys are sops.

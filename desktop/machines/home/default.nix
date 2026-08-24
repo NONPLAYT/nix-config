@@ -10,6 +10,7 @@
     inputs.hardware.nixosModules.common-cpu-amd
 
     ../../services/flatpak
+    ../../services/kura-runner
     ../../services/mihomo
     ../../services/printing
   ];

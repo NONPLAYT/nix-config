@@ -35,6 +35,7 @@ let
 
   secretOverrides = {
     "home/ssh/key" = { owner = "nonplay"; mode = "0400"; };
+    "home/kura/runner-token" = { owner = "kura-runner"; mode = "0400"; };
   };
 in
 {

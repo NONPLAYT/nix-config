@@ -149,6 +149,26 @@
         "type": "github"
       }
     },
+    "kura": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1787951868,
+        "narHash": "sha256-gt79lx2Ifp+9N4mYWfP3/REhCaR70DnPrcUDYJyn6i4=",
+        "owner": "NONPLAYT",
+        "repo": "kura",
+        "rev": "90f5ebc18f5338db4cbb9b82240d8978cc2b4e2a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NONPLAYT",
+        "repo": "kura",
+        "type": "github"
+      }
+    },
     "nix-flatpak": {
       "locked": {
         "lastModified": 1783368811,
@@ -322,6 +342,7 @@
         "claude-code-nix": "claude-code-nix",
         "hardware": "hardware",
         "home-manager": "home-manager",
+        "kura": "kura",
         "nix-flatpak": "nix-flatpak",
         "nix-index-database": "nix-index-database",
         "nixpkgs": "nixpkgs_2",
