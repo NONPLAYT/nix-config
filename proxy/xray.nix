@@ -96,9 +96,6 @@ in
     restartUnits = [ "xray.service" ];
   };
 
-  # The unit runs as a DynamicUser, so it can never be in group xctrl to read
-  # /run/secrets/xctrl.json. systemd loads credentials as root before dropping
-  # privileges, so the token reaches ExecStartPost that way instead.
   sops.templates."xctrl-token" = {
     content = config.sops.placeholder."proxy/token";
     restartUnits = [ "xray.service" ];
@@ -111,11 +108,7 @@ in
       "config.json:${config.sops.templates."xray-config.json".path}"
       "xctrl-token:${config.sops.templates."xctrl-token".path}"
     ];
-    # Only worth doing when xray restarts under a live agent: the agent is
-    # ordered after this unit, so on boot and on a rebuild it is held back until
-    # this returns and cannot be reached at all. That path is covered by the
-    # agent syncing when it starts, so an unreachable agent is silence, not an
-    # error -- but a reachable one that refuses the sync must still be loud.
+
     serviceConfig.ExecStartPost = "-${pkgs.writeShellScript "xray-reapply" ''
       ${pkgs.curl}/bin/curl -s -o /dev/null -m 2 http://127.0.0.1:10086/health || exit 0
       exec ${pkgs.curl}/bin/curl -fsS -m 10 -X POST \

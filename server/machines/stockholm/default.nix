@@ -3,6 +3,7 @@
   imports = [
     ./hardware-configuration.nix
 
+    ../../services/cloudflared
     ../../services/mailserver
     ../../services/nginx
     ../../services/reposilite

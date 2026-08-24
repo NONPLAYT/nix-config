@@ -2,9 +2,9 @@
   {
     name = "stockholm";
     flag = "🇸🇪";
-    fqdn = "repo.bxteam.org";
+    fqdn = "stockholm.bxteam.org";
     reality = {
-      sni = "repo.bxteam.org";
+      sni = "stockholm.bxteam.org";
       dest = "127.0.0.1:443";
     };
     inbounds = [

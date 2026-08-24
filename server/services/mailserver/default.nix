@@ -2,6 +2,8 @@
 , pkgs
 , lib
 , inputs
+, tunnel
+, tunneled
 , ...
 }:
 
@@ -12,7 +14,7 @@
     enable = true;
     stateVersion = 5;
 
-    fqdn = "mail.bxteam.org";
+    fqdn = "stockholm.bxteam.org";
     domains = [ "bxteam.org" ];
     systemContact = "postmaster@bxteam.org";
 
@@ -58,7 +60,7 @@
       '';
     };
 
-    x509.useACMEHost = "mail.bxteam.org";
+    x509.useACMEHost = "stockholm.bxteam.org";
   };
 
   services.postfix.settings.main = {
@@ -68,16 +70,20 @@
 
   services.rspamd.overrides."greylist.conf".text = "enabled = false;";
 
+  services.cloudflared.tunnels.${tunnel}.ingress."mail.bxteam.org" = "http://127.0.0.1:80";
+  services.nginx.virtualHosts."mail.bxteam.org" = tunneled;
+
   services.roundcube = {
     enable = true;
     hostName = "mail.bxteam.org";
     maxAttachmentSize = 25;
     dicts = with pkgs.aspellDicts; [ en ru ];
     extraConfig = ''
-      $config['imap_host'] = "ssl://mail.bxteam.org:993";
-      $config['smtp_host'] = "ssl://mail.bxteam.org:465";
+      $config['imap_host'] = "ssl://stockholm.bxteam.org:993";
+      $config['smtp_host'] = "ssl://stockholm.bxteam.org:465";
       $config['smtp_user'] = "%u";
       $config['smtp_pass'] = "%p";
+      $config['proxy_whitelist'] = ['127.0.0.1'];
     '';
   };
 }
