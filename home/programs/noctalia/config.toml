@@ -35,6 +35,9 @@ launcher_position = "auto"
 clipboard_position = "auto"
 polkit_position = "auto"
 
+[shell.screenshot]
+save_to_file = false
+
 [shell.launcher]
 categories = true
 show_icons = true
