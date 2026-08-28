@@ -59,7 +59,7 @@ let
               IdentitiesOnly = true;
             };
             "stockholm" = {
-              HostName = "repo.bxteam.org";
+              HostName = "stockholm.bxteam.org";
               User = "root";
               Port = 2022;
             };
