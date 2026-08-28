@@ -18,8 +18,16 @@ let
 
   realityIsLocal = lib.hasPrefix "127.0.0.1" node.reality.dest;
 
-  inbound = i: {
-    tag = "vless-${i.group}";
+  protocolOf = i: i.protocol or "vless";
+  tagOf = i: "${protocolOf i}-${i.group}";
+
+  hysteriaNodes = lib.filter (i: protocolOf i == "hysteria") node.inbounds;
+  hasHysteria = hysteriaNodes != [ ];
+
+  acmeDir = config.security.acme.certs.${node.fqdn}.directory;
+
+  vlessInbound = i: {
+    tag = tagOf i;
     listen = "0.0.0.0";
     inherit (i) port;
     protocol = "vless";
@@ -29,7 +37,7 @@ let
     };
     sniffing.enabled = false;
     streamSettings = {
-      network = "tcp";
+      network = "xhttp";
       security = "reality";
       realitySettings = {
         target = node.reality.dest;
@@ -37,10 +45,58 @@ let
         privateKey = config.sops.placeholder."${host}/xray/private-key";
         shortIds = [ config.sops.placeholder."proxy/nodes/${host}/sid" ];
       };
+      xhttpSettings.path = i.path;
     };
   };
 
+  hysteriaInbound = i: {
+    tag = tagOf i;
+    listen = "0.0.0.0";
+    inherit (i) port;
+    protocol = "hysteria";
+    settings.clients = [ ];
+    sniffing.enabled = false;
+    streamSettings = {
+      network = "hysteria";
+      security = "tls";
+      tlsSettings = {
+        alpn = [ "h3" ];
+        certificates = [{
+          certificateFile = "${acmeDir}/fullchain.pem";
+          keyFile = "${acmeDir}/key.pem";
+        }];
+      };
+      hysteriaSettings = {
+        version = 2;
+        udpIdleTimeout = 60;
+        masquerade = {
+          type = "proxy";
+          url = "https://127.0.0.1";
+          rewriteHost = false;
+          insecure = true;
+        };
+      };
+      finalmask.quicParams = {
+        congestion = "brutal";
+        brutalUp = "${toString node.bandwidth.node} mbps";
+        brutalDown = "${toString node.bandwidth.node} mbps";
+      };
+    };
+  };
+
+  inbound = i: if protocolOf i == "hysteria" then hysteriaInbound i else vlessInbound i;
+
   settings = {
+    dns = {
+      servers = [
+        "https+local://1.1.1.1/dns-query"
+        "https+local://8.8.8.8/dns-query"
+      ];
+      queryStrategy = "UseIPv4";
+    } // lib.optionalAttrs realityIsLocal {
+      hosts = { "${node.reality.sni}" = "127.0.0.1"; };
+    };
+
     log = {
       loglevel = "warning";
       access = "/var/log/xray/access.log";
@@ -80,7 +136,11 @@ let
       }
     ] ++ map inbound node.inbounds;
     outbounds = [
-      { protocol = "freedom"; tag = "direct"; }
+      {
+        protocol = "freedom";
+        tag = "direct";
+        settings.domainStrategy = "UseIPv4";
+      }
       { protocol = "blackhole"; tag = "blocked"; }
     ];
   };
@@ -129,5 +189,12 @@ in
   };
 
   networking.hosts."127.0.0.1" = lib.optional realityIsLocal node.reality.sni;
-  networking.firewall.allowedTCPPorts = map (i: i.port) node.inbounds;
+
+  networking.firewall = {
+    allowedTCPPorts = map (i: i.port) (lib.filter (i: protocolOf i == "vless") node.inbounds);
+    allowedUDPPorts = map (i: i.port) hysteriaNodes;
+  };
+
+  systemd.services.xray.serviceConfig.SupplementaryGroups =
+    lib.mkIf hasHysteria [ config.security.acme.certs.${node.fqdn}.group ];
 }
