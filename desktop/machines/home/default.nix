@@ -53,8 +53,6 @@
         wallpapers = [ ];
 
         interface = {
-          resolution = "1920x1080";
-          branding = "NixOS";
           brandingColor = "e6a6c8"; # mPrimary
           helpColor = "c8b9ca"; # mOnSurfaceVariant
           helpColorBright = "afa2d8"; # mSecondary, used for the countdown digit
