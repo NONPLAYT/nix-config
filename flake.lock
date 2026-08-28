@@ -456,11 +456,11 @@
         "nixpkgs": "nixpkgs_5"
       },
       "locked": {
-        "lastModified": 1787480912,
-        "narHash": "sha256-E59zTF2+8J/jHexHqE3SDqnfx90h1ypsXBCzbWTcQiA=",
+        "lastModified": 1788465218,
+        "narHash": "sha256-CHLn7+FP11A7qomlD2tn9B8q1qyqdOGGcmNJIk7cPnQ=",
         "owner": "NONPLAYT",
         "repo": "xctrl",
-        "rev": "f9c57a9f5535a4cbb406fd2655e546288bc2f85a",
+        "rev": "4fd3f087aac39f13db0dbe4f42e0bcf9ad2f1827",
         "type": "github"
       },
       "original": {

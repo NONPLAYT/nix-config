@@ -1,20 +1,23 @@
 {
-  "Name": "SR",
+  "Name": "relay routing",
   "GlobalProxy": "true",
-  "RouteOrder": "block-proxy-direct",
+  "UseChunkFiles": "true",
+  "RemoteDns": "1.1.1.1",
+  "DomesticDns": "77.88.8.8",
   "RemoteDNSType": "DoH",
   "RemoteDNSDomain": "https://1.1.1.1/dns-query",
   "RemoteDNSIP": "1.1.1.1",
   "DomesticDNSType": "DoH",
   "DomesticDNSDomain": "https://77.88.8.8/dns-query",
   "DomesticDNSIP": "77.88.8.8",
-  "Geoipurl": "https://cdn.jsdelivr.net/gh/hydraponique/roscomvpn-geoip@202608210358/release/geoip.dat",
+  "Geoipurl": "https://cdn.jsdelivr.net/gh/hydraponique/roscomvpn-geoip@202608281518/release/geoip.dat",
   "Geositeurl": "https://cdn.jsdelivr.net/gh/hydraponique/roscomvpn-geosite@202604152235/release/geosite.dat",
-  "LastUpdated": "1787284768",
+  "LastUpdated": "1787930350",
   "DnsHosts": {
     "lkfl2.nalog.ru": "213.24.64.175",
     "lknpd.nalog.ru": "213.24.64.181"
   },
+  "RouteOrder": "block-proxy-direct",
   "DirectSites": [
     "geosite:private",
     "geosite:category-ru",
@@ -48,6 +51,5 @@
   ],
   "BlockIp": [],
   "DomainStrategy": "IPIfNonMatch",
-  "FakeDNS": "false",
-  "UseChunkFiles": "true"
+  "FakeDNS": "false"
 }

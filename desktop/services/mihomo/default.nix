@@ -42,21 +42,21 @@
           - "*.lan"
           - "+.local"
 
-        sniffer:
-          enable: true
-          force-dns-mapping: true
-          parse-pure-ip: true
-          override-destination: true
-          sniff:
-            TLS:
-              ports: [443, 2025]
-            HTTP:
-              ports: [80]
-            QUIC:
-              ports: [2026]
-          skip-domain:
-            - '+.push.apple.com'
-            - 'dns.google'
+      sniffer:
+        enable: true
+        force-dns-mapping: true
+        parse-pure-ip: true
+        override-destination: true
+        sniff:
+          TLS:
+            ports: [443, 8443]
+          HTTP:
+            ports: [80]
+          QUIC:
+            ports: [443]
+        skip-domain:
+          - '+.push.apple.com'
+          - 'dns.google'
 
       proxy-providers:
         xctrl:
@@ -96,6 +96,11 @@
             - wiyba
           url: https://www.gstatic.com/generate_204
           interval: 300
+        - name: PROXY-UDP
+          type: select
+          use:
+            - xctrl
+          filter: "udp"
 
       rule-providers:
         private-domains:
@@ -279,16 +284,31 @@
         # SSH Servers
         - DOMAIN,stockholm.bxteam.org,DIRECT
 
-        # --- Блокировки (высший приоритет) ---
+        # --- Blocking (highest priority) ---
         - RULE-SET,private-ips,DIRECT,no-resolve
         - RULE-SET,private-domains,DIRECT
         - RULE-SET,win-spy,REJECT-DROP
 
-        # --- Через прокси ---
-        - PROCESS-NAME,Discord.exe,PROXY
-        - PROCESS-NAME,DiscordDevelopment.exe,PROXY
-        - PROCESS-NAME,DiscordCanary.exe,PROXY
-        - PROCESS-NAME,DiscordPTB.exe,PROXY
+        # --- Discord: real-time media only ---
+        - AND,((NETWORK,udp),(IP-CIDR,66.22.192.0/18,no-resolve)),PROXY-UDP
+        - AND,((NETWORK,udp),(PROCESS-NAME,Discord)),PROXY-UDP
+        - AND,((NETWORK,udp),(PROCESS-NAME,DiscordCanary)),PROXY-UDP
+        - AND,((NETWORK,udp),(PROCESS-NAME,DiscordPTB)),PROXY-UDP
+        - AND,((NETWORK,udp),(PROCESS-NAME,Vesktop)),PROXY-UDP
+        - AND,((NETWORK,udp),(PROCESS-NAME,Discord.exe)),PROXY-UDP
+        - AND,((NETWORK,udp),(PROCESS-NAME,DiscordDevelopment.exe)),PROXY-UDP
+        - AND,((NETWORK,udp),(PROCESS-NAME,DiscordCanary.exe)),PROXY-UDP
+        - AND,((NETWORK,udp),(PROCESS-NAME,DiscordPTB.exe)),PROXY-UDP
+
+        # --- Discord: everything else ---
+        - IP-CIDR,66.22.192.0/18,PROXY,no-resolve
+        - DOMAIN-SUFFIX,discord.gg,PROXY
+        - DOMAIN-SUFFIX,discord.com,PROXY
+        - DOMAIN-SUFFIX,discord.media,PROXY
+        - DOMAIN-SUFFIX,discordapp.com,PROXY
+        - DOMAIN-SUFFIX,discordapp.net,PROXY
+
+        # --- Through proxy ---
         - PROCESS-NAME,Update.exe,PROXY
         - PROCESS-NAME,Telegram.exe,PROXY
         - IP-ASN,62041,PROXY
@@ -304,7 +324,7 @@
         - GEOSITE,instagram,PROXY
         - GEOSITE,supercell,PROXY
 
-        # --- Игры (DIRECT — без VPN) ---
+        # --- GAMES (DIRECT — without VPN) ---
         - RULE-SET,epicgames,DIRECT
         - RULE-SET,origin,DIRECT
         - RULE-SET,riot,DIRECT
@@ -327,6 +347,10 @@
         - RULE-SET,direct-ips,DIRECT
         - DOMAIN-SUFFIX,azureedge.net,DIRECT
 
+        # --- UDP ---
+        - AND,((NETWORK,udp),(DST-PORT,443),(DOMAIN-REGEX,.)),REJECT-DROP
+        - NETWORK,udp,PROXY-UDP
+
         # Fallback
         - MATCH,PROXY
     '';
@@ -335,6 +359,7 @@
   services.mihomo = {
     enable = true;
     tunMode = true;
+    processesInfo = true;
     configFile = config.sops.templates."mihomo.yaml".path;
   };
 }
