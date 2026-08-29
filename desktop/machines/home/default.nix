@@ -106,6 +106,7 @@
       ""
       "${pkgs.networkmanager}/bin/nm-online -q --timeout=2"
     ];
+    SuccessExitStatus = [ "1" ];
   };
 
   hardware.bluetooth = {

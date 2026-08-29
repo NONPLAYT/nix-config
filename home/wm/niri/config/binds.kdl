@@ -29,7 +29,6 @@ binds {
     Mod+Semicolon    { spawn "noctalia" "msg" "panel-toggle" "launcher" "/emo"; }
 
     // plugins bindings
-    Mod+Shift+Z      { spawn "noctalia" "msg" "panel-toggle" "launcher" "/zed"; }
     Mod+Shift+G      { spawn "noctalia" "msg" "panel-toggle" "launcher" "/pl"; }
     Mod+Shift+C      { spawn "noctalia" "msg" "panel-toggle" "oldirtty/color_picker:panel"; }
 

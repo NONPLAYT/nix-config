@@ -197,7 +197,7 @@ concave_edge_corners = true
 
 start = ["nix-monitor", "workspaces"]
 center = ["clock"]
-end = ["tray", "notifications", "volume"]
+end = ["tray", "notifications", "airpods", "volume"]
 
 [bar.tools]
 enabled = true
@@ -208,7 +208,7 @@ background_opacity = 0.9
 margin_edge = 0
 radius = 20
 concave_edge_corners = true
-margin_ends = 300
+margin_ends = 290
 padding = 8
 widget_spacing = 10
 scale = 1.0
@@ -270,6 +270,9 @@ type = "clock"
 format = " {:%H:%M} · 󰃮 {:%a, %d.%m.%y}"
 tooltip_format = "{:%A, %B %d, %Y}"
 font_weight = 500
+
+[widget.airpods]
+type = "harveywuk/airpods:airpods"
 
 [widget.volume]
 type = "volume"
@@ -362,13 +365,13 @@ sidebar = "compact"
 # ── Plugins ───────────────────────────────────────────────────────────────────
 
 [plugins]
-auto_update = true
+auto_update = "all"
 enabled = [
-  "cleboost/zed-provider",             # /zed  — recent Zed projects
   "radimous/prismlauncher-instances",  # /pl   — PrismLauncher instances
   "avivbintangaringga/nix-monitor",    # nixpkgs update monitor
   "mdj2812/mihomo-control",            # mihomo proxy control
   "oldirtty/color_picker",             # screen color picker
+  "harveywuk/airpods",                 # airpods battery / listening modes
 ]
 
 [plugin_settings."mdj2812/mihomo-control"]
@@ -381,6 +384,10 @@ panel_position = "auto"
 [plugin_settings."oldirtty/color_picker"]
 panel_placement = "attached"
 panel_position = "auto"
+
+[plugin_settings."harveywuk/airpods"]
+ctl_path = "/etc/profiles/per-user/nonplay/bin/librepods-ctl"
+hide_when_disconnected = true
 
 # ── Lock screen widgets ───────────────────────────────────────────────────────
 

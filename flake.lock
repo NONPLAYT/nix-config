@@ -156,11 +156,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787956581,
-        "narHash": "sha256-g3DhY4og7yKXdKOlTRYAoJ1poZLaglXDCl8Wg8nvRPs=",
+        "lastModified": 1788047758,
+        "narHash": "sha256-vZBhmOvW/NUq7QlKzkGZAX1XkYdde8/Oxlg92R/tXEk=",
         "owner": "NONPLAYT",
         "repo": "kura",
-        "rev": "ee821a67e510388e51d13d6a4d4cfdc2570a7678",
+        "rev": "845b01d845ff09122ba47e7d1bd39c9908398450",
         "type": "github"
       },
       "original": {

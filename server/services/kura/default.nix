@@ -7,7 +7,6 @@ in
   services.kura.server = {
     enable = true;
     domain = "git.bxteam.org";
-    allowedOrigins = [ "https://bxteam.org" ];
     environmentFile = config.sops.templates."kura.env".path;
 
     nginx.enable = false;
