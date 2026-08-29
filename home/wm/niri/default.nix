@@ -17,6 +17,7 @@ in
   imports = [
     ../../shared
     ../../programs/kitty
+    ../../programs/librepods
     ../../programs/noctalia
   ];
 

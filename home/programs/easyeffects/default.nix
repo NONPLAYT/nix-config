@@ -4,9 +4,15 @@
 }:
 
 let
+  fifineMicrophone = "alsa_input.usb-3142_fifine_Microphone-00.analog-stereo";
+
   easyeffectsrc = pkgs.writeText "easyeffectsrc" ''
+    [EffectsPipelines]
+    processAllInputs=false
+
     [StreamInputs]
-    inputDevice=
+    useDefaultInputDevice=false
+    inputDevice=${fifineMicrophone}
     visiblePage=pluginsPage
 
     [StreamOutputs]
