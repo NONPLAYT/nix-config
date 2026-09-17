@@ -7,8 +7,8 @@ let
 
   geoAssets = pkgs.linkFarm "xray-geoassets" {
     "geoip.dat" = pkgs.fetchurl {
-      url = "https://cdn.jsdelivr.net/gh/hydraponique/roscomvpn-geoip@202608210358/release/geoip.dat";
-      hash = "sha256-m8aJcdxYOvG5/xH0NaLvPCnWZfhtSsfzVZGi+S5nMMA=";
+      url = "https://cdn.jsdelivr.net/gh/hydraponique/roscomvpn-geoip@202609170836/release/geoip.dat";
+      hash = "sha256-D/e9GYZUoOkiAw6c3nUTuLKuFQMzVZLh23gR/Kotmpo=";
     };
     "geosite.dat" = pkgs.fetchurl {
       url = "https://cdn.jsdelivr.net/gh/hydraponique/roscomvpn-geosite@202604152235/release/geosite.dat";

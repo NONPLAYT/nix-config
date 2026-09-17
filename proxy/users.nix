@@ -3,6 +3,7 @@
   { name = "nonplay"; group = "personal"; limit = "unlimited"; admin = true; }
   { name = "tetyaskaip"; group = "personal"; }
   { name = "p4ts4k"; group = "personal"; }
+  { name = "wiyba"; group = "personal"; }
   { name = "dubrovskiy"; group = "personal"; }
   { name = "andrew"; group = "personal"; }
   { name = "curly"; group = "personal"; }
