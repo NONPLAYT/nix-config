@@ -73,7 +73,7 @@ let
       inputs.wrangler.packages.${pkgs.system}.wrangler # cloudflare wrangler cli
       r2modman # modding tool
       naps2 # scanner for printers
-      libreoffice-fresh # document, spreadsheet, presentation editor
+      libreoffice-stable # document, spreadsheet, presentation editor
       spotify # music player
     ]
     ++ fontPkgs;
