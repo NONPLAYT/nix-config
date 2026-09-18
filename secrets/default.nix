@@ -35,6 +35,7 @@ let
 
   secretOverrides = {
     "home/ssh/key" = { owner = "nonplay"; mode = "0400"; };
+    "home/noctalia/storage_key" = { owner = "nonplay"; mode = "0400"; };
   };
 in
 {

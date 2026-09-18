@@ -1,6 +1,10 @@
 [accessibility]
 ui_scale = 0.9
 
+[storage]
+key_source = "file"
+key_file = "/run/secrets/home/noctalia/storage_key"
+
 [shell]
 font_family = "JetBrainsMono Nerd Font Propo"
 time_format = "{:%H:%M %p}"
