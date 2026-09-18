@@ -24,11 +24,6 @@ let
           };
         };
 
-        java = {
-          enable = true;
-          package = pkgs.javaPackages.compiler.temurin-bin.jdk-25;
-        };
-
         command-not-found.enable = false;
 
         obs-studio = {
@@ -74,6 +69,7 @@ in
   ../programs/easyeffects
   ../programs/firefox
   ../programs/git
+  ../programs/java
   ../programs/zed
   ../programs/zsh
   more

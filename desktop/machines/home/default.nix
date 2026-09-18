@@ -10,6 +10,7 @@
     inputs.hardware.nixosModules.common-cpu-amd
 
     ../../services/flatpak
+    ../../services/frp
     ../../services/mihomo
     ../../services/printing
   ];

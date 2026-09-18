@@ -62,8 +62,8 @@ let
       dnsutils # dnsutils
       tcpdump # tcp dump
       python3 # python3
-      (lib.setPrio 10 javaPackages.compiler.temurin-bin.jdk-21) # extra jdk 21 (lower prio so java stays 25)
-      (lib.setPrio 15 javaPackages.compiler.temurin-bin.jdk-17) # extra jdk 17 (distinct prio so 21/17 don't collide)
+      typst # typesetting to pdf
+      tinymist # typst lsp and previewer
       ayugram-desktop # fork of telegram-desktop
       unar # decompress files
       zip # compress files

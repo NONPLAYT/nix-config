@@ -19,6 +19,7 @@
       "biome"
       "mcp-server-github"
       "discord-presence"
+      "typst"
     ];
 
     userSettings = {
@@ -35,6 +36,13 @@
         dock = "right";
         tool_permissions = {
           default = "allow";
+        };
+      };
+      lsp.tinymist = {
+        binary.path = "${pkgs.tinymist}/bin/tinymist";
+        settings = {
+          exportPdf = "onSave";
+          formatterMode = "typstyle";
         };
       };
       languages.Nix = {

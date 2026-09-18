@@ -4,6 +4,7 @@
     ./hardware-configuration.nix
 
     ../../services/cloudflared
+    ../../services/frp
     ../../services/mailserver
     ../../services/nginx
     ../../services/reposilite
