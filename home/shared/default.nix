@@ -69,8 +69,8 @@ let
       zip # compress files
       dex # .config/autostart helper for WMs
       gh # github cli
-      ngrok # ngrok cli for tunneling
       inputs.wrangler.packages.${pkgs.system}.wrangler # cloudflare wrangler cli
+      cloudflared # cloudflare tunnel cli
       r2modman # modding tool
       naps2 # scanner for printers
       libreoffice-stable # document, spreadsheet, presentation editor

@@ -9,6 +9,7 @@
     ../../services/nginx
     ../../services/reposilite
     ../../services/rfc-bot
+    ../../services/vaultwarden
   ];
 
   boot = {
