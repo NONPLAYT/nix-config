@@ -156,6 +156,7 @@ temperature_night = 4500
 
 [idle.behavior.screen-off]
 timeout = 300
+locked_timeout = 10
 action = "screen_off"
 enabled = true
 
@@ -166,6 +167,7 @@ enabled = true
 
 [idle.behavior.suspend]
 timeout = 1200
+locked_timeout = 600
 action = "suspend"
 enabled = true
 
