@@ -66,6 +66,14 @@ let
     "dom.forms.autocomplete.formautofill" = false;
     "extensions.formautofill.addresses.enabled" = false;
     "extensions.formautofill.creditCards.enabled" = false;
+    "browser.formfill.enable" = false;
+    "signon.firefoxRelay.feature" = "disabled";
+
+    # --- passwords: off (bitwarden) ---
+    "signon.rememberSignons" = false;
+    "signon.autofillForms" = false;
+    "signon.generation.enabled" = false;
+    "signon.management.page.breach-alerts.enabled" = false;
 
     # --- session ---
     "browser.sessionstore.resume_from_crash" = false;
