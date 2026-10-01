@@ -122,6 +122,8 @@ enabled = true
 blurred_desktop = false
 blur_intensity = 0.0
 tint_intensity = 0.0
+transition = [ "disc" ]
+transition_duration = 1000.0
 
 # ── System monitor ────────────────────────────────────────────────────────────
 
