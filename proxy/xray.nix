@@ -54,7 +54,10 @@ let
     listen = "0.0.0.0";
     inherit (i) port;
     protocol = "hysteria";
-    settings.clients = [ ];
+    settings = {
+      version = 2;
+      clients = [ ];
+    };
     sniffing.enabled = false;
     streamSettings = {
       network = "hysteria";
@@ -162,6 +165,8 @@ in
   };
 
   systemd.services.xray = {
+    after = [ "sops-install-secrets.service" ];
+    wants = [ "sops-install-secrets.service" ];
     serviceConfig.LogsDirectory = "xray";
     environment.XRAY_LOCATION_ASSET = "${geoAssets}";
     serviceConfig.LoadCredential = lib.mkForce [

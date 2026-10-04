@@ -16,8 +16,7 @@
   { name = "zvyagina"; group = "personal"; limit = "20G"; }
   { name = "regatchan"; group = "personal"; expires = "2026-09-29"; }
   { name = "robertlinder"; group = "personal"; }
-  { name = "roumay"; group = "personal"; limit = "200G"; }
-  { name = "exxtazy"; group = "personal"; }
+  { name = "roumay"; group = "personal"; }
 
   # asgard
   { name = "eblan"; group = "asgard"; limit = "unlimited"; }

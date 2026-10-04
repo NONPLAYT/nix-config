@@ -69,6 +69,6 @@
 
   nix = {
     channel.enable = false;
-    nixPath = [ "nixpkgs=flake:nixpkgs" ];
+    settings.nix-path = [ "nixpkgs=flake:nixpkgs" ];
   };
 }

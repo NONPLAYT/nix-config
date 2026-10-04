@@ -2,7 +2,9 @@
 
 xray.overrideAttrs (old: {
   postPatch = (old.postPatch or "") + ''
-    substituteInPlace transport/internet/hysteria/config.go \
-      --replace-fail 'MaxDatagramFrameSize = 1200' 'MaxDatagramFrameSize = 1500'
+    sed -Ei 's/^(\s*MaxDatagramFrameSize\s*=\s*)1200$/\11500/' \
+      transport/internet/hysteria/config.go
+    grep -Eq '^\s*MaxDatagramFrameSize\s*=\s*1500$' \
+      transport/internet/hysteria/config.go
   '';
 })

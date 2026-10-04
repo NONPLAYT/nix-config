@@ -48,7 +48,7 @@ show_icons = true
 sort_by_usage = true
 pinned = [
   "dev.zed.Zed",
-  "idea",
+  "intellij-idea",
   "com.discordapp.Discord",
   "spotify",
   "com.ayugram.desktop",
@@ -58,7 +58,7 @@ pinned = [
 ]
 
 [shell.mpris]
-blacklist = ["firefox-beta", "AyuGram"]
+blacklist = ["firefox", "AyuGram"]
 
 # ── Wallpaper ─────────────────────────────────────────────────────────────────
 
@@ -298,7 +298,6 @@ pinned = [
   "AyuGram",
   "discord",
   "Discord",
-  "vesktop",
 ]
 
 [plugin_settings."avivbintangaringga/nix-monitor"]
@@ -355,7 +354,7 @@ show_dots = true
 show_instance_count = false
 launcher_position = "none"
 pinned = [
-  "firefox-beta",
+  "firefox",
   "org.gnome.Nautilus",
   "kitty",
   "dev.zed.Zed",

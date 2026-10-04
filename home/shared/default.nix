@@ -47,7 +47,6 @@ let
       nil # lsp for nix
       ntfs3g # ntfs driver
       packwiz # minecraft modpacks manager
-      packweave # gui minecraft modpacks manager
       prismlauncher # minecraft launcher
       jetbrains.idea # intellij idea
       sops # sops
@@ -69,7 +68,7 @@ let
       zip # compress files
       dex # .config/autostart helper for WMs
       gh # github cli
-      inputs.wrangler.packages.${pkgs.system}.wrangler # cloudflare wrangler cli
+      inputs.wrangler.packages.${pkgs.stdenv.hostPlatform.system}.wrangler # cloudflare wrangler cli
       cloudflared # cloudflare tunnel cli
       r2modman # modding tool
       naps2 # scanner for printers
@@ -130,7 +129,7 @@ in
       enable = true;
       defaultApplications =
         let
-          browser = "firefox-beta.desktop";
+          browser = "firefox.desktop";
           editor = "dev.zed.Zed.desktop";
           viewer = "org.gnome.Loupe.desktop";
           player = "vlc.desktop";
@@ -303,7 +302,7 @@ in
     inherit username homeDirectory packages;
 
     sessionVariables = {
-      BROWSER = "${lib.getExe pkgs.firefox-beta}";
+      BROWSER = "${lib.getExe pkgs.firefox}";
       DISPLAY = ":0";
       SHELL = "${lib.getExe pkgs.zsh}";
       GIT_ASKPASS = "";

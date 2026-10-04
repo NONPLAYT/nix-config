@@ -8,7 +8,7 @@ binds {
     Ctrl+Alt+Delete              { quit; }
 
     Mod+Return  { spawn "kitty"; }
-    Mod+B       { spawn "firefox-beta"; }
+    Mod+B       { spawn "firefox"; }
     Mod+E       { spawn-sh "nautilus --new-window"; }
     Mod+T       { spawn "AyuGram"; }
     Ctrl+BackSpace { screenshot; }
