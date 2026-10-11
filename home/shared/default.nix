@@ -46,8 +46,7 @@ let
       mtr # better traceroute
       nil # lsp for nix
       ntfs3g # ntfs driver
-      packwiz # minecraft modpacks manager
-      prismlauncher # minecraft launcher
+      inputs.riven.packages.${pkgs.stdenv.hostPlatform.system}.riven # riven launcher, gui and cli
       jetbrains.idea # intellij idea
       sops # sops
       loupe # image viewer
@@ -274,11 +273,11 @@ in
           "x-scheme-handler/tg" = "com.ayugram.desktop.desktop";
           "x-scheme-handler/tonsite" = "com.ayugram.desktop.desktop";
           "x-scheme-handler/discord" = "com.discordapp.Discord.desktop";
-          "x-scheme-handler/prismlauncher" = "org.prismlauncher.PrismLauncher.desktop";
-          "x-scheme-handler/curseforge" = "org.prismlauncher.PrismLauncher.desktop";
           "x-scheme-handler/zed" = "dev.zed.Zed.desktop";
+          "x-scheme-handler/riven" = "riven.desktop";
+          "application/x-riven-pack" = "riven.desktop";
 
-          "application/x-modrinth-modpack+zip" = "org.prismlauncher.PrismLauncher.desktop";
+          "application/x-modrinth-modpack+zip" = "riven.desktop";
 
           "application/vnd.appimage" = "appimage-run.desktop";
           "application/x-iso9660-appimage" = "appimage-run.desktop";

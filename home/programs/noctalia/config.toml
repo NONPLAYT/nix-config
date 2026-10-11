@@ -54,7 +54,7 @@ pinned = [
   "com.ayugram.desktop",
   "org.vinegarhq.Sober",
   "steam",
-  "org.prismlauncher.PrismLauncher",
+  "riven",
 ]
 
 [shell.mpris]
@@ -95,7 +95,7 @@ pure_black_dark = false
 enable_builtin_templates = true
 builtin_ids = ["btop", "gtk3", "gtk4", "kitty", "niri"]
 enable_community_templates = true
-community_ids = ["prismlauncher", "zed"]
+community_ids = ["zed"]
 
 # ── Notifications ─────────────────────────────────────────────────────────────
 
@@ -374,7 +374,6 @@ sidebar = "compact"
 [plugins]
 auto_update = "all"
 enabled = [
-  "radimous/prismlauncher-instances",  # /pl   — PrismLauncher instances
   "avivbintangaringga/nix-monitor",    # nixpkgs update monitor
   "mdj2812/mihomo-control",            # mihomo proxy control
   "oldirtty/color_picker",             # screen color picker

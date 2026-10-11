@@ -29,6 +29,11 @@ window-rule {
 }
 
 window-rule {
+    match app-id="^riven$"
+    open-maximized-to-edges true
+}
+
+window-rule {
     match app-id="steam" title="^notificationtoasts"
     open-focused false
     open-floating true

@@ -63,6 +63,8 @@
 
     xctrl.url = "github:NONPLAYT/xctrl";
 
+    riven.url = "github:BX-Team/Riven";
+
     rfc = {
       url = "git+https://github.com/NONPLAYT/rfc";
       inputs.nixpkgs.follows = "nixpkgs";
