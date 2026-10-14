@@ -44,7 +44,6 @@ let
       qbittorrent # torrent client
       hydralauncher # game launcher with torrent client
       mtr # better traceroute
-      nil # lsp for nix
       ntfs3g # ntfs driver
       inputs.riven.packages.${pkgs.stdenv.hostPlatform.system}.riven # riven launcher, gui and cli
       jetbrains.idea # intellij idea
@@ -303,7 +302,6 @@ in
     sessionVariables = {
       BROWSER = "${lib.getExe pkgs.firefox}";
       DISPLAY = ":0";
-      SHELL = "${lib.getExe pkgs.zsh}";
       GIT_ASKPASS = "";
     };
 
@@ -316,8 +314,6 @@ in
       x11.enable = true;
     };
   };
-
-  dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
 
   gtk = {
     enable = true;
@@ -351,12 +347,6 @@ in
   qt = {
     enable = true;
     platformTheme.name = "gtk3";
-  };
-
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 7d";
   };
 
   systemd.user.startServices = "sd-switch";

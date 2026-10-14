@@ -19,6 +19,11 @@
     ];
     enableIPv6 = lib.mkDefault false;
     networkmanager.dns = "none";
+
+    firewall = {
+      allowedTCPPorts = [ 7000 7001 7100 ];
+      allowedUDPPorts = [ 6000 6001 7011 ];
+    };
   };
 
   programs = {
@@ -57,8 +62,6 @@
       wget
       lm_sensors
       nettools
-      kitty
-      wl-clipboard
       usb-modeswitch
       xwayland-satellite
       libinput
@@ -93,12 +96,14 @@
     useUserPackages = true;
     backupFileExtension = "hm-backup";
     extraSpecialArgs = { inherit inputs host; };
-    users.nonplay = import (../home/wm/niri);
+    users.nonplay = {
+      imports = [ ../home/wm/niri ];
+      home.file.".uxplayrc".text = "p\n";
+    };
   };
 
   security.pam.services = {
     greetd.enableGnomeKeyring = true;
-    hyprlock.enableGnomeKeyring = true;
   };
 
   systemd.tmpfiles.rules = [
@@ -121,19 +126,4 @@
       "wrangler.cachix.org-1:N/FIcG2qBQcolSpklb2IMDbsfjZKWg+ctxx0mSMXdSs="
     ];
   };
-
-  nixpkgs.overlays = [
-    (self: super: {
-      libdisplay-info = super.libdisplay-info.overrideAttrs {
-        version = "0.3.0";
-        src = super.fetchFromGitLab {
-          domain = "gitlab.freedesktop.org";
-          owner = "emersion";
-          repo = "libdisplay-info";
-          rev = "0.3.0";
-          sha256 = "sha256-nXf2KGovNKvcchlHlzKBkAOeySMJXgxMpbi5z9gLrdc=";
-        };
-      };
-    })
-  ];
 }

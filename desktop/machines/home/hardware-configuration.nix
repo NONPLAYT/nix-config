@@ -13,7 +13,6 @@
     "sd_mod"
   ];
   boot.initrd.kernelModules = [
-    "i915"
     "nvidia_modeset"
     "nvidia_uvm"
     "nvidia_drm"

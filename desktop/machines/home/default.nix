@@ -91,13 +91,6 @@
           transform "normal"
           position x=0 y=0
       }
-
-      workspace "social" {
-          open-on-output "HDMI-A-1"
-      }
-      workspace "media" {
-          open-on-output "HDMI-A-1"
-      }
     '';
   };
 

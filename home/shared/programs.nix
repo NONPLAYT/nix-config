@@ -13,7 +13,7 @@ let
         btop = {
           enable = true;
           package = pkgs.btop.override {
-            rocmSupport = true;
+            cudaSupport = true;
           };
           settings = {
             color_theme = "noctalia";
@@ -68,7 +68,6 @@ in
   ../programs/dconf
   ../programs/easyeffects
   ../programs/firefox
-  ../programs/git
   ../programs/java
   ../programs/zed
   ../programs/zsh
