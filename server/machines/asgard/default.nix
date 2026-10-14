@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   imports = [
     ./hardware-configuration.nix
@@ -30,6 +30,10 @@
   };
 
   time.timeZone = "Europe/Stockholm";
+
+  users.users.root.openssh.authorizedKeys.keys = lib.mkAfter [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKGvxxKIkxf7R7XYY0wmTbIgtGJ5zh5T8tmbo1Rv1LXc eblan@asgard"
+  ];
 
   services.nginx.virtualHosts."asgard.bxteam.org" = {
     enableACME = true;
