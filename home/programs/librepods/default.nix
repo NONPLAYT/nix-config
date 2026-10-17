@@ -20,9 +20,10 @@ let
       state_dir="''${LIBREPODS_STATE:-''${XDG_STATE_HOME:-$HOME/.local/state}/librepods}"
       state_file="$state_dir/status.json"
 
-      airpods_wanted() {
+      worn() {
         [ -r "$state_file" ] || return 1
-        jq -e '.connected == true' "$state_file" >/dev/null 2>&1
+        jq -e '.connected == true and (.left.in_ear == true or .right.in_ear == true)' \
+          "$state_file" >/dev/null 2>&1
       }
 
       bt_sink() {
@@ -31,7 +32,7 @@ let
             | select(.type == "PipeWire:Interface:Node")
             | .info.props as $p
             | select($p["media.class"] == "Audio/Sink")
-            | select(($p["node.name"] | test($a)) or ($p["node.name"] | test($b)))
+            | select(($p["node.name"] | contains($a)) or ($p["node.name"] | contains($b)))
             | .id ] | first // empty'
       }
 
@@ -43,8 +44,14 @@ let
             | .id ] | first // empty'
       }
 
-      configured() { # $1 = Sink | Source -> node.name of the current default
-        wpctl status | awk -v k="Audio/$1" '$2 == k { print $3 }' | tail -n1
+      current() { # $1 = sink | source -> node.name of the effective default
+        pw-dump | jq -r --arg k "default.audio.$1" '
+          [ .[]
+            | select(.type == "PipeWire:Interface:Metadata")
+            | select(.props["metadata.name"] == "default")
+            | .metadata[]
+            | select(.key == $k)
+            | .value.name ] | first // empty'
       }
 
       is_airpods() {
@@ -54,72 +61,89 @@ let
         esac
       }
 
-      take() { # $1 = node id
-        if [ -n "$1" ]; then
-          wpctl set-default "$1"
-        fi
-      }
-
       pin_source() {
-        local deadline=$(( SECONDS + 20 ))
-        while :; do
-          if [ "$(configured Source)" = "$mic_source" ]; then
-            return
+        if [ "$(current source)" != "$mic_source" ]; then
+          local id
+          id="$(named_node "$mic_source")"
+          if [ -n "$id" ]; then
+            wpctl set-default "$id"
           fi
-          take "$(named_node "$mic_source")"
-          if [ "$SECONDS" -ge "$deadline" ]; then
-            return
-          fi
-          sleep 1
-        done
+        fi
       }
 
-      sink_to_fallback() {
-        local deadline=$(( SECONDS + 20 ))
-        while :; do
-          if [ "$(configured Sink)" = "$fallback_sink" ]; then
-            return
-          fi
-          take "$(named_node "$fallback_sink")"
-          if [ "$SECONDS" -ge "$deadline" ]; then
-            return
-          fi
-          sleep 1
-        done
-      }
+      previous=""
 
-      sink_to_airpods() { # non-zero when they never showed up
-        local deadline=$(( SECONDS + 20 ))
-        while :; do
-          if is_airpods "$(configured Sink)"; then
-            return 0
-          fi
-          take "$(bt_sink)"
-          if [ "$SECONDS" -ge "$deadline" ]; then
-            return 1
-          fi
-          sleep 1
-        done
-      }
-
-      apply() {
-        pin_source
-
-        if airpods_wanted && sink_to_airpods; then
-          return
+      to_airpods() {
+        local now
+        now="$(current sink)"
+        if ! is_airpods "$now"; then
+          previous="$now"
         fi
 
-        sink_to_fallback
+        local deadline=$(( SECONDS + 30 )) id
+        while worn; do
+          if is_airpods "$(current sink)"; then
+            break
+          fi
+          id="$(bt_sink)"
+          if [ -n "$id" ]; then
+            wpctl set-default "$id"
+          fi
+          if [ "$SECONDS" -ge "$deadline" ]; then
+            break
+          fi
+          sleep 1
+        done
+        pin_source
       }
 
-      apply
-
-      inotifywait -q -m -e create,moved_to,close_write,delete --format '%f' "$state_dir" |
-        while read -r name; do
-          if [ "$name" = "status.json" ]; then
-            apply
+      to_previous() {
+        local target id
+        for target in "$previous" "$fallback_sink"; do
+          [ -n "$target" ] || continue
+          id="$(named_node "$target")"
+          if [ -n "$id" ]; then
+            wpctl set-default "$id"
+            break
           fi
         done
+        previous=""
+        pin_source
+      }
+
+      if worn; then
+        was=1
+        to_airpods
+      else
+        was=0
+        if is_airpods "$(current sink)"; then
+          to_previous
+        fi
+        pin_source
+      fi
+
+      while read -r name; do
+        [ "$name" = "status.json" ] || continue
+
+        if worn; then
+          now=1
+        else
+          now=0
+        fi
+        [ "$now" != "$was" ] || continue
+
+        if [ "$now" = 0 ]; then
+          sleep 1.5
+          if worn; then
+            continue
+          fi
+          was=0
+          to_previous
+        else
+          was=1
+          to_airpods
+        fi
+      done < <(inotifywait -q -m -e create,moved_to,close_write,delete --format '%f' "$state_dir")
     '';
   };
 in
@@ -169,7 +193,7 @@ in
 
   systemd.user.services.airpods-audio-follow = {
     Unit = {
-      Description = "Move playback to the AirPods while they are connected, keeping the microphone on the fifine";
+      Description = "Move playback to the AirPods while one is in an ear, keeping the microphone on the fifine";
       Requires = [ "librepods.service" ];
       After = [
         "graphical-session.target"
