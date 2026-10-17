@@ -27,4 +27,5 @@
   { name = "111"; group = "asgard"; limit = "unlimited"; }
   { name = "eblanevil"; group = "asgard"; limit = "unlimited"; }
   { name = "daulet"; group = "asgard"; limit = "unlimited"; }
+  { name = "eben"; group = "asgard"; limit = "unlimited"; }
 ]
