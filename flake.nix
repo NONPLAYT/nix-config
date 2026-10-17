@@ -120,6 +120,11 @@
           system = "x86_64-linux";
           base = ./server;
         };
+        roglab = mkSystem {
+          host = "roglab";
+          system = "x86_64-linux";
+          base = ./server;
+        };
       };
     };
 }
