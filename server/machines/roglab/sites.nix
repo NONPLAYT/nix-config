@@ -62,6 +62,14 @@ let
       static = "dist";
       locations."/api/".proxyPass = "http://127.0.0.1:${toString sites.app-backend.port}";
     };
+
+    hike = {
+      repo = "BX-Team/hike";
+      branch = "master";
+      domains = [ "hike.roglab.ru" ];
+      build = "bun install && bun run build";
+      static = "dist";
+    };
   };
 
   databases = [ "roglab" "prikazy" "kadet" "app-backend" ];
