@@ -8,12 +8,13 @@ binds {
     Ctrl+Alt+Delete              { quit; }
 
     Mod+Return  { spawn "kitty"; }
-    Mod+B       { spawn "firefox"; }
-    Mod+E       { spawn-sh "nautilus --new-window"; }
+    Mod+B       { spawn "helium"; }
+    Mod+E       { spawn "thunar"; }
     Mod+T       { spawn "AyuGram"; }
-    Ctrl+BackSpace { screenshot; }
-    Print       { screenshot-screen; }
-    Alt+Print   { screenshot-window; }
+    Ctrl+BackSpace       { spawn "noctalia" "msg" "screenshot-region"; }
+    Ctrl+Shift+BackSpace { spawn "noctalia" "msg" "screenshot-annotate"; }
+    Print                { spawn "noctalia" "msg" "screenshot-fullscreen"; }
+    Alt+Print            { spawn "noctalia" "msg" "screenshot-window"; }
 
     Mod+S       { spawn "nsticky" "sticky" "toggle-active"; }
 

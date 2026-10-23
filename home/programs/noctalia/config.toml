@@ -16,6 +16,7 @@ clipboard_history_max_entries = 100
 polkit_agent = true
 password_style = "random"
 settings_show_advanced = true
+niri_overview_close_on_launch_enabled = true
 
 [shell.animation]
 enabled = true
@@ -41,24 +42,28 @@ polkit_position = "auto"
 
 [shell.screenshot]
 save_to_file = false
+copy_on_close = true
 
 [shell.launcher]
+layout = "simple"
 categories = true
+category_icons_only = true
 show_icons = true
-sort_by_usage = true
+sort_by_usage = false
+track_usage = false
 pinned = [
   "dev.zed.Zed",
   "intellij-idea",
-  "com.discordapp.Discord",
-  "spotify",
   "com.ayugram.desktop",
-  "org.vinegarhq.Sober",
+  "com.discordapp.Discord",
   "steam",
   "riven",
+  "spotify",
+  "org.vinegarhq.Sober",
 ]
 
 [shell.mpris]
-blacklist = ["firefox", "AyuGram"]
+blacklist = ["helium", "AyuGram"]
 
 # ── Wallpaper ─────────────────────────────────────────────────────────────────
 
@@ -66,7 +71,7 @@ blacklist = ["firefox", "AyuGram"]
 enabled = true
 directory = "/etc/nixos/files/wallpapers"
 fill_mode = "crop"
-transition = ["disc"]
+transition = ["melt"]
 transition_duration = 1500
 edge_smoothness = 0.05
 transition_on_startup = false
@@ -86,8 +91,9 @@ enabled = false
 
 [theme]
 mode = "dark"
-source = "community"
-community_palette = "Mizuki-Akiyama"
+source = "wallpaper"
+wallpaper_scheme = "m3-content"
+# community_palette = "Mizuki-Akiyama"
 # community_palette = "Catppuccin Mocha Blue"
 pure_black_dark = false
 
@@ -122,7 +128,7 @@ enabled = true
 blurred_desktop = false
 blur_intensity = 0.0
 tint_intensity = 0.0
-transition = [ "disc" ]
+transition = [ "melt" ]
 transition_duration = 1000.0
 
 # ── System monitor ────────────────────────────────────────────────────────────
@@ -144,7 +150,9 @@ address = "Moscow"
 
 [audio]
 enable_overdrive = true
-enable_sounds = false
+enable_sounds = true
+enable_power_sounds = false
+sound_volume = 0.5
 
 [brightness]
 enable_ddcutil = false
@@ -198,7 +206,7 @@ auto_hide = false
 reserve_space = true
 hover_highlight = false
 capsule = true
-capsule_fill = "surface_variant"
+capsule_fill = "surface_container"
 capsule_opacity = 0.65
 capsule_padding = 8.0
 concave_edge_corners = true
@@ -281,6 +289,7 @@ font_weight = 500
 
 [widget.airpods]
 type = "harveywuk/airpods:airpods"
+hide_when_disconnected = true
 
 [widget.volume]
 type = "volume"
@@ -354,8 +363,8 @@ show_dots = true
 show_instance_count = false
 launcher_position = "none"
 pinned = [
-  "firefox",
-  "org.gnome.Nautilus",
+  "helium",
+  "thunar",
   "kitty",
   "dev.zed.Zed",
   "com.ayugram.desktop",
@@ -393,7 +402,6 @@ panel_position = "auto"
 
 [plugin_settings."harveywuk/airpods"]
 ctl_path = "/etc/profiles/per-user/nonplay/bin/librepods-ctl"
-hide_when_disconnected = true
 
 # ── Lock screen widgets ───────────────────────────────────────────────────────
 
@@ -411,7 +419,7 @@ box_height = 196.0
 
 [lockscreen_widgets.widget.lock_login.settings]
 layout = "regular"
-background_color = "surface_variant"
+background_color = "surface_container"
 background_opacity = 0.88
 background_radius = 12.0
 input_radius = 6.0

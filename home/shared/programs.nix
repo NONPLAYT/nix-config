@@ -67,7 +67,7 @@ in
   ../programs/claude
   ../programs/dconf
   ../programs/easyeffects
-  ../programs/firefox
+  ../programs/helium
   ../programs/java
   ../programs/zed
   ../programs/zsh

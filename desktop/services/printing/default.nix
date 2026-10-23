@@ -1,6 +1,27 @@
-{ pkgs, ... }:
+{ pkgs, modulesPath, ... }:
 
+let
+  ippUsb = "services/printing/ipp-usb.nix";
+in
 {
+  disabledModules = [ ippUsb ];
+  imports = [
+    ({ config, lib, pkgs, ... }@args:
+      let
+        m = import (modulesPath + "/${ippUsb}") args;
+        inherit (m.config) content;
+      in
+      m // {
+        config = m.config // {
+          content = content // {
+            services = content.services // {
+              avahi = removeAttrs content.services.avahi [ "publish" ];
+            };
+          };
+        };
+      })
+  ];
+
   services.printing = {
     enable = true;
     drivers = with pkgs; [
@@ -34,9 +55,10 @@
     enable = true;
     nssmdns4 = true;
     openFirewall = true;
-    publish = {
-      enable = true;
-      userServices = true;
+    settings.publish = {
+      disable-publishing = false;
+      disable-user-service-publishing = false;
+      publish-addresses = true;
     };
   };
 }

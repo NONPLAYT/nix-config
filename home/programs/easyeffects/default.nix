@@ -36,7 +36,133 @@ in
   services.easyeffects = {
     enable = true;
 
-    preset = "fifine-am8";
+    preset = {
+      input = "fifine-am8";
+      output = "music";
+    };
+
+    extraPresets.music.output = {
+      blocklist = [ ];
+
+      plugins_order = [
+        "equalizer#0"
+        "bass_enhancer#0"
+        "limiter#0"
+      ];
+
+      "equalizer#0" =
+        let
+          bands = {
+            band0 = {
+              type = "Bell";
+              mode = "RLC (BT)";
+              frequency = 60.0;
+              gain = 2.0;
+              q = 1.0;
+              slope = "x1";
+              width = 4.0;
+              mute = false;
+              solo = false;
+            };
+            band1 = {
+              type = "Lo-shelf";
+              mode = "RLC (BT)";
+              frequency = 105.0;
+              gain = -1.9;
+              q = 0.7;
+              slope = "x1";
+              width = 4.0;
+              mute = false;
+              solo = false;
+            };
+            band2 = {
+              type = "Bell";
+              mode = "RLC (BT)";
+              frequency = 250.0;
+              gain = -2.0;
+              q = 1.0;
+              slope = "x1";
+              width = 4.0;
+              mute = false;
+              solo = false;
+            };
+            band3 = {
+              type = "Bell";
+              mode = "RLC (BT)";
+              frequency = 3000.0;
+              gain = 1.5;
+              q = 1.0;
+              slope = "x1";
+              width = 4.0;
+              mute = false;
+              solo = false;
+            };
+            band4 = {
+              type = "Hi-shelf";
+              mode = "RLC (BT)";
+              frequency = 10000.0;
+              gain = 2.0;
+              q = 0.7;
+              slope = "x1";
+              width = 4.0;
+              mute = false;
+              solo = false;
+            };
+          };
+        in
+        {
+          bypass = false;
+          "input-gain" = -6.0;
+          "output-gain" = 0.0;
+          mode = "IIR";
+          "num-bands" = 5;
+          balance = 0.0;
+          "pitch-left" = 0.0;
+          "pitch-right" = 0.0;
+          "split-channels" = false;
+          left = bands;
+          right = bands;
+        };
+
+      "bass_enhancer#0" = {
+        bypass = false;
+        "input-gain" = 0.0;
+        "output-gain" = 0.0;
+        amount = 4.0;
+        harmonics = 8.5;
+        scope = 100.0;
+        floor = 20.0;
+        "floor-active" = false;
+        blend = 0.0;
+      };
+
+      "limiter#0" = {
+        bypass = false;
+        mode = "Herm Wide";
+        threshold = -1.0;
+        attack = 2.0;
+        release = 10.0;
+        lookahead = 5.0;
+        oversampling = "None";
+        dithering = "None";
+        "gain-boost" = false;
+        alr = false;
+        "alr-attack" = 5.0;
+        "alr-knee" = 0.0;
+        "alr-release" = 50.0;
+        "input-gain" = 0.0;
+        "output-gain" = 0.0;
+        "stereo-link" = 100.0;
+        "sidechain-type" = "Internal";
+        "sidechain-preamp" = 0.0;
+        "input-to-link" = 0.0;
+        "input-to-sidechain" = 0.0;
+        "link-to-input" = 0.0;
+        "link-to-sidechain" = 0.0;
+        "sidechain-to-input" = 0.0;
+        "sidechain-to-link" = 0.0;
+      };
+    };
 
     extraPresets.fifine-am8.input = {
       blocklist = [ ];

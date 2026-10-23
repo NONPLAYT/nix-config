@@ -38,13 +38,26 @@ in
         co = "checkout";
         cob = "checkout -b";
         st = "status";
-        ls = "log --pretty=format:\"%C(yellow)%h%Cred%d\\\\ %Creset%s%Cblue\\\\ [%cn]\" --decorate";
-        ll = "log --pretty=format:\"%C(yellow)%h%Cred%d\\\\ %Creset%s%Cblue\\\\ [%cn]\" --decorate --numstat";
+        ls = "log --graph --pretty=format:\"%C(yellow)%h%C(auto)%d %Creset%s %C(blue)[%an] %C(green)%ar\"";
         cm = "commit -m";
         ca = "commit -am";
-        dc = "diff --cached";
+        an = "commit --amend --no-edit";
+        # stage everything, new files included, into the last commit
+        ana = "!git add -A && git commit --amend --no-edit";
+        # finish an `edit` stop: fold everything into it and continue
+        arc = "!git add -A && git commit --amend --no-edit && git rebase --continue";
+        pl = "pull";
+        pr = "pull --rebase";
+        pf = "push --force-with-lease";
         rmain = "rebase main";
         rc = "rebase --continue";
+        ra = "rebase --abort";
+        # git ri [n|ref]: interactive rebase over the last n commits (default 1) or onto ref
+        ri = "!f() { case \"\${1:-1}\" in *[!0-9]*) git rebase -i \"$1\" ;; *) git rebase -i HEAD~\${1:-1} ;; esac; }; f";
+        # git re <sha>: rebase stopping at <sha> for editing, no todo editor
+        re = "!f() { s=$(git rev-parse \"$1\") && GIT_SEQUENCE_EDITOR=\"sed -i 1s/^pick/edit/\" git rebase -i \"$s\"^; }; f";
+        # rebase without resetting committer dates to now
+        rbd = "rebase --committer-date-is-author-date";
       };
     };
   };

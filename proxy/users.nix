@@ -8,15 +8,15 @@
   { name = "andrew"; group = "personal"; }
   { name = "curly"; group = "personal"; }
   { name = "afus"; group = "personal"; }
-  { name = "alina"; group = "personal"; expires = "2027-03-24"; }
-  { name = "olga"; group = "personal"; expires = "2027-03-24"; }
+  { name = "alina"; group = "personal"; }
+  { name = "olga"; group = "personal"; }
   { name = "venera"; group = "personal"; }
   { name = "yuri"; group = "personal"; limit = "20G"; }
   { name = "irina"; group = "personal"; limit = "20G"; }
   { name = "zvyagina"; group = "personal"; limit = "20G"; }
-  { name = "regatchan"; group = "personal"; expires = "2026-09-29"; }
   { name = "robertlinder"; group = "personal"; }
-  { name = "roumay"; group = "personal"; }
+  { name = "roumay"; group = "personal"; limit = "200G"; }
+  { name = "linasweety"; group = "personal"; }
 
   # asgard
   { name = "eblan"; group = "asgard"; limit = "unlimited"; }

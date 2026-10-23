@@ -1,4 +1,4 @@
-{ config, host, lib, pkgs, xctrlNodes, ... }:
+{ config, host, lib, pkgs, xctrlNodes, xctrlUsers, ... }:
 
 let
   apiPort = 10085;
@@ -7,12 +7,12 @@ let
 
   geoAssets = pkgs.linkFarm "xray-geoassets" {
     "geoip.dat" = pkgs.fetchurl {
-      url = "https://cdn.jsdelivr.net/gh/hydraponique/roscomvpn-geoip@202609170836/release/geoip.dat";
-      hash = "sha256-D/e9GYZUoOkiAw6c3nUTuLKuFQMzVZLh23gR/Kotmpo=";
+      url = "https://cdn.jsdelivr.net/gh/hydraponique/roscomvpn-geoip@202611011023/release/geoip.dat";
+      hash = "sha256-T6araUmYjrpYzo33Rwyj/vNbhpL4cNf2VayuCkm3jxw=";
     };
     "geosite.dat" = pkgs.fetchurl {
-      url = "https://cdn.jsdelivr.net/gh/hydraponique/roscomvpn-geosite@202604152235/release/geosite.dat";
-      hash = "sha256-dluG5Lau1doaIGMEtVAMdmhof6HfjoMiyKSWHhtnIZA=";
+      url = "https://cdn.jsdelivr.net/gh/hydraponique/roscomvpn-geosite@202610120948/release/geosite.dat";
+      hash = "sha256-lfFcQ+bzNWxR4UpES8nZml5IEGQAcAibe6RrMdbN8AE=";
     };
   };
 
@@ -35,10 +35,14 @@ let
       clients = [ ];
       decryption = "none";
     };
-    sniffing.enabled = false;
+    sniffing.enabled = true;
     streamSettings = {
       network = "xhttp";
       security = "reality";
+      sockopt = {
+        tcpKeepAliveIdle = 60;
+        tcpKeepAliveInterval = 15;
+      };
       realitySettings = {
         target = node.reality.dest;
         serverNames = [ node.reality.sni ];
@@ -58,7 +62,7 @@ let
       version = 2;
       clients = [ ];
     };
-    sniffing.enabled = false;
+    sniffing.enabled = true;
     streamSettings = {
       network = "hysteria";
       security = "tls";
@@ -88,6 +92,9 @@ let
   };
 
   inbound = i: if protocolOf i == "hysteria" then hysteriaInbound i else vlessInbound i;
+
+  admins = map (u: u.name) (lib.filter (u: u.admin or false) xctrlUsers);
+  forwards = config.proxy.adminForwards;
 
   settings = {
     dns = {
@@ -124,6 +131,16 @@ let
       domainStrategy = "IPIfNonMatch";
       rules = [
         { inboundTag = [ "api" ]; outboundTag = "api"; }
+      ] ++ lib.mapAttrsToList
+        (name: f: {
+          user = admins;
+          network = "tcp";
+          port = toString f.port;
+          outboundTag = "admin-${name}";
+        })
+        forwards
+      ++ [
+        { ip = [ "geoip:private" ]; outboundTag = "blocked"; }
         { protocol = [ "bittorrent" ]; outboundTag = "blocked"; }
         { domain = [ "geosite:category-ru" ]; outboundTag = "blocked"; }
         { ip = [ "geoip:direct" ]; outboundTag = "blocked"; }
@@ -145,10 +162,26 @@ let
         settings.domainStrategy = "UseIPv4";
       }
       { protocol = "blackhole"; tag = "blocked"; }
-    ];
+    ] ++ lib.mapAttrsToList
+      (name: f: {
+        protocol = "freedom";
+        tag = "admin-${name}";
+        settings = {
+          redirect = f.target;
+          finalRules = [{
+            action = "allow";
+            network = "tcp";
+            ip = [ (lib.head (lib.splitString ":" f.target)) ];
+            port = lib.last (lib.splitString ":" f.target);
+          }];
+        };
+      })
+      forwards;
   };
 in
 {
+  imports = [ ./forwards.nix ];
+
   services.xray = {
     enable = true;
     settingsFile = config.sops.templates."xray-config.json".path;

@@ -4,6 +4,8 @@ hotkey-overlay {
 
 prefer-no-csd
 
+screenshot-path null
+
 animations {}
 
 debug {
