@@ -19,7 +19,14 @@
   };
 
   zramSwap.enable = true;
-  boot.kernel.sysctl."net.core.netdev_max_backlog" = 5000;
+  boot = {
+    kernelModules = [ "tcp_bbr" ];
+    kernel.sysctl = {
+      "net.core.netdev_max_backlog" = 5000;
+      "net.core.default_qdisc" = "fq";
+      "net.ipv4.tcp_congestion_control" = "bbr";
+    };
+  };
 
   programs.ssh.extraConfig = ''
     Host *

@@ -255,6 +255,22 @@
           path: ./ruleset/direct-ips.mrs
           proxy: PROXY
           interval: 86400
+        telegram-ips:
+          type: http
+          behavior: ipcidr
+          format: mrs
+          url: https://raw.githubusercontent.com/runetfreedom/russia-blocked-geoip/release/mrs/telegram.mrs
+          path: ./ruleset/telegram-ips.mrs
+          proxy: PROXY
+          interval: 86400
+        ru-blocked-ips:
+          type: http
+          behavior: ipcidr
+          format: mrs
+          url: https://raw.githubusercontent.com/runetfreedom/russia-blocked-geoip/release/mrs/ru-blocked.mrs
+          path: ./ruleset/ru-blocked-ips.mrs
+          proxy: PROXY
+          interval: 21600
         torrent-clients:
           type: http
           behavior: classical
@@ -311,7 +327,7 @@
         # --- Through proxy ---
         - PROCESS-NAME,Update.exe,PROXY
         - PROCESS-NAME,Telegram.exe,PROXY
-        - IP-ASN,62041,PROXY
+        - RULE-SET,telegram-ips,PROXY,no-resolve
         - GEOSITE,spotify,PROXY
         - GEOSITE,rutracker,PROXY
         - GEOSITE,openai,PROXY
@@ -344,7 +360,7 @@
         - RULE-SET,category-ru,DIRECT
         - RULE-SET,whitelist,DIRECT
         - RULE-SET,ru-apps,DIRECT
-        - RULE-SET,direct-ips,DIRECT
+        - AND,((RULE-SET,direct-ips),(NOT,((RULE-SET,ru-blocked-ips)))),DIRECT
         - DOMAIN-SUFFIX,azureedge.net,DIRECT
 
         # --- UDP ---

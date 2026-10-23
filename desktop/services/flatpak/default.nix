@@ -14,7 +14,6 @@
       "org.vinegarhq.Vinegar"
       "ch.tlaun.TL"
       "com.soulfiremc.soulfire"
-      "com.modrinth.ModrinthApp"
     ];
 
     update.auto = {

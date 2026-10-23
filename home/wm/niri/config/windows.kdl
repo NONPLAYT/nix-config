@@ -58,3 +58,8 @@ window-rule {
     default-window-height { fixed 270; }
     default-floating-position x=20 y=20 relative-to="bottom-right"
 }
+
+window-rule {
+    match app-id="nngceckbapebfimnlniiiahkandclblb"
+    open-floating true
+}

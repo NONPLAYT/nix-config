@@ -4,27 +4,8 @@ with lib.hm.gvariant;
 
 {
   dconf.settings = {
-    "org/gnome/nautilus/icon-view" = {
-      default-zoom-level = "standard";
-    };
-
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
-    };
-
-    "org/gnome/nautilus/preferences" = {
-      default-folder-viewer = "icon-view";
-      default-sort-order = "type";
-      migrated-gtk-settings = true;
-      search-filter-time-type = "last_modified";
-      search-view = "list-view";
-    };
-
-    "org/gnome/nautilus/window-state" = {
-      initial-size = mkTuple [ 500 400 ];
-      maximized = false;
-      sidebar-width = 200;
-      start-with-sidebar = true;
     };
 
     "org/gtk/gtk4/settings/file-chooser" = {

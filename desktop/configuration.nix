@@ -8,6 +8,7 @@
 {
   imports = [
     ../common
+    ./programs/helium
     ./services/greetd
     ./services/pipewire
   ];
@@ -32,6 +33,13 @@
     nix-ld.enable = true;
     nix-index-database.comma.enable = true;
     niri.enable = true;
+    thunar = {
+      enable = true;
+      plugins = with pkgs; [
+        thunar-archive-plugin
+        thunar-volman
+      ];
+    };
     steam = {
       enable = true;
       package = pkgs.steam.override {
@@ -50,6 +58,7 @@
     seatd.enable = true;
     udisks2.enable = true;
     gvfs.enable = true;
+    tumbler.enable = true;
     gnome.gnome-keyring.enable = true;
     upower.enable = true;
     power-profiles-daemon.enable = true;
@@ -101,6 +110,8 @@
       home.file.".uxplayrc".text = "p\n";
     };
   };
+
+  security.sudo-rs.enable = true;
 
   security.pam.services = {
     greetd.enableGnomeKeyring = true;

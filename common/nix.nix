@@ -2,15 +2,9 @@
 
 {
   nix = {
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 7d";
-    };
+    optimise.automatic = true;
 
     settings = {
-      auto-optimise-store = true;
-      accept-flake-config = true;
       trusted-users = [ "root" ];
       experimental-features = [
         "nix-command"
@@ -31,6 +25,11 @@
   programs.nh = {
     enable = true;
     flake = "/etc/nixos";
+    clean = {
+      enable = true;
+      dates = "weekly";
+      extraArgs = "--keep 5 --keep-since 7d";
+    };
   };
 
   nixpkgs.config.allowUnfree = true;

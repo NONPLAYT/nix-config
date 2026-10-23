@@ -37,7 +37,6 @@ let
       eza # ls but better
       file # file
       jq # json parser
-      nautilus # file manager
       file-roller # archive manager
       adw-gtk3 # gtk3 theme
       vlc # video player
@@ -90,6 +89,8 @@ in
 
     configFile."nixpkgs/config.nix".text = "{ allowUnfree = true; }";
 
+    configFile."xfce4/helpers.rc".text = "TerminalEmulator=kitty\n";
+
     configFile."fontconfig/conf.d/99-ui-font-aliases.conf".text = ''
       <?xml version="1.0"?>
       <!DOCTYPE fontconfig SYSTEM "urn:fontconfig:fonts.dtd">
@@ -127,12 +128,12 @@ in
       enable = true;
       defaultApplications =
         let
-          browser = "firefox.desktop";
+          browser = "helium.desktop";
           editor = "dev.zed.Zed.desktop";
           viewer = "org.gnome.Loupe.desktop";
           player = "vlc.desktop";
           archive = "org.gnome.FileRoller.desktop";
-          files = "org.gnome.Nautilus.desktop";
+          files = "thunar.desktop";
           terminal = "kitty.desktop";
         in
         {
@@ -300,7 +301,7 @@ in
     inherit username homeDirectory packages;
 
     sessionVariables = {
-      BROWSER = "${lib.getExe pkgs.firefox}";
+      BROWSER = "helium";
       DISPLAY = ":0";
       GIT_ASKPASS = "";
     };

@@ -21,17 +21,12 @@
       pkgs.linuxPackages_latest.v4l2loopback
     ];
 
-    kernelParams = [ "nvidia-drm.fbdev=1" ];
-    kernelModules = [ "tun" "v4l2loopback" ];
+    kernelParams = [ "nvidia-drm.fbdev=1" "preempt=full" ];
+    kernelModules = [ "tun" "v4l2loopback" "ntsync" ];
 
     extraModprobeConfig = ''
       options v4l2loopback devices=1 video_nr=0 card_label="OBS Virtual Camera" exclusive_caps=1
     '';
-
-    initrd = {
-      systemd.enable = true;
-      verbose = true;
-    };
 
     loader.efi = {
       canTouchEfiVariables = true;
@@ -113,6 +108,14 @@
 
   services.blueman.enable = true;
 
+  services.scx = {
+    enable = true;
+    scheduler = "scx_lavd";
+  };
+
+  services.userborn.enable = true;
+  system.etc.overlay.enable = true;
+
   services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.graphics = {
@@ -125,7 +128,7 @@
     powerManagement.enable = true;
     powerManagement.finegrained = false;
     open = true;
-    nvidiaSettings = true;
+    nvidiaSettings = false;
     package = config.boot.kernelPackages.nvidiaPackages.production;
   };
 

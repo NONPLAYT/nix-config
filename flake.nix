@@ -65,6 +65,11 @@
 
     riven.url = "github:BX-Team/Riven";
 
+    helium = {
+      url = "github:oxcl/nix-flake-helium-browser";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     rfc = {
       url = "git+https://github.com/NONPLAYT/rfc";
       inputs.nixpkgs.follows = "nixpkgs";
